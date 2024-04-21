@@ -10,5 +10,6 @@ class Turno extends Model
     use HasFactory;
 
     protected $table = 'turno';
+    
 
 }

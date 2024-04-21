@@ -11,4 +11,5 @@ class Domicilio extends Model
 
     protected $table = 'domicilio';
 
+
 }

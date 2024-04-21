@@ -11,4 +11,15 @@ class Otras_Ofertas extends Model
 
     protected $table = "otras_ofertas";
 
+    protected $fillable = ["nombre","orden","vigente"];
+
+    // public function escuela_otras_ofertas() {
+    //     return $this->hasMany(Escuela_Otras_Ofertas::class, "id_otras_ofertas", "id" );
+    // }
+
+    public function escuelas() {
+        return $this->belongsToMany(Escuela::class, "escuela_otras_ofertas","id_otras_ofertas", "id_escuela");
+    }
+
+
 }

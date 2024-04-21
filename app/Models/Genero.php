@@ -11,5 +11,10 @@ class Genero extends Model
 
     protected $table = "genero";
 
-    
+    protected $fillable = ["nombre","orden","vigente"];
+
+    public function personas() {
+        return $this->hasMany(Persona::class, "id_genero", "id" );
+    }
+
 }

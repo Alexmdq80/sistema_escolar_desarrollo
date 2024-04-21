@@ -10,4 +10,17 @@ class Usuario extends Model
     use HasFactory;
 
     protected $table = "usuario";
+
+    protected $fillable = ["nombre","clave","es_admin","orden"];
+
+    protected $hiden = ["clave"];
+
+    public function persona(){
+        return $this->hasOne(Persona::class, "id", "id_persona");
+    }
+
+    public function escuelas() {
+        return $this->belongsToMany(Escuela::class, "usuario_escuela","id_usuario", "id_escuela");
+    }
+
 }

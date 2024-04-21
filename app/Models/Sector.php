@@ -10,5 +10,10 @@ class Sector extends Model
     use HasFactory;
 
     protected $table = 'sector';
+    protected $fillable = ["nombre","orden","vigente"];   
+
+    public function escuelas() {
+        return $this->hasMany(Escuela::class, "id_sector", "id" );
+    }
 
 }
