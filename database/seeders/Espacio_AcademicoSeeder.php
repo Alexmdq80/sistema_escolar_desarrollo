@@ -15,7 +15,7 @@ class Espacio_AcademicoSeeder extends Seeder
     public function guardar($pi, $anio, $division_n, $division_nombre):void {
         $ea = new Espacio_Academico();
         $ea->id_plan_estudio = $pi->id_plan_estudio;
-        $ea->id_plan_ciclo = $pi->id_plan_ciclo;
+        $ea->id_ciclo_plan_estudio = $pi->id_ciclo_plan_estudio;
         $ea->id_anio = $pi->id_anio;
         $ea->id_anio_plan = $pi->id_anio_plan;
         $ea->id_propuesta_institucional = $pi->id;

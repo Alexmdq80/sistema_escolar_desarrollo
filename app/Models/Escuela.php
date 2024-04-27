@@ -53,4 +53,14 @@ class Escuela extends Model
     public function usuarios() {
         return $this->belongsToMany(Usuario::class, "usuario_escuela","id_escuela", "id_usuario");
     }
+    public function propuestas_institucionales() {
+        return $this->belongsToMany(Propuesta_Institucional::class,"escuela_PI","id_escuela","id_propuesta_institucional");
+    }
+    public function inscripciones_escuela_destino(){
+        return $this->hasMany(Inscripcion::class,"id_escuela_destino","id");
+    }
+    public function inscripciones_escuela_procedencia(){
+        return $this->hasMany(Inscripcion::class,"id_escuela_procedencia","id");
+    }
+
 }

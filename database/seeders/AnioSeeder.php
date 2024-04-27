@@ -20,17 +20,17 @@ class AnioSeeder extends Seeder
             for ($x = 1; $x <= 7 ; $x++) {
                     // echo " **** $x ****";
                 if ($x <= 3) {
-                  $id_plan_ciclo = 1;
+                  $id_ciclo_plan_estudio = 1;
                   $anio_relativo = $x;
                   $anio_abs = $x;
                   $nombre = $x;
                 } elseif ($x < 7) {
-                  $id_plan_ciclo = 2;
+                  $id_ciclo_plan_estudio = 2;
                   $anio_relativo = $x - 3;
                   $anio_abs = $x;
                   $nombre = $x;
                 } else {
-                  $id_plan_ciclo = 1;
+                  $id_ciclo_plan_estudio = 1;
                   $anio_relativo = 1;
                   $anio_abs = 1;
                   $nombre = "A.F.";                   
@@ -64,7 +64,7 @@ class AnioSeeder extends Seeder
                 }
 
                 $anio = new Anio();
-                $anio->id_plan_ciclo = $id_plan_ciclo;
+                $anio->id_ciclo_plan_estudio = $id_ciclo_plan_estudio;
                 $anio->nombre = $nombre;
                 $anio->nombre_completo = $nombre_completo;
                 $anio->anio_absoluto = $anio_abs;

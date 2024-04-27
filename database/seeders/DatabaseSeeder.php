@@ -60,7 +60,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(Otras_OfertasSeeder::class);
 
-        $this->call(Plan_CicloSeeder::class);
+        $this->call(Ciclo_Plan_EstudioSeeder::class);
 
         $this->call(Plan_EstudioSeeder::class);
 

@@ -52,5 +52,12 @@ class Provincia extends Model
         return $this->belongsTo(Fuente::class, "id_fuente_georef");
     }
 
+    public function personas() {
+        return $this->hasMany(Persona::class, "nacimiento_lugar_id_provincia", "id" );
+    } 
+    public function domicilios() {
+        return $this->hasMany(Domicilio::class, "id_provincia", "id" );
+    }
+
     public $timestamps = false;
 }

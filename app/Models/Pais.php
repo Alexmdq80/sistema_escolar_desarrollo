@@ -44,6 +44,16 @@ class Pais extends Model
         return $this->belongsTo(Continente::class, "id_continente");
     }
 
+    public function personas() {
+        return $this->hasMany(Persona::class, "nacimiento_lugar_id_pais", "id" );
+    }
+    public function nacionalidad_personas() {
+        return $this->hasMany(Persona::class, "nacionalidad_id_pais", "id" );
+    }  
+    public function domicilios() {
+        return $this->hasMany(Domicilio::class, "id_pais", "id" );
+    }
+
     public $timestamps = false;
 
 }

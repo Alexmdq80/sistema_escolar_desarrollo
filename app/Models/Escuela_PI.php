@@ -13,4 +13,6 @@ class Escuela_PI extends Model
 
     public $timestamps = false; 
 
+
+
 }

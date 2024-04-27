@@ -26,7 +26,7 @@ class Anio_PlanSeeder extends Seeder
                     if ($duracion == 1){
                       $id_anio = 7;
                     } else {
-                      if ($plan->id_plan_ciclo == 1) {
+                      if ($plan->id_ciclo_plan_estudio == 1) {
                         $id_anio = $x; 
                       } else {
                         $id_anio = $x + 3; 
@@ -34,7 +34,7 @@ class Anio_PlanSeeder extends Seeder
                     }
                     $anio = new Anio_Plan();
                     $anio->id_plan_estudio = $plan->id;
-                    $anio->id_plan_ciclo = $plan->id_plan_ciclo;
+                    $anio->id_ciclo_plan_estudio = $plan->id_ciclo_plan_estudio;
                     $anio->id_anio = $id_anio;
                     $anio->save();
                 }

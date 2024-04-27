@@ -39,5 +39,16 @@ class Calle extends Model
         return $this->belongsTo(Fuente::class, "id_fuente_georef");
     }
 
+    public function domicilios_calles() {
+        return $this->hasMany(Domicilio::class, "id_calle", "id" );
+    }
+    public function domicilios_calles_entre1() {
+        return $this->hasMany(Domicilio::class, "id_calle_entre1", "id" );
+    }
+    public function domicilios_calles_entre2() {
+        return $this->hasMany(Domicilio::class, "id_calle_entre2", "id" );
+    }
+
+
     public $timestamps = false;
 }

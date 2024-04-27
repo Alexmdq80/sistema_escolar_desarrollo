@@ -49,5 +49,13 @@ class Departamento extends Model
         return $this->belongsTo(Fuente::class, "id_fuente_georef");
     }
 
+    public function personas() {
+        return $this->hasMany(Persona::class, "nacimiento_lugar_id_departamento", "id" );
+    }   
+
+    public function domicilios() {
+        return $this->hasMany(Domicilio::class, "id_departamento", "id" );
+    }
+
     public $timestamps = false;
 }

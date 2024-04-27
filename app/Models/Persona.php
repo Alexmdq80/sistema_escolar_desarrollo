@@ -43,5 +43,15 @@ class Persona extends Model
     public function nacimiento_localidad_asentamiento() {
       return $this->belongsTo(Localidad_Asentamiento::class, "nacimiento_lugar_id_localidad_asentamiento");
     }
+    public function domicilo(){
+      return $this->hasOne(Domicilio::class,"id_persona","id");
+    }
+    public function usuario(){
+      return $this->hasOne(Usuario::class,"id_persona","id");
+    }
+    public function inscripciones(){
+      return $this->hasMany(Inscripcion::class,"id_persona","id");
+  }
+
 
 }

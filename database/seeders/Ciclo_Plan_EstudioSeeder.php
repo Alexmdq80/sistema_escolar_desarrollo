@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Plan_Ciclo;
+use App\Models\Ciclo_Plan_Estudio;
 use Illuminate\Database\Seeder;
 
-class Plan_CicloSeeder extends Seeder
+class ciclo_plan_estudioSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,11 +14,11 @@ class Plan_CicloSeeder extends Seeder
     {
         //
 
-        $registros = Plan_Ciclo::count();
+        $registros = ciclo_plan_estudio::count();
 
         if (!$registros) {
 
-            $ciclo = new Plan_Ciclo();
+            $ciclo = new ciclo_plan_estudio();
 
             $ciclo->id = 1;
             $ciclo->nombre = "CICLO BÁSICO";
@@ -27,7 +27,7 @@ class Plan_CicloSeeder extends Seeder
 
             $ciclo->save();
 
-            $ciclo = new Plan_Ciclo();
+            $ciclo = new ciclo_plan_estudio();
 
             $ciclo->id = 2;
             $ciclo->nombre = "CICLO SUPERIOR";

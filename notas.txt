@@ -1,0 +1,5 @@
+22/04 Haciendo modelos. Estoy con la parte del espacio académico. Haciendo modelo anio
+27/04 Terminé con los modelos. Hay que hacer el factory las inscripciones, y agregar las tablas
+     que faltan: responsables - autorizadas - contacto - legajo - salud - otros_datos_estudiante - otros_datos_adulto - restricciones...
+     Por ahora quizás haga contacto, responsables y autorizadas. Luego agregaré las restantes.
+

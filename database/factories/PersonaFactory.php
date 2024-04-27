@@ -68,42 +68,42 @@ class PersonaFactory extends Factory
         if  ($porc_transGenero > 4) {
         // Si hay más de 4 cada 100 transgénero, entonces ingreso uno que coincida el género con el sexo
           if ($id_sexo == 1) {
-            $nombre = strtoupper($this->faker->name($gender = 'male'));
+            $nombre = mb_strtoupper($this->faker->name($gender = 'male'));
             $id_genero->id = 2;
             // $id_genero = (object) ['id' => 2];
           } elseif ($id_sexo == 2) {
-            $nombre = strtoupper($this->faker->name($gender = 'female'));
-            $apellido = strtoupper($this->faker->lastname());
+            $nombre = mb_strtoupper($this->faker->name($gender = 'female'));
+            $apellido = mb_strtoupper($this->faker->lastname());
             $id_genero->id = 1;
             // $id_genero = (object) ['id' => 1];
           } else {
-            $nombre = strtoupper($this->faker->name());
+            $nombre = mb_strtoupper($this->faker->name());
             $id_genero->id = 3;
             // $id_genero = (object) ['id' => 3];
           }
         } else {
-            $nombre_alternativo = strtoupper($this->faker->name());
+            $nombre_alternativo = mb_strtoupper($this->faker->name());
             if ($id_sexo == 1) {
-                $nombre = strtoupper($this->faker->name($gender = 'male'));
+                $nombre = mb_strtoupper($this->faker->name($gender = 'male'));
                 // $id_genero = $this->faker->randomElement([1,3,4,6,7]);
                 $id_genero->id = $this->faker->randomElement([1,3,4,6,7]);
                 // $id_genero = (object) ['id' => $n];
                 PersonaSeeder::set_n_transGenero($p_transGenero + 1);
             } elseif ($id_sexo == 2) {
-                $nombre = strtoupper($this->faker->name($gender = 'female'));
+                $nombre = mb_strtoupper($this->faker->name($gender = 'female'));
                 // $id_genero = $this->faker->randomElement([2,3,5,6,7]);
                 $id_genero->id = $this->faker->randomElement([2,3,5,6,7]);
                 // $id_genero = (object) ['id' => $n];
                 PersonaSeeder::set_n_transGenero($p_transGenero + 1);
             } else {
-                $nombre = strtoupper($this->faker->name());
+                $nombre = mb_strtoupper($this->faker->name());
                 $id_genero->id = 3;
                 // $id_genero = (object) ['id' => 3];
             }
         }
         // print_r($id_genero);
         // print_r($generos);
-        $apellido = strtoupper($this->faker->lastname());
+        $apellido = mb_strtoupper($this->faker->lastname());
 
         // $documento_situaciones = Documento_Situacion::get(['id']);
         // $documento_situaciones = PersonaSeeder::get_documento_situaciones();

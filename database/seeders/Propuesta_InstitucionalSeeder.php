@@ -26,7 +26,7 @@ class Propuesta_InstitucionalSeeder extends Seeder
                     $turno_id = 4;
                     $pi = new Propuesta_Institucional();
                     $pi->id_plan_estudio = $anio->id_plan_estudio;
-                    $pi->id_plan_ciclo = $anio->id_plan_ciclo;
+                    $pi->id_ciclo_plan_estudio = $anio->id_ciclo_plan_estudio;
                     $pi->id_anio = $anio->id_anio;
                     $pi->id_anio_plan = $anio->id;
                     $pi->id_turno_inicio = $turno_id;
@@ -38,7 +38,7 @@ class Propuesta_InstitucionalSeeder extends Seeder
                     $turno_id = 1;
                     $pi = new Propuesta_Institucional();
                     $pi->id_plan_estudio = $anio->id_plan_estudio;
-                    $pi->id_plan_ciclo = $anio->id_plan_ciclo;
+                    $pi->id_ciclo_plan_estudio = $anio->id_ciclo_plan_estudio;
                     $pi->id_anio = $anio->id_anio;
                     $pi->id_anio_plan = $anio->id;
                     $pi->id_turno_inicio = $turno_id;
@@ -49,7 +49,7 @@ class Propuesta_InstitucionalSeeder extends Seeder
                     $turno_id = 2;
                     $pi = new Propuesta_Institucional();
                     $pi->id_plan_estudio = $anio->id_plan_estudio;
-                    $pi->id_plan_ciclo = $anio->id_plan_ciclo;
+                    $pi->id_ciclo_plan_estudio = $anio->id_ciclo_plan_estudio;
                     $pi->id_anio = $anio->id_anio;
                     $pi->id_anio_plan = $anio->id;
                     $pi->id_turno_inicio = $turno_id;

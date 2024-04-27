@@ -15,8 +15,8 @@ return new class extends Migration
             $table->increments('id');
             $table->smallInteger('id_plan_estudio')->unsigned();
             $table->foreign('id_plan_estudio')->references('id')->on('plan_estudio');
-            $table->tinyInteger('id_plan_ciclo')->unsigned();
-            $table->foreign('id_plan_ciclo')->references('id')->on('plan_ciclo');
+            $table->tinyInteger('id_ciclo_plan_estudio')->unsigned();
+            $table->foreign('id_ciclo_plan_estudio')->references('id')->on('ciclo_plan_estudio');
             $table->tinyInteger('id_anio')->unsigned();
             $table->foreign('id_anio')->references('id')->on('anio');
             $table->mediumInteger('id_anio_plan')->unsigned();

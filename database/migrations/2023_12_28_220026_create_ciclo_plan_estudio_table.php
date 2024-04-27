@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('plan_ciclo', function (Blueprint $table) {
+        Schema::create('ciclo_plan_estudio', function (Blueprint $table) {
             $table->tinyInteger('id')->unsigned()->primary();
             $table->string('nombre', 30);
             $table->tinyInteger('orden');
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plan_ciclo');
+        Schema::dropIfExists('ciclo_plan_estudio');
     }
 };

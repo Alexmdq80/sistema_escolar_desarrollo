@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('plan_estudio', function (Blueprint $table) {
             $table->smallIncrements('id');
-            $table->tinyInteger('id_plan_ciclo')->unsigned();
-            $table->foreign('id_plan_ciclo')->references('id')->on('plan_ciclo');
+            $table->tinyInteger('id_ciclo_plan_estudio')->unsigned();
+            $table->foreign('id_ciclo_plan_estudio')->references('id')->on('ciclo_plan_estudio');
             $table->string('nombre', 60);
             $table->string('nombre_completo', 120);
             $table->tinyInteger('duracion_anios')->unsigned();

@@ -41,5 +41,13 @@ class Localidad_Asentamiento extends Model
         return $this->belongsTo(Fuente::class, "id_fuente_georef");
     }
 
+    public function personas() {
+        return $this->hasMany(Persona::class, "nacimiento_lugar_id_localidad_asentamiento", "id" );
+    }   
+
+    public function domicilios() {
+        return $this->hasMany(Domicilio::class, "id_localidad_asentamiento", "id" );
+    }   
+
     public $timestamps = false;
 }

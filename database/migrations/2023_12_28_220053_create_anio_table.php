@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('anio', function (Blueprint $table) {
             $table->tinyIncrements('id');
-            $table->tinyInteger('id_plan_ciclo')->unsigned();
-            $table->foreign('id_plan_ciclo')->references('id')->on('plan_ciclo');
+            $table->tinyInteger('id_ciclo_plan_estudio')->unsigned();
+            $table->foreign('id_ciclo_plan_estudio')->references('id')->on('ciclo_plan_estudio');
             // el nombre es como quiero que aparezca en pantalla.
             // por ej. A.F., el nombre completo será AULA DE FORTALECIMIENT
             // NOMBRE: 1, COMPLETO: PRIMERO.
