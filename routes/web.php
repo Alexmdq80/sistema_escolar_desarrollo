@@ -9,6 +9,7 @@ use App\Models\Nivel;
 use App\Models\Usuario;
 use App\Models\Localidad_Censal;
 use App\Models\Calle;
+use App\Models\Responsable_Vinculo;
 /*
 
 |--------------------------------------------------------------------------
@@ -64,7 +65,11 @@ Route::get('prueba', function() {
     //         $persona->nacimiento_departamento,
     //         $persona->nacimiento_localidad_asentamiento
     // ];
-    $calle = Calle::find(246);
-    return $calle->continente;
+    // $calle = Calle::find(246);
+    // return $calle->continente;
 
+    // $vinculo = Responsable_Vinculo::find(2);
+    // return $vinculo->personas_responsables;
+    $persona = Persona::find(4);
+    return $persona->responsable_vinculos;
 });

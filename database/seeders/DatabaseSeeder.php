@@ -48,6 +48,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call(SexoSeeder::class);
 
+        $this->call(Responsable_VinculoSeeder::class);
+      
         $this->call(PersonaSeeder::class);
 
         $this->call(UsuarioSeeder::class);
@@ -73,6 +75,7 @@ class DatabaseSeeder extends Seeder
         $this->call(Escuela_PISeeder::class);
 
         $this->call(Espacio_AcademicoSeeder::class);
+
 
         // \App\Models\User::factory(10)->create();
     }

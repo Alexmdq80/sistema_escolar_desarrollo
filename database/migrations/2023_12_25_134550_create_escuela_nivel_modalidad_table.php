@@ -20,7 +20,7 @@ return new class extends Migration
                 $table->foreign('id_nivel')->references('id')->on('nivel');
                 $table->tinyInteger('id_modalidad')->unsigned();
                 $table->foreign('id_modalidad')->references('id')->on('modalidad');
-                $table->unique(['id_escuela','id_nivel','id_modalidad']);
+                $table->unique(['id_escuela','id_nivel','id_modalidad'],'unique_escuela_nivel_modalidad');
                 // $table->timestamps();
             });
 
