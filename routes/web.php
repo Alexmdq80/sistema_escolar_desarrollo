@@ -12,6 +12,8 @@ use App\Models\Calle;
 use App\Models\Responsable_Vinculo;
 use App\Models\Domicilio;
 use App\Models\Contacto;
+use App\Models\Inscripcion;
+
 /*
 
 |--------------------------------------------------------------------------
@@ -78,6 +80,7 @@ Route::get('prueba', function() {
     // return $domicilio->localidad_asentamiento;
     // $contacto = Contacto::find(1);
     // return $contacto->persona;
-    $persona = Persona::find(1);
-    return $persona->contacto;
+    $inscripcion = Inscripcion::find(1);
+    return $inscripcion->escuela_destino;
+
 });

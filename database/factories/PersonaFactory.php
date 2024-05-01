@@ -137,9 +137,13 @@ class PersonaFactory extends Factory
           $nacimiento_fecha = $this->faker->dateTimeBetween($startDate = '-20 years', $endDate = '2012-01-01', $timezone = null);
         }
         $edad = Carbon::parse($nacimiento_fecha)->age;
+    
         if ($edad < 20) {
-          PersonaSeeder::set_n_menores($p_menores + 1);
+           PersonaSeeder::set_n_menores($p_menores + 1);
         }
+
+        // ***********PARA CREAR CON UNA EDAD DETERMINADA***********
+        $nacimiento_fecha = '2013-05-07';
 
         $nacimiento_lugar_id_pais = new Pais;
         $nacionalidad_id_pais = new Pais;

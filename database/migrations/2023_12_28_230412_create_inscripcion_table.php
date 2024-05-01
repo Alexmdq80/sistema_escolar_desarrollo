@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreign('id_persona')->references('id')->on('persona');
             $table->unsignedInteger('id_persona_firma')->nullable();
             $table->foreign('id_persona_firma')->references('id')->on('persona');
-            $table->unsignedsmallInteger('id_plan_estudio');
             $table->unsignedbigInteger('id_espacio_academico');
             $table->foreign('id_espacio_academico')->references('id')->on('espacio_academico');
             $table->unsignedMediumInteger('id_escuela_procedencia')->nullable();
@@ -34,9 +33,6 @@ return new class extends Migration
             $table->boolean('proyecto_inclusion_si')->nullable();
             $table->boolean('concurre_especial_si')->nullable();
             $table->boolean('asistente_externo_si')->nullable();
-            $table->boolean('activo')->nullable();
-            $table->boolean('pase')->nullable();
-            $table->boolean('sinpase')->nullable();
             $table->timestamps();
         });
     }
