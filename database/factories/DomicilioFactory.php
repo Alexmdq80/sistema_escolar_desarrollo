@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Calle;
+// use App\Models\Calle;
 use App\Models\Domicilio;
 use Database\Seeders\DomicilioSeeder;
 
@@ -21,9 +21,10 @@ class DomicilioFactory extends Factory
     public function definition(): array
     {
 
-        $calles = new Calle();
-        $id_calles = $calles->where('id_localidad_censal',246)
-                            ->get(['id']);
+        // $calles = new Calle();
+        // $id_calles = $calles->where('id_localidad_censal',246)
+        //                     ->get(['id']);
+        $id_calles = DomicilioSeeder::get_id_calles();
 
         $id_persona = DomicilioSeeder::get_id_persona();
         $id_pais = 158;
