@@ -10,6 +10,7 @@ use App\Models\Usuario;
 use App\Models\Localidad_Censal;
 use App\Models\Calle;
 use App\Models\Responsable_Vinculo;
+use App\Models\Domicilio;
 /*
 
 |--------------------------------------------------------------------------
@@ -70,6 +71,8 @@ Route::get('prueba', function() {
 
     // $vinculo = Responsable_Vinculo::find(2);
     // return $vinculo->personas_responsables;
-    $persona = Persona::find(4);
-    return $persona->responsable_vinculos;
+    // $persona = Persona::find(1);
+    // return [$persona, $persona->responsables, $persona->estudiante_vinculos];
+    $domicilio = Domicilio::find(1);
+    return $domicilio->localidad_asentamiento;
 });
