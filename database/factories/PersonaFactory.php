@@ -130,21 +130,23 @@ class PersonaFactory extends Factory
         }
         $p_menores = PersonaSeeder::get_n_menores();
         $porc_menores = $p_menores * 100 / $total_personas;
-        if ($porc_menores > 50){
-          // SI HAY MÁS DEL 75% DE MENORES, ENTONCES AGREGO UN ADULTO
+        $solo_menores = PersonaSeeder::get_solo_menores();
+        if ($porc_menores > 50 and !$solo_menores){
+          // SI HAY MÁS DEL 100% DE MENORES, ENTONCES AGREGO UN ADULTO
           $nacimiento_fecha = $this->faker->dateTimeBetween($startDate = '-100 years', $endDate = '2004-01-01', $timezone = null);
         } else {
-          $nacimiento_fecha = $this->faker->dateTimeBetween($startDate = '-20 years', $endDate = '2012-01-01', $timezone = null);
+          $nacimiento_fecha = $this->faker->dateTimeBetween($startDate = '-20 years', $endDate = '-11 years', $timezone = null);
         }
+        // ***********PARA CREAR CON UNA EDAD DETERMINADA***********
+        // $nacimiento_fecha = $this->faker->dateTimeBetween($startDate = '-19 years', $endDate = '-9 years', $timezone = null);
+
         $edad = Carbon::parse($nacimiento_fecha)->age;
     
         if ($edad < 20) {
            PersonaSeeder::set_n_menores($p_menores + 1);
         }
 
-        // ***********PARA CREAR CON UNA EDAD DETERMINADA***********
-        $nacimiento_fecha = '2013-05-07';
-
+      
         $nacimiento_lugar_id_pais = new Pais;
         $nacionalidad_id_pais = new Pais;
 

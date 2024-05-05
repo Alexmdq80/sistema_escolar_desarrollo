@@ -1,0 +1,181 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use App\Models\Inscripcion;
+use App\Models\Persona;
+use App\Models\Escuela;
+use Carbon\Carbon;
+use App\Models\Condicion;
+use App\Models\Espacio_Academico;
+
+
+class InscripcionSeeder extends Seeder
+{
+    protected static int $id_persona;
+    protected static int $id_espacio_academico;
+    protected static int $id_condicion;
+    protected static int $id_nivel_procedencia;
+    protected static $id_escuelas;
+    // protected static int $edad;
+
+    public static function set_id_escuelas($valor): void
+    {
+        self::$id_escuelas = $valor;
+    }
+    public static function get_id_escuelas()
+    {
+        return self::$id_escuelas;
+    }
+
+    public static function set_id_persona(int $valor): void
+    {
+        self::$id_persona = $valor;
+    }
+    public static function get_id_persona(): int
+    {
+        return self::$id_persona;
+    }
+    public static function set_id_espacio_academico(int $valor): void
+    {
+        self::$id_espacio_academico = $valor;
+    }
+    public static function get_id_espacio_academico(): int
+    {
+        return self::$id_espacio_academico;
+    }
+    public static function set_id_condicion(int $valor): void
+    {
+        self::$id_condicion = $valor;
+    }
+    public static function get_id_condicion(): int
+    {
+        return self::$id_condicion;
+    }
+    public static function set_id_nivel_procedencia(int $valor): void
+    {
+        self::$id_nivel_procedencia = $valor;
+    }
+    public static function get_id_nivel_procedencia(): int
+    {
+        return self::$id_nivel_procedencia;
+    }
+    // public static function set_edad(int $valor): void
+    // {
+    //     self::$edad = $valor;
+    // }
+    // public static function get_edad(): int
+    // {
+    //     return self::$edad;
+    // }
+
+    public function run(): void
+    {
+        $registros = Inscripcion::count();
+        
+        if (!$registros) {
+            
+            $espacios_academicos = Espacio_Academico::get();
+            self::set_id_escuelas(Escuela::where('id_localidad_asentamiento', 900)->get(['id']));
+            self::set_id_escuelas(Escuela::where('id_localidad_asentamiento', 900)->get(['id']));
+            $id_condiciones = Condicion::get(['id']);
+
+            
+            foreach ($espacios_academicos as $espacio_academico) {
+
+                switch($espacio_academico->anio->nombre){
+                    case "1":
+                       $fecha_reciente = Carbon::parse('2013-01-01');
+                       $fecha_date_reciente = $fecha_reciente->format('Y-m-d');
+                       $fecha_antigua = Carbon::parse('2012-01-02');
+                       $fecha_date_antigua = $fecha_antigua->format('Y-m-d');
+                       $edad_minima = 11;
+                       $edad_maxima = 12;    
+                       break;
+                    case "2":
+                       $fecha_reciente = Carbon::parse('2012-01-01');
+                       $fecha_date_reciente = $fecha_reciente->format('Y-m-d');
+                       $fecha_antigua = Carbon::parse('2011-01-02');
+                       $fecha_date_antigua = $fecha_antigua->format('Y-m-d');
+                       $edad_minima = 12;
+                       $edad_maxima = 13;         
+                       break;
+                    case "3":
+                       $fecha_reciente = Carbon::parse('2011-01-01');
+                       $fecha_date_reciente = $fecha_reciente->format('Y-m-d');
+                       $fecha_antigua = Carbon::parse('2010-01-02');
+                       $fecha_date_antigua = $fecha_antigua->format('Y-m-d');
+                       $edad_minima = 13;
+                       $edad_maxima = 14;    
+                       break;
+                    case "4":
+                       $fecha_reciente = Carbon::parse('2010-01-01');
+                       $fecha_date_reciente = $fecha_reciente->format('Y-m-d');
+                       $fecha_antigua = Carbon::parse('2009-01-02');
+                       $fecha_date_antigua = $fecha_antigua->format('Y-m-d');
+                       $edad_minima = 14;
+                       $edad_maxima = 15;    
+                       break;
+                    case "5":
+                       $fecha_reciente = Carbon::parse('2009-01-01');
+                       $fecha_date_reciente = $fecha_reciente->format('Y-m-d');
+                       $fecha_antigua = Carbon::parse('2008-01-02');
+                       $fecha_date_antigua = $fecha_antigua->format('Y-m-d');
+                       $edad_minima = 15;
+                       $edad_maxima = 16;    
+                       break;
+                    case "6":
+                       $fecha_reciente = Carbon::parse('2008-01-01');
+                       $fecha_date_reciente = $fecha_reciente->format('Y-m-d');
+                       $fecha_antigua = Carbon::parse('2007-01-02');
+                       $fecha_date_antigua = $fecha_antigua->format('Y-m-d');
+                       $edad_minima = 16;
+                       $edad_maxima = 17;    
+                       break;
+                    case "A.F.":
+                       $fecha_reciente = Carbon::parse('2007-01-01');
+                       $fecha_date_reciente = $fecha_reciente->format('Y-m-d');
+                       $fecha_antigua = Carbon::parse('2006-01-02');
+                       $fecha_date_antigua = $fecha_antigua->format('Y-m-d');
+                       $edad_minima = 17;
+                       $edad_maxima = 20;
+                       break;   
+                }
+                // OBTENGO LAS PERSONAS DE LA BD SEGÚN LA EDAD PARA EL ESPACIO ACADEMICO.
+                // $fecha_reciente = Carbon::now()->subYears($edad_minima);
+                // $fecha_antigua = Carbon::now()->subYears($edad_maxima);
+                echo " $espacio_academico->division \n ";
+                if ($espacio_academico->division == 1) {
+                    $personas = Persona::where([
+                                                ['nacimiento_fecha','>',$fecha_date_antigua],
+                                                ['nacimiento_fecha','<',$fecha_date_reciente],
+                                                ])->get(); 
+                    }
+                $contador = 1;
+                $total = rand(25, 45);
+                foreach ($personas as $persona) {
+                    if ($contador == $total){
+                        break;
+                    }
+                    self::set_id_persona($persona->id);
+                    self::set_id_espacio_academico($espacio_academico->id);
+                    if ($espacio_academico->anio->anio_absoluto <= 4 && 
+                        $espacio_academico->anio->nombre != 'A.F.') {
+                      self::set_id_condicion(1);
+                      self::set_id_nivel_procedencia(2);
+                    } else {
+                      self::set_id_condicion(2);
+                      self::set_id_nivel_procedencia(3);
+                    }
+                   
+                    Inscripcion::factory(1)->create();
+                    $contador++;
+                    $personas->where(['id','!=',self::get_id_persona()])->get();
+                }           
+            }
+
+        }
+    }
+}

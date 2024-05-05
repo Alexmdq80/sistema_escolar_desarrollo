@@ -30,8 +30,18 @@ class PersonaSeeder extends Seeder
     protected static $id_paises;
     // protected static $sexos;
     protected static $id_generos;
+    protected static bool $solo_menores;
     // protected static $documento_tipos;
     // protected static $documento_situaciones;
+
+    public static function set_solo_menores(bool $valor): void
+    {
+        self::$solo_menores = $valor;
+    }
+    public static function get_solo_menores(): bool
+    {
+        return self::$solo_menores;
+    }
 
     public static function set_n_personas(int $valor): void
     {
@@ -250,7 +260,11 @@ class PersonaSeeder extends Seeder
         //             ];
 
         // echo "$prueba->id";
-         Persona::factory(500)->create();
+// PONER EN FALSE SI SE QUIERE HACER MENORES Y MAYORES
+   
+        self::set_solo_menores(true);
+
+        Persona::factory(500)->create();
         //
     }
 }

@@ -20,19 +20,25 @@ class InscripcionFactory extends Factory
     public function definition(): array
     {
         
-        $años = InscripcionSeeder::get_años();
-        $año = InscripcionSeeder::get_año();
+        $id_espacio_academico = InscripcionSeeder::get_id_espacio_academico();
+        // $año = InscripcionSeeder::get_año();
         
         $id_persona = InscripcionSeeder::get_id_persona();
+
+        // echo $id_persona;
+
         $id_persona_firma = null;
-        $id_espacio_academico = $this->faker->randomElement($años);
-        $id_escuela_procedencia = null;
-        $id_escuela_destino = 10109;
+        // $id_espacio_academico = $this->faker->randomElement($años);
+        $id_nivel_procedencia = InscripcionSeeder::get_id_nivel_procedencia();
         
-        if ($año == 1) {
-          $id_nivel_procedencia = 2;
-          $id_condicion = 1;
-        }
+        $id_condicion = InscripcionSeeder::get_id_condicion();
+        $id_escuela_destino = 10109;
+
+        if ($id_condicion == 3){
+            $id_escuela_procedencia = $id_escuela_destino;
+        } else {
+            $id_escuela_procedencia =$this->faker->randomElement(InscripcionSeeder::get_id_escuelas());
+        }  
         
         $id_modalidad_procedencia = 1;
         $codigo_abc = $this->faker->regexify();
