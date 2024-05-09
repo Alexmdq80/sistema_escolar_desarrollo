@@ -46,6 +46,8 @@ class InscripcionFactory extends Factory
         $concurre_especial_si = 0;
         $asistente_externo_si = 0;
 
+        $fecha = $this->faker->dateTimeBetween($startDate = '2023-12-01', $endDate = '2024-05-09', $timezone = null);
+    
         return [
                 'id_persona' => $id_persona,
                 'id_persona_firma' => $id_persona_firma,
@@ -58,7 +60,8 @@ class InscripcionFactory extends Factory
                 'id_condicion' => $id_condicion,
                 'proyecto_inclusion_si' => $proyecto_inclusion_si,
                 'concurre_especial_si' => $concurre_especial_si,
-                'asistente_externo_si' => $asistente_externo_si            
+                'asistente_externo_si' => $asistente_externo_si,            
+                'fecha' => $fecha
         ];
     }
 }

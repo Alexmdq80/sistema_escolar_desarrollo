@@ -14,7 +14,7 @@ class Inscripcion extends Model
     protected $fillable = ["id_persona","id_firma","id_espacio_academico",
         "id_escuela_procedencia","id_escuela_destino","id_nivel_procedencia",
         "id_modalidad_procedencia","id_condicion","codigo_abc","proyecto_inclusion_si",
-        "concurre_especial_si","asistente_externo_si"];
+        "concurre_especial_si","asistente_externo_si","fecha"];
 
     public function persona() {
         return $this->belongsTo(Persona::class, "id_persona", "id");

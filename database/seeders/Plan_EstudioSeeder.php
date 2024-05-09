@@ -32,10 +32,10 @@ class Plan_EstudioSeeder extends Seeder
 
             // $plan_estudio->id = 2;
             $plan_estudio->id_ciclo_plan_estudio = 1;
-            $plan_estudio->nombre = "Bachiller Ciclo Básico (Aulas de Aceleración)";
-            $plan_estudio->nombre_completo = '000- Sec. Estatal - Bachiller Ciclo Básico (Aulas de Aceleración)';
+            $plan_estudio->nombre = "Aulas de fortalecimiento de trayectorias educativas";
+            $plan_estudio->nombre_completo = '0001AF- Sec. Estatal - Aulas de fortalecimiento de trayectorias educativas';
             $plan_estudio->duracion_anios = 1;
-            $plan_estudio->resolucion = 'Resolución N° 302/12';
+            $plan_estudio->resolucion = 'Resolución N°848/22';
             $plan_estudio->orientacion = 'Ciclo Básico';
             $plan_estudio->save();
 

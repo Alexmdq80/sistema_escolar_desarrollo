@@ -33,6 +33,7 @@ return new class extends Migration
             $table->boolean('proyecto_inclusion_si')->nullable();
             $table->boolean('concurre_especial_si')->nullable();
             $table->boolean('asistente_externo_si')->nullable();
+            $table->date('fecha')->nullable();
             $table->timestamps();
         });
     }

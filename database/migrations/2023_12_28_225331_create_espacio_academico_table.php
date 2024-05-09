@@ -29,6 +29,8 @@ return new class extends Migration
             $table->foreign('id_turno_inicio')->references('id')->on('turno');
             $table->tinyInteger('id_turno_fin')->unsigned();
             $table->foreign('id_turno_fin')->references('id')->on('turno');
+            $table->tinyInteger('id_ciclo_lectivo')->unsigned();
+            $table->foreign('id_ciclo_lectivo')->references('id')->on('ciclo_lectivo');
             $table->string('division', 15);
             $table->string('division_nombre', 50);
             $table->timestamps();

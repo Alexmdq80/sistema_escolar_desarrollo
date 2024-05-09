@@ -6,6 +6,7 @@ use App\Models\Espacio_Academico;
 use App\Models\Anio;
 use App\Models\Propuesta_Institucional;
 use Illuminate\Database\Seeder;
+use App\Models\Ciclo_Lectivo;
 
 class Espacio_AcademicoSeeder extends Seeder
 {
@@ -22,6 +23,7 @@ class Espacio_AcademicoSeeder extends Seeder
         $ea->id_seccion_tipo = 1;
         $ea->id_turno_inicio = $pi->id_turno_inicio;
         $ea->id_turno_fin = $pi->id_turno_fin;
+        $ea->id_ciclo_lectivo = $pi->id_ciclo_lectivo;
         $ea->division = $division_n;
         $ea->division_nombre = $division_nombre;
         $ea->save();

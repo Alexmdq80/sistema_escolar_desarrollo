@@ -262,7 +262,7 @@ class PersonaSeeder extends Seeder
         // echo "$prueba->id";
 // PONER EN FALSE SI SE QUIERE HACER MENORES Y MAYORES
    
-        self::set_solo_menores(true);
+        self::set_solo_menores(false);
 
         Persona::factory(500)->create();
         //

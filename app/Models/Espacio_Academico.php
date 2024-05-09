@@ -48,4 +48,5 @@ class Espacio_Academico extends Model
     public function inscripciones(){
         return $this->hasMany(Inscripcion::class,"id_propuesta_institucional","id");
     }
+
 }
