@@ -13,6 +13,9 @@ use App\Models\Responsable_Vinculo;
 use App\Models\Domicilio;
 use App\Models\Contacto;
 use App\Models\Inscripcion;
+use App\Models\Estudiante_Adulto;
+use App\Models\Autorizada_Vinculo;
+use App\Models\Restriccion_Vinculo;
 
 /*
 
@@ -80,7 +83,9 @@ Route::get('prueba', function() {
     // return $domicilio->localidad_asentamiento;
     // $contacto = Contacto::find(1);
     // return $contacto->persona;
-    $inscripcion = Inscripcion::find(1);
-    return $inscripcion->escuela_destino;
-
+    // $inscripcion = Inscripcion::find(1);
+    // return $inscripcion->escuela_destino;
+    $r = Responsable_Vinculo::find(1);
+    
+    return $r->vinculo;
 });

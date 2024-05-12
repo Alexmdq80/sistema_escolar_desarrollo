@@ -79,5 +79,4 @@ class Persona extends Model
       return $this->belongsToMany(Responsable_Vinculo::class,"persona_responsable","id_persona_estudiante","id_responsable_vinculo");
     }
 
-
-}
+ }

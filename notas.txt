@@ -2,4 +2,7 @@
 27/04 Terminé con los modelos. Hay que hacer el factory las inscripciones, y agregar las tablas
      que faltan: responsables - autorizadas - contacto - legajo - salud - otros_datos_estudiante - otros_datos_adulto - restricciones...
      Por ahora quizás haga contacto, responsables y autorizadas. Luego agregaré las restantes.
-
+12/05 Probando relaciones polimórficas.. parece que puede llegar a funcionar. Hay que tener en cuenta que la relación muchos a muchos es entre 
+la tabla Persona a través de la tabla estudiante_adulto.
+Y la relación polimórfica es entre la tabla estudiante_adulto y las distintas tablas de vínculos: Autorizada, Responsable y Restriccion. Y es una 
+relación uno a muchos - muchos a uno.
