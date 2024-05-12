@@ -11,5 +11,4 @@ class Persona_Responsable extends Model
 
     protected $table = "persona_responsable";
 
-    protected $fillable = ["id_persona_estudiante","id_persona_responsable","id_responsable_vinculo"]; 
 }
