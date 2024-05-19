@@ -48,7 +48,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call(SexoSeeder::class);
 
-        $this->call(Responsable_VinculoSeeder::class);
+        $this->call(Espacio_AcademicoSeeder::class);
+
+        $this->call(Vinculo_TipoSeeder::class);
+
+        $this->call(Adulto_VinculoSeeder::class);
       
         // $this->call(PersonaSeeder::class);
 

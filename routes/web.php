@@ -9,13 +9,11 @@ use App\Models\Nivel;
 use App\Models\Usuario;
 use App\Models\Localidad_Censal;
 use App\Models\Calle;
-use App\Models\Responsable_Vinculo;
+use App\Models\Adulto_Vinculo;
 use App\Models\Domicilio;
 use App\Models\Contacto;
 use App\Models\Inscripcion;
-use App\Models\Estudiante_Adulto;
-use App\Models\Autorizada_Vinculo;
-use App\Models\Restriccion_Vinculo;
+use App\Models\Estudiante_Adulto_Vinculo;
 
 /*
 
@@ -85,7 +83,7 @@ Route::get('prueba', function() {
     // return $contacto->persona;
     // $inscripcion = Inscripcion::find(1);
     // return $inscripcion->escuela_destino;
-    $r = Responsable_Vinculo::find(1);
+    $r = Estudiante_Adulto_Vinculo::where('id_adulto_vinculo',9)->get();
     
-    return $r->vinculo;
+    return $r;
 });

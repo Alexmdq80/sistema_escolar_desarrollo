@@ -56,7 +56,7 @@ class Persona extends Model
     //   return $this->hasMany(Inscripcion::class,"id_persona","id");
     // }
 
-    public function inscripciones(){
+    public function inscripcion(){
       return $this->hasOne(Inscripcion::class,"id_persona","id");
     }
 
@@ -66,12 +66,6 @@ class Persona extends Model
     public function estudiantes () {
       return $this->belongsToMany(Persona::class,"persona_responsable","id_persona_responsable","id_persona_estudiante");
     }
-    // public function responsable_vinculos() {
-    //   return $this->belongsToMany(Persona::class,"persona_responsable","id_persona_responsable","id_responsable_vinculo");
-    // }
-    // public function estudiante_vinculos() {
-    //   return $this->belongsToMany(Persona::class,"persona_responsable","id_persona_estudiante","id_responsable_vinculo");
-    // }
     public function responsable_vinculos(){
       return $this->belongsToMany(Responsable_Vinculo::class,"persona_responsable","id_persona_responsable","id_responsable_vinculo");
     }

@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('autorizada_vinculo', function (Blueprint $table) {
+        Schema::create('adulto_vinculo', function (Blueprint $table) {
             $table->tinyInteger('id')->unsigned()->primary();
+            $table->tinyInteger('id_vinculo_tipo')->unsigned();
+            $table->foreign('id_vinculo_tipo')->references('id')->on('vinculo_tipo');
             $table->string('nombre', 60);
             $table->tinyInteger('orden');
             $table->boolean('vigente');
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('autorizada_vinculo');
+        Schema::dropIfExists('adulto_vinculo');
     }
 };

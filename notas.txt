@@ -6,3 +6,6 @@
 la tabla Persona a través de la tabla estudiante_adulto.
 Y la relación polimórfica es entre la tabla estudiante_adulto y las distintas tablas de vínculos: Autorizada, Responsable y Restriccion. Y es una 
 relación uno a muchos - muchos a uno.
+18/08 Está funcionando. Con un seeder que genera vínculos con RESPONSABLES, AUTORIZADAS Y RESTRINGIDAS. No estoy seguro por qué funciona
+el factory al restar 2 al contar el array.... Pero funciona.
+Está todo al día según el esquema de la BD en DRAWIO.
