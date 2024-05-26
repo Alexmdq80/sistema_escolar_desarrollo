@@ -15,8 +15,8 @@ return new class extends Migration
             $table->smallIncrements('id');
             $table->unsignedInteger('id_persona')->unique();
             $table->foreign('id_persona')->references('id')->on('persona');
-            $table->unsignedInteger('id_persona_firma')->nullable();
-            $table->foreign('id_persona_firma')->references('id')->on('persona');
+            $table->unsignedBigInteger('id_estudiante_adulto_vinculo')->nullable()->comment('Responsable que firma la inscripción');
+            $table->foreign('id_estudiante_adulto_vinculo')->references('id')->on('estudiante_adulto_vinculo');
             $table->unsignedbigInteger('id_espacio_academico');
             $table->foreign('id_espacio_academico')->references('id')->on('espacio_academico');
             $table->unsignedMediumInteger('id_escuela_procedencia')->nullable();

@@ -131,8 +131,10 @@ class PersonaFactory extends Factory
         $p_menores = PersonaSeeder::get_n_menores();
         $porc_menores = $p_menores * 100 / $total_personas;
         $solo_menores = PersonaSeeder::get_solo_menores();
-        if ($porc_menores > 50 and !$solo_menores){
-          // SI HAY MÁS DEL 100% DE MENORES, ENTONCES AGREGO UN ADULTO
+
+        // \\\hacer una variable para sólo mayores o sólo menores o 50%
+        if ($porc_menores > 20 and !$solo_menores){
+          // SI HAY MÁS DEL 50% DE MENORES, ENTONCES AGREGO UN ADULTO
           $nacimiento_fecha = $this->faker->dateTimeBetween($startDate = '-100 years', $endDate = '2004-01-01', $timezone = null);
         } else {
           $nacimiento_fecha = $this->faker->dateTimeBetween($startDate = '-20 years', $endDate = '-11 years', $timezone = null);

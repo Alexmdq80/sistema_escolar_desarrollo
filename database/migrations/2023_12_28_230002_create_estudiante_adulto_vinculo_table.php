@@ -13,17 +13,26 @@ return new class extends Migration
     {
         Schema::create('estudiante_adulto_vinculo', function (Blueprint $table) {
             $table->id('id');
+            
             $table->integer('id_persona_estudiante')->unsigned();
             $table->foreign('id_persona_estudiante')->references('id')->on('persona');
+            
             $table->integer('id_persona_adulto')->unsigned();
             $table->foreign('id_persona_adulto')->references('id')->on('persona');
+            
             $table->tinyInteger('id_adulto_vinculo')->unsigned();
             $table->foreign('id_adulto_vinculo')->references('id')->on('adulto_vinculo');
-            $table->smallInteger('id_inscripcion')->unsigned();
-            $table->foreign('id_inscripcion')->references('id')->on('inscripcion')->constrained('inscripcion')->onDelete('cascade');
-            $table->unique(['id_inscripcion','id_persona_estudiante','id_persona_adulto'],'unique_estudiante_responsable')
-                  ->constrained('persona')->onDelete('cascade');
+            
+            $table->string('detalle', 255)->nullable();
+            $table->date('vencimiento_fecha')->nullable();
             $table->timestamps();
+
+            $table->unique(['id_persona_estudiante','id_persona_adulto'],'unique_estudiante_adulto');
+
+            // $table->smallInteger('id_inscripcion')->unsigned();
+            // $table->foreign('id_inscripcion')->references('id')->on('inscripcion')->constrained('inscripcion')->onDelete('cascade');
+            // $table->unique(['id_inscripcion','id_persona_estudiante','id_persona_adulto'],'unique_estudiante_responsable')
+            //       ->constrained('persona')->onDelete('cascade');
         });
     }
 

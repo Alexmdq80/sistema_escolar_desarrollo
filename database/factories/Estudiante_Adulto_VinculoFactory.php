@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Estudiante_Adulto_Vinculo;
 use Database\Seeders\Estudiante_Adulto_VinculoSeeder;
 use App\Models\Persona;
-use App\Models\Inscripcion;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Estudiante_Adulto_Vinculo>
  */
@@ -23,115 +22,67 @@ class Estudiante_Adulto_VinculoFactory extends Factory
     {
 
         $id_estudiante = Estudiante_Adulto_VinculoSeeder::get_id_estudiante();
-
         $cant_adultosxvinculo = Estudiante_Adulto_VinculoSeeder::get_cant_adultosxvinculo();
-        $n_responsable = Estudiante_Adulto_VinculoSeeder::get_n_responsable();
-
         $id_vinculo= $this->faker->randomElement(Estudiante_Adulto_VinculoSeeder::get_id_vinculos());
-     
-        if ($id_vinculo < 5) {
-            if ($n_responsable == 1){
-            $adulto[1] = $this->faker->randomElement(Estudiante_Adulto_VinculoSeeder::get_adultos());
-            } else {
-            $adulto[1] = Estudiante_Adulto_VinculoSeeder::get_adulto_1();
-            }         
-            echo "ADULTO(1) = $adulto[1] \n";
-            $id[1] = $adulto[1]->id;
-        }
+        echo "ID_ESTUDIANTE: $id_estudiante \n";
+        echo "ID_VINCULO $id_vinculo \n";
+        echo "Cantidad de adultos x vínculo: $cant_adultosxvinculo \n"; 
 
-       
-        $n = Estudiante_Adulto_VinculoSeeder::get_n_responsable();
-
-        echo "Cantidad de responsables: $cant_adultosxvinculo \n"; 
-        echo "Nro. de responsable: $n \n"; 
-
-        if ($cant_adultosxvinculo == 1){
-            $i = true;
-        } else {
-            $i = false;
-        }
-        if ($id_vinculo < 5) {
-            while ($i == false){
-                
-                $adulto[2] = $this->faker->randomElement(Estudiante_Adulto_VinculoSeeder::get_adultos());
-                echo "ADULTO(2) = $adulto[2] \n";
-                $id[2] = $adulto[2]->id;
-                
-                echo "ID(1) = $id[1] ID(2) = $id[2] \n";
-                if ($id[1] <> $id[2]) {
-                    $i = true;
-                }
-            }      
-            $id_adulto =  $id[$n];
-            echo "ID_ADULTO_1: $id[1] \n";
-            if ($i > 1){
-            echo "ID_ADULTO_2: $id[2] \n";
-            }
-            echo "ID_ADULTO_RESPONSABLE = $id_adulto \n";
-        }
-        if ($id_vinculo > 4 && $id_vinculo < 9) {
-            $adultos = Estudiante_Adulto_VinculoSeeder::get_adulto_1();
-            $totales = count($adultos) - 2;
-            $i = false;
-            while ($i == false){
-                $id = $this->faker->randomElement(Estudiante_Adulto_VinculoSeeder::get_adultos());
-                $saltar = false;
-                for ($n=0;$n<$totales;$n++) {
-                //   if ($totales == 0){
-                  if (is_array($adultos)){
-                    $aux = $adultos;
-                  } else {
-                    $aux = $adultos[$n];
-                  }
-                  if ($id == $aux) {
-                    $saltar = true;
-                    $i = false;
-                    break;
-                  }                 
-                }                
-                if (!$saltar){$i = true;}
-            }
-            $id_adulto =  $id;
-            echo "ID_ADULTO $id \n";
-            echo "TOTALES $totales \n";
-            echo "Valor N: $n \n";
-        }
+        $id_adultos_estudiante = Estudiante_Adulto_VinculoSeeder::get_id_adultos_estudiante();
+        // $totales = count($adultos) - 2;
+        echo "ID_ADULTOS_ESTUDIANTE: $id_adultos_estudiante \n";
+        $id_adultos_estudiante = $id_adultos_estudiante->toArray();
+        // var_dump($id_adultos_estudiante);
         if ($id_vinculo == 9) {
-            $adultos = Estudiante_Adulto_VinculoSeeder::get_adulto_1();
-            $totales = count($adultos) - 2;
-            $i = false;
-            while ($i == false){
-                $id = $this->faker->randomElement(Estudiante_Adulto_VinculoSeeder::get_adultos());
-                $saltar = false;
-                for ($n=0;$n<$totales;$n++) {
-                //   if ($totales == 0){
-                  if (is_array($adultos)){
-                    $aux = $adultos;
-                  } else {
-                    $aux = $adultos[$n];
-                  }
-                  if ($id == $aux) {
-                    $saltar = true;
-                    $i = false;
-                    break;
-                  }                 
-                }                
-                if (!$saltar){$i = true;}
-            }
-            $id_adulto =  $id;
-            echo "ID_ADULTO $id \n";
-            echo "TOTALES $totales \n";
-            echo "Valor N: $n \n";
+          $detalle = $this->faker->text(); 
+          $fecha = $this->faker->dateTimeBetween($startDate = '-4 years', $endDate = '+2 years', $timezone = null);
+        } else {
+          $detalle =  null;
+          $fecha = null;
+        }
+        if (is_array($id_adultos_estudiante)){
+          echo "id_adultos_estudiante es un array";
+          $totales = count($id_adultos_estudiante);
+        } elseif (is_null($id_adultos_estudiante) || empty($id_adultos_estudiante)) {
+          echo "id_adultos_estudiante está en null o está empty";
+          $totales = 0;
+        } else {
+          echo "id_adultos_estudiante no es un array ";
+          $totales = 1;
+        }
+        if ($totales == 0){
+          $id = $this->faker->randomElement(Estudiante_Adulto_VinculoSeeder::get_adultos());
+        } else {
+          $i = false;
+          while ($i == false){
+              $id = $this->faker->randomElement(Estudiante_Adulto_VinculoSeeder::get_adultos());
+              $saltar = false;
+              for ($n=0;$n<$totales;$n++) {
+                if (is_array($id_adultos_estudiante)){
+                  $aux = $id_adultos_estudiante[$n];
+                } else {
+                  $aux = $id_adultos_estudiante;
+                }
+                if ($id == $aux) {
+                  $saltar = true;
+                  $i = false;
+                  break;
+                }                 
+              }                
+              if (!$saltar){$i = true;}
+          }
         }
 
-        $id_inscripcion = Estudiante_Adulto_VinculoSeeder::get_id_inscripcion();
-        echo "ID Inscripción: $id_inscripcion \n";
-      
+        $id_adulto =  $id;
+        echo "ID_ADULTO $id \n";
+        echo "TOTALES $totales \n";
+             
         return [
             'id_persona_estudiante'=>$id_estudiante,
             'id_persona_adulto'=>$id_adulto,
             'id_adulto_vinculo'=>$id_vinculo,
-            'id_inscripcion'=>$id_inscripcion
+            'detalle'=>$detalle,
+            'vencimiento_fecha'=>$fecha
         ]; 
     }
 }

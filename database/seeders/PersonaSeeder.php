@@ -264,7 +264,7 @@ class PersonaSeeder extends Seeder
    
         self::set_solo_menores(false);
 
-        Persona::factory(5000)->create();
+        Persona::factory(15000)->create();
         //
     }
 }

@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(Adulto_VinculoSeeder::class);
       
-        // $this->call(PersonaSeeder::class);
+        $this->call(PersonaSeeder::class);
 
         $this->call(UsuarioSeeder::class);
 

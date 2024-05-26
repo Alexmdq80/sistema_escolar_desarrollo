@@ -19,8 +19,9 @@ class Inscripcion extends Model
     public function persona() {
         return $this->belongsTo(Persona::class, "id_persona", "id");
     }
-    public function persona_firma() {
-        return $this->belongsTo(Persona::class, "id_persona_firma", "id");
+    // Persona que firma la inscripción
+    public function estudiante_adulto_vinculo() {
+        return $this->belongsTo(Estudiante_Adulto_Vinculo::class, "id_estudiante_adulto_vinculo", "id");
     }
     public function espacio_academico() {
         return $this->belongsTo(Espacio_Academico::class, "id_espacio_academico", "id");
