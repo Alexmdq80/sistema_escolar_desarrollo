@@ -11,9 +11,7 @@ class Estudiante_Adulto_Vinculo extends Model
 
     protected $table = "estudiante_adulto_vinculo";
 
-    public function vinculo_detalle(){
-        return $this->hasOne(Vinculo_Detalle::class,"id_estudiante_adulto_vinculo","id");
-    }
+    protected $fillable = ["detalle","vencimiento_fecha"];
 
     public function adulto_vinculo(){
         return $this->belongsTo(Adulto_Vinculo::class, "id_adulto_vinculo");

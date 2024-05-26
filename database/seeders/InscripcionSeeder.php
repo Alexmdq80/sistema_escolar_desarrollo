@@ -12,6 +12,7 @@ use App\Models\Condicion;
 use App\Models\Espacio_Academico;
 use App\Models\Anio;
 use App\Models\Nivel;
+use App\Models\Estudiante_Adulto_Vinculo;
 
 class InscripcionSeeder extends Seeder
 {
@@ -20,7 +21,17 @@ class InscripcionSeeder extends Seeder
     protected static int $id_condicion;
     protected static int $id_nivel_procedencia;
     protected static $id_escuelas;
+    protected static $id_adultos;
     // protected static int $edad;
+
+    public static function set_id_adultos($valor): void
+    {
+        self::$id_adultos = $valor;
+    }
+    public static function get_id_adultos()
+    {
+        return self::$id_adultos;
+    }
 
     public static function set_id_escuelas($valor): void
     {
@@ -304,6 +315,10 @@ class InscripcionSeeder extends Seeder
 
             foreach ($personas as $persona) {
                 // echo "Persona ID: $persona->id \n";
+                $adultos = Estudiante_Adulto_Vinculo::where([['id_persona_estudiante',$persona->id],
+                                                             ['id_adulto_vinculo','<=',4]])
+                                                            ->get('id_persona_adulto');
+                self::set_id_adultos($adultos);
                 $fecha_nacimiento = Carbon::parse($persona->nacimiento_fecha);
                 $edad = Carbon::parse($persona->nacimiento_fecha)->age;
                 self::set_id_persona($persona->id);

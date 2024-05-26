@@ -24,13 +24,13 @@ class Estudiante_Adulto_VinculoFactory extends Factory
         $id_estudiante = Estudiante_Adulto_VinculoSeeder::get_id_estudiante();
         $cant_adultosxvinculo = Estudiante_Adulto_VinculoSeeder::get_cant_adultosxvinculo();
         $id_vinculo= $this->faker->randomElement(Estudiante_Adulto_VinculoSeeder::get_id_vinculos());
-        echo "ID_ESTUDIANTE: $id_estudiante \n";
-        echo "ID_VINCULO $id_vinculo \n";
-        echo "Cantidad de adultos x vínculo: $cant_adultosxvinculo \n"; 
+        echo "ID_ESTUDIANTE: $id_estudiante ";
+        echo "ID_VINCULO $id_vinculo ";
+        echo "Cantidad de adultos x vínculo: $cant_adultosxvinculo "; 
 
         $id_adultos_estudiante = Estudiante_Adulto_VinculoSeeder::get_id_adultos_estudiante();
         // $totales = count($adultos) - 2;
-        echo "ID_ADULTOS_ESTUDIANTE: $id_adultos_estudiante \n";
+        // echo "ID_ADULTOS_ESTUDIANTE: $id_adultos_estudiante \n";
         $id_adultos_estudiante = $id_adultos_estudiante->toArray();
         // var_dump($id_adultos_estudiante);
         if ($id_vinculo == 9) {
@@ -41,13 +41,10 @@ class Estudiante_Adulto_VinculoFactory extends Factory
           $fecha = null;
         }
         if (is_array($id_adultos_estudiante)){
-          echo "id_adultos_estudiante es un array";
           $totales = count($id_adultos_estudiante);
         } elseif (is_null($id_adultos_estudiante) || empty($id_adultos_estudiante)) {
-          echo "id_adultos_estudiante está en null o está empty";
           $totales = 0;
         } else {
-          echo "id_adultos_estudiante no es un array ";
           $totales = 1;
         }
         if ($totales == 0){
@@ -74,9 +71,7 @@ class Estudiante_Adulto_VinculoFactory extends Factory
         }
 
         $id_adulto =  $id;
-        echo "ID_ADULTO $id \n";
-        echo "TOTALES $totales \n";
-             
+
         return [
             'id_persona_estudiante'=>$id_estudiante,
             'id_persona_adulto'=>$id_adulto,

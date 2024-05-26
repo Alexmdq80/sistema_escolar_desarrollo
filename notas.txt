@@ -9,3 +9,13 @@ relación uno a muchos - muchos a uno.
 18/08 Está funcionando. Con un seeder que genera vínculos con RESPONSABLES, AUTORIZADAS Y RESTRINGIDAS. No estoy seguro por qué funciona
 el factory al restar 2 al contar el array.... Pero funciona.
 Está todo al día según el esquema de la BD en DRAWIO.
+
+26/05/2024
+**El Seeder de vínculos (estudiante_adulto_vinculo) está funcionado.
+**Para generar la BD. 
+Sobre la BD base, con las Escuelas y sus tablas de niveles, modalidades, y GEOREF.
+  -Correr las migraciones (éstas no sobreescribirán ni eliminarán nada de la base).
+  -Correr el seeder de la BD.
+  -Luego, si se quiere rellenar la BD con datos falsos correr 
+	* Seeder de Persona, Domicilio, Contacto, Estudiante_Adulto_Vinculo, e Inscripcion. Esto generará una BD con el 20% de menores.
+

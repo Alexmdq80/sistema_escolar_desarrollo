@@ -25,9 +25,24 @@ class InscripcionFactory extends Factory
         
         $id_persona = InscripcionSeeder::get_id_persona();
 
+        $id_adultos = InscripcionSeeder::get_id_adultos();
+        
+        $id_adultos = $id_adultos->pluck('id_persona_adulto');
+   
+        // $id_adultos = $id_adultos->toArray();
+       
+        var_dump($id_adultos);
+       
+        // echo "******* ID_PERSONA_FIRMA ****** \n";
+        // echo "******* $id_adultos **************";
+
+        $id_persona_firma = $this->faker->randomElement($id_adultos);
         // echo $id_persona;
 
-        $id_persona_firma = null;
+        echo "******* ID_PERSONA_FIRMA ****** \n";
+        echo "******* $id_persona_firma **************";
+
+        // $id_persona_firma = null;
         // $id_espacio_academico = $this->faker->randomElement($años);
         $id_nivel_procedencia = InscripcionSeeder::get_id_nivel_procedencia();
         

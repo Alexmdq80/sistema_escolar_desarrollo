@@ -88,17 +88,14 @@ class Estudiante_Adulto_VinculoSeeder extends Seeder
                       case 1:
                          $z = rand(1,2);
                          $vinculos = Adulto_Vinculo::where('id_vinculo_tipo',1)->get('id');
-                         echo "Responsables.... \n";
                          break;
                       case 2:
                          $z = rand(0,6);
                          $vinculos = Adulto_Vinculo::where('id_vinculo_tipo',2)->get('id');
-                         echo "Autorizadas.... \n";
                          break;
                       case 3:
                          $z = rand(0,1);
                          $vinculos = Adulto_Vinculo::where('id_vinculo_tipo',3)->get('id');
-                         echo "Restringidas.... \n";
                          break;
                     };
                     self::set_cant_adultosxvinculo($z);
@@ -108,7 +105,7 @@ class Estudiante_Adulto_VinculoSeeder extends Seeder
 
                     if ($z > 0){
                         for ($i=1;$i <= $z; $i++){
-                            echo "Valor de I: $i sobre Z: $z \n";
+                            // echo "Valor de I: $i sobre Z: $z \n";
                             $adultosxestudiante = Estudiante_Adulto_Vinculo::where(
                                                     'id_persona_estudiante',$id_menor)
                                                     ->get('id_persona_adulto');  

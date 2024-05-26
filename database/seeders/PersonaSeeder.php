@@ -200,71 +200,72 @@ class PersonaSeeder extends Seeder
 // n_sinDNI TOTAL DE PERSONAS SIN DNI
 // n_sinDNIsinDocExt TOTAL DE PERSONAS SIN NINGÚN DOCUMENTO
 // n_conCPI TOTAL DE PERSONAS CON CPI, TENDRÍAN QUE SER PERSONAS QUE NO TIENEN NINGÚN DOCUMENTO
-
-        self::set_n_personas(Persona::count());
-        self::set_n_noBinarios(Persona::where('id_sexo', 3)->count());
-        self::set_n_transGenero(Persona::where([
-                                                            ['id_sexo', 1],
-                                                            ['id_genero', '<>', 2]
-                                                        ])->orWhere([
-                                                            ['id_sexo', 2],
-                                                            ['id_genero', '<>', 1]
-                                                        ])->count());
-
-        self::set_n_noArgentinos(Persona::where('nacionalidad_id_pais', '<>', 158)->count());
-        self::set_n_argNacidosExterior(Persona::where([
-                                                            ['nacionalidad_id_pais','=', 158],
-                                                            ['nacimiento_lugar_id_pais', '<>', 158]
-                                                        ])->count());
-
-        $n_personas_menores = Persona::where('nacimiento_fecha','>','2005-01-01')->count();
-        if ($n_personas_menores == NULL) {
-          self::set_n_menores(0);
-        } else {
-          self::set_n_menores($n_personas_menores);
-        }
-        // PersonaSeeder::set_n_menores(Persona::where('nacimiento_fecha'),'>','2005-01-01')->count();
-
-        self::set_n_fallecidos(Persona::where('vive_si', 0)->count());
-
-        self::set_n_sinDNI(Persona::where('id_documento_tipo','<>', 1)->count());
-
-        self::set_n_sinDNIsinDocExt(Persona::where([
-                                                                ['id_documento_tipo','<>', 1],
-                                                                ['posee_docExt_si', 0]
+        if ($existe) {
+            self::set_n_personas(Persona::count());
+            self::set_n_noBinarios(Persona::where('id_sexo', 3)->count());
+            self::set_n_transGenero(Persona::where([
+                                                                ['id_sexo', 1],
+                                                                ['id_genero', '<>', 2]
+                                                            ])->orWhere([
+                                                                ['id_sexo', 2],
+                                                                ['id_genero', '<>', 1]
                                                             ])->count());
 
-        self::set_n_conCPI(Persona::where('posee_cpi_si','<>', 0)->count());
+            self::set_n_noArgentinos(Persona::where('nacionalidad_id_pais', '<>', 158)->count());
+            self::set_n_argNacidosExterior(Persona::where([
+                                                                ['nacionalidad_id_pais','=', 158],
+                                                                ['nacimiento_lugar_id_pais', '<>', 158]
+                                                            ])->count());
 
-        // print_r(PersonaSeeder::get_n_personas());
+            $n_personas_menores = Persona::where('nacimiento_fecha','>','2005-01-01')->count();
+            if ($n_personas_menores == NULL) {
+            self::set_n_menores(0);
+            } else {
+            self::set_n_menores($n_personas_menores);
+            }
+            // PersonaSeeder::set_n_menores(Persona::where('nacimiento_fecha'),'>','2005-01-01')->count();
 
-        // $paises = Pais::get(['id'])->pluck('id');
-        $paises = Pais::get(['id']);
+            self::set_n_fallecidos(Persona::where('vive_si', 0)->count());
 
-        self::set_id_paises($paises);
+            self::set_n_sinDNI(Persona::where('id_documento_tipo','<>', 1)->count());
 
-        // self::set_sexos(Sexo::get(['id']));
+            self::set_n_sinDNIsinDocExt(Persona::where([
+                                                                    ['id_documento_tipo','<>', 1],
+                                                                    ['posee_docExt_si', 0]
+                                                                ])->count());
 
-        // $generos = Genero::get(['id'])->pluck('id');
-        $generos = Genero::get(['id']);
+            self::set_n_conCPI(Persona::where('posee_cpi_si','<>', 0)->count());
 
-        self::set_id_generos($generos);
+            // print_r(PersonaSeeder::get_n_personas());
 
-        // var_dump(self::get_paises());
+            // $paises = Pais::get(['id'])->pluck('id');
+            $paises = Pais::get(['id']);
 
-        // self::set_documento_tipos(Documento_Tipo::get(['id']));
-        // self::set_documento_situaciones(Documento_Situacion::get(['id']));
+            self::set_id_paises($paises);
 
-        // $prueba = (object) [
-        //             'id' => '12345679'
-        //             ];
+            // self::set_sexos(Sexo::get(['id']));
 
-        // echo "$prueba->id";
-// PONER EN FALSE SI SE QUIERE HACER MENORES Y MAYORES
-   
-        self::set_solo_menores(false);
+            // $generos = Genero::get(['id'])->pluck('id');
+            $generos = Genero::get(['id']);
 
-        Persona::factory(15000)->create();
-        //
+            self::set_id_generos($generos);
+
+            // var_dump(self::get_paises());
+
+            // self::set_documento_tipos(Documento_Tipo::get(['id']));
+            // self::set_documento_situaciones(Documento_Situacion::get(['id']));
+
+            // $prueba = (object) [
+            //             'id' => '12345679'
+            //             ];
+
+            // echo "$prueba->id";
+    // PONER EN FALSE SI SE QUIERE HACER MENORES Y MAYORES
+    
+            self::set_solo_menores(false);
+
+            Persona::factory(15000)->create();
+            //
+        }
     }
 }
