@@ -49,6 +49,9 @@ class Persona extends Model
     public function contacto(){
       return $this->hasOne(Contacto::class,"id_persona","id");
     }
+    public function legajo(){
+      return $this->hasOne(Legajo::class,"id_persona","id");
+    }
     public function usuario(){
       return $this->hasOne(Usuario::class,"id_persona","id");
     }

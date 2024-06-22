@@ -6,7 +6,10 @@ use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\RegistroController;
 use App\Http\Controllers\Api\V1\Auth\PerfilController;
+use App\Http\Controllers\Api\V1\PersonaController;
+use App\Http\Controllers\Api\V1\InscripcionController;
 /*
+
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
@@ -21,17 +24,20 @@ use App\Http\Controllers\Api\V1\Auth\PerfilController;
 //     return $request->user();
 // });
 
+  
+Route::apiResource('personas', PersonaController::class);
+Route::apiResource('inscripciones', InscripcionController::class);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('perfil', [PerfilController::class, 'show']);
     Route::put('perfil', [PerfilController::class, 'update']);
     Route::post('auth/logout', LogoutController::class);
-
+  
     // Route::post('alquileres/inicio', [AlquilerController::class, 'inicio']);
     // Route::put('alquileres/finalizar/{alquiler}', [AlquilerController::class, 'finalizar']);
     // Route::get('alquileres', [AlquilerController::class, 'index']);
 
-    // // Rutas que no requieren el middleware "es_admin"
-    // Route::apiResource('bicicletas', BicicletaController::class)->only(['index', 'show']);
+    // Rutas que no requieren el middleware "es_admin"
 
     // // Rutas que requieren el middleware "es_admin"
     // Route::apiResource('bicicletas', BicicletaController::class)->except(['index', 'show'])->middleware('es_admin');

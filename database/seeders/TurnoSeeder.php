@@ -44,7 +44,7 @@ class TurnoSeeder extends Seeder
             $turno = new Turno();
 
             $turno->id = 4;
-            $turno->nombre = "VERSPERTINO";
+            $turno->nombre = "VESPERTINO";
             $turno->orden = 40;
 
             $turno->save();
