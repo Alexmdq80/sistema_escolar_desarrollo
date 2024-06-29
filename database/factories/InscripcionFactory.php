@@ -56,13 +56,17 @@ class InscripcionFactory extends Factory
         }  
         
         $id_modalidad_procedencia = 1;
-        $codigo_abc = $this->faker->regexify();
+        // $codigo_abc = $this->faker->asciify('**********');
+        // echo "********$codigo_abc*******";
+        $codigo_abc = $this->faker->regexify('[A-Z-Z0-9]{10}');
+        echo "********$codigo_abc*******";
         $proyecto_inclusion_si = 0;
         $concurre_especial_si = 0;
         $asistente_externo_si = 0;
 
         $fecha = $this->faker->dateTimeBetween($startDate = '2023-12-01', $endDate = '2024-05-09', $timezone = null);
-    
+        $id_usuario = 1;
+
         return [
                 'id_persona' => $id_persona,
                 'id_persona_firma' => $id_persona_firma,
@@ -72,6 +76,7 @@ class InscripcionFactory extends Factory
                 'id_nivel_procedencia' => $id_nivel_procedencia,
                 'id_modalidad_procedencia' => $id_modalidad_procedencia,
                 'codigo_abc' => $codigo_abc,
+                'id_usuario' => $id_usuario,
                 'id_condicion' => $id_condicion,
                 'proyecto_inclusion_si' => $proyecto_inclusion_si,
                 'concurre_especial_si' => $concurre_especial_si,

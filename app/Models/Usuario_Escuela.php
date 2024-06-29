@@ -11,6 +11,8 @@ class Usuario_Escuela extends Model
 
     protected $table = "usuario_escuela";
 
+    protected $fillable = ["id_escuela","id_usuario","verificado"];
+
     public $timestamps = false;
     
 }

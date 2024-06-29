@@ -15,8 +15,9 @@ return new class extends Migration
             $table->mediumIncrements('id');
             $table->mediumInteger('id_escuela')->unsigned();
             $table->foreign('id_escuela')->references('id')->on('escuela');
-            $table->smallInteger('id_usuario')->unsigned();
+            $table->integer('id_usuario')->unsigned();
             $table->foreign('id_usuario')->references('id')->on('usuario');
+            $table->boolean('verificado');
             
             //    $table->timestamps();
         });

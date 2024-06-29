@@ -15,6 +15,7 @@ class InscripcionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        
         return [
             "id" => $this->id,
             "id_persona" => $this->id_persona,
@@ -23,7 +24,8 @@ class InscripcionResource extends JsonResource
             "espacio_academico" => $this->espacio_academico,
             "anio" => $this->espacio_academico->anio,
             "estudiante" => $this->persona,
-            "documento_tipo" => $this->persona->documento_tipo                
+            "documento_tipo" => $this->persona->documento_tipo,
+            "legajo" =>$this->persona->legajo                
         ]
         ;
     }

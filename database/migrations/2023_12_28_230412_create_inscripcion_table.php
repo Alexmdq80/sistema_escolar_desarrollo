@@ -30,6 +30,8 @@ return new class extends Migration
             $table->unsignedTinyInteger('id_condicion')->nullable();
             $table->foreign('id_condicion')->references('id')->on('condicion');
             $table->string('codigo_abc', 10)->nullable();
+            $table->unsignedInteger('id_usuario')->comment('Usuario que realizó la inscripción');
+            $table->foreign('id_usuario')->references('id')->on('usuario');
             $table->boolean('proyecto_inclusion_si')->nullable();
             $table->boolean('concurre_especial_si')->nullable();
             $table->boolean('asistente_externo_si')->nullable();

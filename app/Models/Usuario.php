@@ -11,12 +11,16 @@ class Usuario extends Model
 
     protected $table = "usuario";
 
-    protected $fillable = ["nombre","clave","es_admin","orden"];
+    protected $fillable = ["nombre_usuario","nombre","apellido","clave","es_admin"];
 
-    protected $hiden = ["clave"];
+    protected $hidden = ["clave"];
 
-    public function persona(){
-        return $this->hasOne(Persona::class, "id", "id_persona");
+    // public function persona(){
+    //     return $this->hasOne(Persona::class, "id", "id_persona");
+    // }
+
+    public function inscripciones(){
+        return $this->hasMany(Inscripcion::class, "id_usuario", "id");
     }
 
     public function escuelas() {

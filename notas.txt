@@ -18,4 +18,5 @@ Sobre la BD base, con las Escuelas y sus tablas de niveles, modalidades, y GEORE
   -Correr el seeder de la BD.
   -Luego, si se quiere rellenar la BD con datos falsos correr 
 	* Seeder de Persona, Domicilio, Contacto, Estudiante_Adulto_Vinculo, e Inscripcion. Esto generará una BD con el 20% de menores.
+	* El seeder de Legajo, Usuario, y Usuario_Escuela. Con eso debería de quedar la BD lista.
 
