@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('nombre', 50);
             $table->string('apellido', 50);
             $table->string('clave', 255);
-            $table->boolean('es_admin');
             $table->timestamps();
         });
     }

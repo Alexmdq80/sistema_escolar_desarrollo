@@ -29,13 +29,15 @@ use App\Http\Controllers\Api\V1\InscripcionController;
 // Route::get('inscripciones/show-by-espacio', [InscripcionController::class,'showByEspacio']);
 
 // Route::get('inscripciones/show-by-espacio', [InscripcionController::class,'showByEspacio']);
+// Route::apiResource('inscripciones/show-by-espacio', [InscripcionController::class,'showByEspacio']);
+
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('personas', PersonaController::class);
-    // Route::apiResource('inscripciones', InscripcionController::class);
 
-    // Route::apiResource('inscripciones/show-by-espacio', [InscripcionController::class,'showByEspacio']);
- 
+    Route::apiResource('personas', PersonaController::class);
+    Route::apiResource('inscripciones', InscripcionController::class);
+    // Route::apiResource('inscripciones/showByEspacio/{id}', [InscripcionController::class, 'showByEspacio']);
+     
     Route::get('perfil', [PerfilController::class, 'show']);
     Route::put('perfil', [PerfilController::class, 'update']);
     Route::post('auth/logout', LogoutController::class);

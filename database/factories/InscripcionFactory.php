@@ -37,7 +37,7 @@ class InscripcionFactory extends Factory
         // echo "******* $id_adultos **************";
 
         $id_persona_firma = $this->faker->randomElement($id_adultos);
-        // echo $id_persona;
+        //  echo $id_persona;
 
         echo "******* ID_PERSONA_FIRMA ****** \n";
         echo "******* $id_persona_firma **************";

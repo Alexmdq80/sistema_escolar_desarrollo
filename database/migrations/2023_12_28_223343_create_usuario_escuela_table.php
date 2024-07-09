@@ -17,9 +17,8 @@ return new class extends Migration
             $table->foreign('id_escuela')->references('id')->on('escuela');
             $table->integer('id_usuario')->unsigned();
             $table->foreign('id_usuario')->references('id')->on('usuario');
+            $table->boolean('es_admin');
             $table->boolean('verificado');
-            
-            //    $table->timestamps();
         });
     }
 

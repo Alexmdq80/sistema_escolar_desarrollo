@@ -32,6 +32,7 @@ class Usuario_EscuelaSeeder extends Seeder
 
             $ue->id_escuela = 10109;
             $ue->id_usuario = $usuario[0]->id;
+            $ue->es_admin = true;
             $ue->verificado = true;
             $ue->save();
          }

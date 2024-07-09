@@ -20,7 +20,10 @@ class PersonaController extends Controller
         //             ->get();
         // return Persona::get()
         //                 ->paginate();
-        return PersonaResource::collection(Persona::all()->take(500)->paginate());
+        // $personas = Persona::all()->take(500)->paginate();
+        $personas = Persona::paginate();
+        
+        return PersonaResource::collection($personas);
     }
 
     /**

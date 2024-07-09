@@ -80,6 +80,13 @@ class DatabaseSeeder extends Seeder
 
         $this->call(Espacio_AcademicoSeeder::class);
 
+        $this->call(Estudiante_Adulto_VinculoSeeder::class);
+
+        $this->call(LegajoSeeder::class);
+
+        $this->call(DomicilioSeeder::class);
+
+        $this->call(ContactoSeeder::class);
 
         // \App\Models\User::factory(10)->create();
     }

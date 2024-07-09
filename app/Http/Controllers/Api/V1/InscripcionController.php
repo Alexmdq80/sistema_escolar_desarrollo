@@ -31,17 +31,19 @@ class InscripcionController extends Controller
         return InscripcionResource::collection($inscripcion);
     }
 
-    public function showByEspacio(Request $request)
-    {
-        // $inscripcion = Inscripcion::latest()->take(5)->get();
-        $id = $request->input('id');
-        $inscripcion = Inscripcion::where('id_espacio_academico', $id)->get();
-        
-        // return $inscripcion;
-        return InscripcionResource::collection($inscripcion);
-        // return $id;
-        // return $request
-    }
+
+    // public function showByEspacio(Request $request)
+
+    // public function showByEspacio(Request $request)
+    // {
+    //     // $id = $request->id;
+
+    //     $id = 7;
+    //     // $inscripcion = Inscripcion::latest()->take(1)->get();
+    //     $inscripcion = Inscripcion::where('id_espacio_academico', $id)->get();
+     
+    //     return InscripcionResource::collection($inscripcion);
+    // }
     /**
      * Store a newly created resource in storage.
      */

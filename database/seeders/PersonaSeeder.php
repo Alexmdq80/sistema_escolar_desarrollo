@@ -200,7 +200,7 @@ class PersonaSeeder extends Seeder
 // n_sinDNI TOTAL DE PERSONAS SIN DNI
 // n_sinDNIsinDocExt TOTAL DE PERSONAS SIN NINGÚN DOCUMENTO
 // n_conCPI TOTAL DE PERSONAS CON CPI, TENDRÍAN QUE SER PERSONAS QUE NO TIENEN NINGÚN DOCUMENTO
-        if ($existe) {
+        if (!$existe) {
             self::set_n_personas(Persona::count());
             self::set_n_noBinarios(Persona::where('id_sexo', 3)->count());
             self::set_n_transGenero(Persona::where([

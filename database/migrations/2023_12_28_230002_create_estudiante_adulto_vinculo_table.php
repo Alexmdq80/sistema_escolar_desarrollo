@@ -27,8 +27,8 @@ return new class extends Migration
             $table->date('vencimiento_fecha')->nullable();
             $table->timestamps();
 
-            $table->unique(['id_persona_estudiante','id_persona_adulto'],'unique_estudiante_adulto');
-
+            // $table->unique(['id_persona_estudiante','id_persona_adulto'],'unique_estudiante_adulto');
+            // QUITO LA CLAVE ÚNICA, YA QUE PUEDE HABER UN RESPONSABLE QUE ESTÉ RESTRINGIDO
             // $table->smallInteger('id_inscripcion')->unsigned();
             // $table->foreign('id_inscripcion')->references('id')->on('inscripcion')->constrained('inscripcion')->onDelete('cascade');
             // $table->unique(['id_inscripcion','id_persona_estudiante','id_persona_adulto'],'unique_estudiante_responsable')

@@ -34,7 +34,6 @@ class UsuarioSeeder extends Seeder
             $usuario->nombre_usuario = "alex";
             $usuario->nombre = "ALEX JAVIER";
             $usuario->apellido = "ACTIS LOBOS";
-            $usuario->es_admin = true;
             $usuario->clave = '1234';
 
             $usuario->save();
