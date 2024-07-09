@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Persona;
+use App\Models\Inscripcion;
 use App\Models\Legajo;
 
 class LegajoSeeder extends Seeder
@@ -34,11 +34,11 @@ class LegajoSeeder extends Seeder
         $registros = Legajo::count();
         
         if (!$registros) {
-            $personas = Persona::get(); 
-            foreach ($personas as $persona) {
+            $inscripciones = Inscripcion::get(); 
+            foreach ($inscripciones as $inscripcion) {
                 
-              self::set_id_persona($persona->id);
-              self::set_documento_persona($persona->documento_numero);
+              self::set_id_persona($inscripcion->id_persona);
+              self::set_documento_persona($inscripcion->persona->documento_numero);
 
               Legajo::factory(1)->create();
             }

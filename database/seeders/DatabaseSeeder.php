@@ -82,12 +82,13 @@ class DatabaseSeeder extends Seeder
 
         $this->call(Estudiante_Adulto_VinculoSeeder::class);
 
-        $this->call(LegajoSeeder::class);
-
         $this->call(DomicilioSeeder::class);
 
         $this->call(ContactoSeeder::class);
 
+        $this->call(InscripcionSeeder::class);
+
+        $this->call(LegajoSeeder::class);
         // \App\Models\User::factory(10)->create();
     }
 }

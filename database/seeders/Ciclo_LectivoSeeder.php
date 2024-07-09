@@ -25,6 +25,15 @@ class Ciclo_LectivoSeeder extends Seeder
             $ciclo->vigente = true;
 
             $ciclo->save();
+
+            $ciclo = new Ciclo_Lectivo();
+
+            $ciclo->id = 2;
+            $ciclo->nombre = 2025;
+            $ciclo->orden = 11;
+            $ciclo->vigente = true;
+
+            $ciclo->save();
         //
         }
     }

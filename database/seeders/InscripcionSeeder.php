@@ -342,7 +342,8 @@ class InscripcionSeeder extends Seeder
                             self::set_id_condicion($condicion);
                             self::set_id_nivel_procedencia(3);
                         }
-                        $divisiones = Espacio_Academico::where('id_anio', 1)->get();
+                        $divisiones = Espacio_Academico::where([['id_anio', 1],
+                                                               ['id_ciclo_lectivo', 1]])->get();
                         echo "Edad: $edad \n";
                         echo "Condicion: $condicion \n";
                         foreach ($divisiones as $division){
@@ -435,7 +436,8 @@ class InscripcionSeeder extends Seeder
                         $condicion = rand(2,5);
                         self::set_id_condicion($condicion);
                         self::set_id_nivel_procedencia(3);
-                        $divisiones = Espacio_Academico::where('id_anio', 2)->get();
+                        $divisiones = Espacio_Academico::where([['id_anio', 2],
+                                                               ['id_ciclo_lectivo', 1]])->get();
                         foreach ($divisiones as $division){
                             $n = $division->division - 1;
                             $id = $division->id;
@@ -532,7 +534,8 @@ class InscripcionSeeder extends Seeder
                         self::set_id_condicion($condicion);
                         self::set_id_nivel_procedencia(3);
                        
-                        $divisiones = Espacio_Academico::where('id_anio', 3)->get();
+                        $divisiones = Espacio_Academico::where([['id_anio', 3],
+                                                               ['id_ciclo_lectivo', 1]])->get();
                         foreach ($divisiones as $division){
                             if ($division->division == 5){
                               $n = 1;
@@ -632,7 +635,8 @@ class InscripcionSeeder extends Seeder
                         self::set_id_condicion($condicion);
                         self::set_id_nivel_procedencia(3);
                        
-                        $divisiones = Espacio_Academico::where('id_anio', 4)->get();
+                        $divisiones = Espacio_Academico::where([['id_anio', 4],
+                                                               ['id_ciclo_lectivo', 1]])->get();
                         foreach ($divisiones as $division){
                             if ($division->division == 8){
                               $n = 6;
@@ -738,7 +742,8 @@ class InscripcionSeeder extends Seeder
                         self::set_id_condicion($condicion);
                         self::set_id_nivel_procedencia(3);
                    
-                        $divisiones = Espacio_Academico::where('id_anio', 5)->get();
+                        $divisiones = Espacio_Academico::where([['id_anio', 5],
+                                                               ['id_ciclo_lectivo', 1]])->get();
                         foreach ($divisiones as $division){
                             if ($division->division == 8){
                                 $n = 6;
@@ -845,7 +850,8 @@ class InscripcionSeeder extends Seeder
                         self::set_id_condicion($condicion);
                         self::set_id_nivel_procedencia(3);
                              
-                        $divisiones = Espacio_Academico::where('id_anio', 6)->get();
+                        $divisiones = Espacio_Academico::where([['id_anio', 6],
+                                                               ['id_ciclo_lectivo', 1]])->get();
                         foreach ($divisiones as $division){
                             if ($division->division == 8){
                                 $n = 6;
@@ -936,7 +942,8 @@ class InscripcionSeeder extends Seeder
                         self::set_id_condicion($condicion);
                         self::set_id_nivel_procedencia(3);
                       
-                        $divisiones = Espacio_Academico::where('id_anio', 7)->get();
+                        $divisiones = Espacio_Academico::where([['id_anio', 7],
+                                                               ['id_ciclo_lectivo', 1]])->get();
                         foreach ($divisiones as $division){
                             $n = $division->division - 1;
                             $id = $division->id;
