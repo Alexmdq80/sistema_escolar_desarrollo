@@ -48,19 +48,17 @@ class DatabaseSeeder extends Seeder
 
         $this->call(SexoSeeder::class);
 
-        $this->call(Espacio_AcademicoSeeder::class);
-
         $this->call(Vinculo_TipoSeeder::class);
 
         $this->call(Adulto_VinculoSeeder::class);
       
-        $this->call(PersonaSeeder::class);
+        // $this->call(PersonaSeeder::class);
 
         $this->call(UsuarioSeeder::class);
 
         $this->call(Usuario_EscuelaSeeder::class);
 
-        $this->call(Categoria_GeorefSeeder::class);
+        // $this->call(Categoria_GeorefSeeder::class);
 
         $this->call(Ciclo_LectivoSeeder::class);
 
@@ -80,15 +78,17 @@ class DatabaseSeeder extends Seeder
 
         $this->call(Espacio_AcademicoSeeder::class);
 
-        $this->call(Estudiante_Adulto_VinculoSeeder::class);
+        $this->call(Espacio_AcademicoSeeder::class);
 
-        $this->call(DomicilioSeeder::class);
+        // $this->call(Estudiante_Adulto_VinculoSeeder::class);
 
-        $this->call(ContactoSeeder::class);
+        // $this->call(DomicilioSeeder::class);
 
-        $this->call(InscripcionSeeder::class);
+        // $this->call(ContactoSeeder::class);
 
-        $this->call(LegajoSeeder::class);
+        // $this->call(InscripcionSeeder::class);
+
+        // $this->call(LegajoSeeder::class);
         // \App\Models\User::factory(10)->create();
     }
 }

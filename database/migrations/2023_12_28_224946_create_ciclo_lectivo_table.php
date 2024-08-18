@@ -16,6 +16,7 @@ return new class extends Migration
             $table->year('nombre');
             $table->tinyInteger('orden');
             $table->boolean('vigente');
+            $table->boolean('cerrado');
             //  $table->timestamps();
         });
     }

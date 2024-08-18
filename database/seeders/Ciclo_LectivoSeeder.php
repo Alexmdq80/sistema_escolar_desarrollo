@@ -23,6 +23,7 @@ class Ciclo_LectivoSeeder extends Seeder
             $ciclo->nombre = 2024;
             $ciclo->orden = 10;
             $ciclo->vigente = true;
+            $ciclo->cerrado = false;
 
             $ciclo->save();
 
@@ -32,7 +33,8 @@ class Ciclo_LectivoSeeder extends Seeder
             $ciclo->nombre = 2025;
             $ciclo->orden = 11;
             $ciclo->vigente = true;
-
+            $ciclo->cerrado = false;
+            
             $ciclo->save();
         //
         }
