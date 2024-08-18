@@ -20,3 +20,12 @@ Sobre la BD base, con las Escuelas y sus tablas de niveles, modalidades, y GEORE
 	* Seeder de Persona, Domicilio, Contacto, Estudiante_Adulto_Vinculo, e Inscripcion. Esto generará una BD con el 20% de menores.
 	* El seeder de Legajo, Usuario, y Usuario_Escuela. Con eso debería de quedar la BD lista.
 
+
+18/08/2024
+**Modifiqué las migraciones de: Ciclo_Lectivo +cerrado boolean
+				Inscripcion +responsable_1 / +responsable_2 / +restringida / +id_ciclo_lectivo
+				Puse todo como nullable, excepto id_ciclo_lectivo.
+**Adapté los modelos, con las relaciones pertinentes.
+**Quité los seeders que son partes los fakers.
+**El factory de Inscripcion no lo modifiqué, supongo que debería funcionar, pero no quedarían las relaciones de responsables y restringidas.
+
