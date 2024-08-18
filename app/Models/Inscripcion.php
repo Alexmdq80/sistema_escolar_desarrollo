@@ -13,18 +13,31 @@ class Inscripcion extends Model
 
     protected $fillable = ["id_persona","id_firma","id_espacio_academico",
         "id_escuela_procedencia","id_escuela_destino","id_nivel_procedencia",
-        "id_modalidad_procedencia","id_condicion","codigo_abc","id_usuario","proyecto_inclusion_si",
-        "concurre_especial_si","asistente_externo_si","fecha"];
+        "id_modalidad_procedencia","id_condicion","codigo_abc","id_usuario",
+        "responsable_1","responsable_2","restringida","id_ciclo_lectivo",
+        "proyecto_inclusion_si","concurre_especial_si","asistente_externo_si","fecha"];
 
     public function persona() {
         return $this->belongsTo(Persona::class, "id_persona", "id");
     }
     // Persona que firma la inscripción
     public function persona_firma() {
-        return $this->belongsTo(Persona::class, "id_persona", "id");
+        return $this->belongsTo(Persona::class, "id_persona_firma", "id");
+    }
+    public function persona_responable_1() {
+        return $this->belongsTo(Persona::class, "id_responsable_1", "id");
+    }
+    public function persona_responable_2() {
+        return $this->belongsTo(Persona::class, "id_responsable_2", "id");
+    }
+    public function persona_restringida() {
+        return $this->belongsTo(Persona::class, "id_restringida", "id");
     }
     public function usuario() {
         return $this->belongsTo(Usuario::class, "id_usuario", "id");
+    }
+    public function ciclo_lectivo() {
+        return $this->belongsTo(Ciclo_Lectivo::class, "id_ciclo_lectivo", "id");
     }
     public function espacio_academico() {
         return $this->belongsTo(Espacio_Academico::class, "id_espacio_academico", "id");
