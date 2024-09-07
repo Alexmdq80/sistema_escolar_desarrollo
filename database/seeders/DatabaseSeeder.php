@@ -78,7 +78,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(Espacio_AcademicoSeeder::class);
 
-        $this->call(Espacio_AcademicoSeeder::class);
+        // $this->call(Espacio_AcademicoSeeder::class);
 
         // $this->call(Estudiante_Adulto_VinculoSeeder::class);
 

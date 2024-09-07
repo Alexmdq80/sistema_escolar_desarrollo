@@ -22,16 +22,16 @@ class Inscripcion extends Model
     }
     // Persona que firma la inscripción
     public function persona_firma() {
-        return $this->belongsTo(Persona::class, "id_persona_firma", "id");
+        return $this->belongsTo(Estudiante_Adulto_Vinculo::class, "id_persona_firma", "id");
     }
     public function persona_responable_1() {
-        return $this->belongsTo(Persona::class, "id_responsable_1", "id");
+        return $this->belongsTo(Estudiante_Adulto_Vinculo::class, "id_responsable_1", "id");
     }
     public function persona_responable_2() {
-        return $this->belongsTo(Persona::class, "id_responsable_2", "id");
+        return $this->belongsTo(Estudiante_Adulto_Vinculo::class, "id_responsable_2", "id");
     }
     public function persona_restringida() {
-        return $this->belongsTo(Persona::class, "id_restringida", "id");
+        return $this->belongsTo(Estudiante_Adulto_Vinculo::class, "id_restringida", "id");
     }
     public function usuario() {
         return $this->belongsTo(Usuario::class, "id_usuario", "id");
