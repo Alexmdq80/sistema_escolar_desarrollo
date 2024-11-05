@@ -12,13 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-        // QUITAR ES_ADMIM Y ID_USUARIO_TIPO EN CASO DE QUE EXISTAN
-            if (Schema::hasColumn('users', 'es_admin')) {
-                $table->dropColumn('es_admin');
-            }
-            if (Schema::hasColumn('users', 'id_usuario_tipo')) {
-                $table->dropColumn('id_usuario_tipo');
-            }
+            //
+            Schema::rename('users', 'usuario');
         });
     }
 
@@ -27,8 +22,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('usuario', function (Blueprint $table) {
             //
+            Schema::rename('usuario', 'users');
+
         });
     }
 };

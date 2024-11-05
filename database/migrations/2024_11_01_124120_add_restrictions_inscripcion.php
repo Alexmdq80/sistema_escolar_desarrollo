@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('inscripcion', function (Blueprint $table) {
             // AGREGO RESTRICCIÓN PARA INSCRIPCION -> ID_USUARIO
-            $table->foreign('id_usuario')->references('id')->on('users');
+            $table->foreign('id_usuario')->references('id')->on('usuario');
         });
     }
 

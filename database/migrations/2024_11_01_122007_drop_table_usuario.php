@@ -21,7 +21,7 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void {
-
+// SI NO EXISTE, HABRÍA QUE CREARLA OTRA VEZ, PARA REVERTIR LOS CAMBIOS.
         if (!Schema::hasTable('usuario')) {
             Schema::create('usuario', function (Blueprint $table) {
                 $table->increments('id');

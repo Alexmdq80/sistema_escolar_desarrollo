@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Usuario;
+use App\Models\Usuario_Old;
 
 return new class extends Migration
 {
@@ -25,8 +25,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('inscripcion', function (Blueprint $table) {
-            //  REVIERTO LA RESTRICCIÓN
-            $usuario = new Usuario;
+            //  REVIERTO LA RESTRICCIÓN Y CREO UN USUARIO
+            $usuario = new Usuario_Old;
             $existe = $usuario::count();
             if (!$existe) {
                 $usuario->nombre_usuario = "alex";

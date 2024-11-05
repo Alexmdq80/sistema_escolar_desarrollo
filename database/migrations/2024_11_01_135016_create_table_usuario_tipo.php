@@ -23,7 +23,7 @@ return new class extends Migration
                     $table->timestamps();
                 });
             }
-//CREAR TIPOS
+//CREAR TIPOS - NO SÉ SI FUNCIONARÍA EN LA MISMA MIGRACIÓN...
             $usuario_tipo = new Usuario_Tipo();
             $existe = $usuario_tipo->count();
             if (!$existe) {
