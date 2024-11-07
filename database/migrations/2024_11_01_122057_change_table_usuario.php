@@ -20,7 +20,7 @@ return new class extends Migration
             // $table->string('nombre_usuario', 25)->unique();
             // nombre_usuario NO VA A SER NECESARIO, USARÉ EL EMAIL
             $table->string('apellido');
-            $table->string('clave')->comment('CONTRASEÑA PARA SISTEMA VBA.');
+            $table->string('clave')->after('password')->comment('CONTRASEÑA PARA SISTEMA VBA.');
             $table->string('password')->comment('CONTRASEÑA PARA SISTEMA WEB.')->change();
             $table->renameIndex('users_email_unique','usuario_email_unique');
         });
