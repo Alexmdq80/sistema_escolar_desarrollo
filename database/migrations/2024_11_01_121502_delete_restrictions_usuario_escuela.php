@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::table('usuario_escuela', function (Blueprint $table) {
             // ELIMINO LA RELACIÓN CON USUARIO
-            // $table->dropForeign('usuario_escuela_id_usuario_foreign');
+            $table->dropForeign('usuario_escuela_id_usuario_foreign');
         });
-    }
 
+    }
     /**
      * Reverse the migrations.
      */
@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('usuario_escuela', function (Blueprint $table) {
             // VUELVO A CREAR LA RESTRICCION
-            // $table->foreign('id_usuario')->references('id')->on('usuario');
+            $table->foreign('id_usuario')->references('id')->on('usuario');
         });
     }
 };
