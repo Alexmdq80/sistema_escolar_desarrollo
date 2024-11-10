@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::table('usuario_escuela', function (Blueprint $table) {
             // AGREGO RESTRICCIÓN PARA USUARIO_ESCUELA -> ID_USUARIO
-            $table->foreign('id_usuario')->references('id')->on('usuario');
+            // if (!$table->hasIndex('usuario_escuela_id_usuario_foreign')) {
+            if (!collect(DB::select("SHOW INDEXES FROM usuario_escuela"))->pluck('Key_name')->contains('usuario_escuela_id_usuario_foreign')) {
+                $table->foreign('id_usuario')->references('id')->on('usuario');
+            }
         });
     }
 
@@ -23,9 +26,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('usuario_escuela', function (Blueprint $table) {
-            //
-            $table->dropForeign('usuario_escuela_id_usuario_foreign');
-
+            if (collect(DB::select("SHOW INDEXES FROM usuario_escuela"))->pluck('Key_name')->contains('usuario_escuela_id_usuario_foreign')) {
+                $table->dropForeign('usuario_escuela_id_usuario_foreign');
+            }
         });
     }
 };
