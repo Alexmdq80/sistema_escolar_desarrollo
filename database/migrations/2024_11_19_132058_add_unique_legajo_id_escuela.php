@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('usuario', function (Blueprint $table) {
+        Schema::table('legajo', function (Blueprint $table) {
             //
-            if (Schema::hasColumn('usuario', 'es_admin')) {
-              $table->dropColumn ('es_admin');
-            }
+           $table->unique(['id_persona', 'id_escuela']);
         });
     }
 
@@ -24,9 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('usuario', function (Blueprint $table) {
+        Schema::table('legajo', function (Blueprint $table) {
             //
-            $table->boolean('es_admin');
+            $table->dropUnique('legajo_id_persona_id_escuela_unique');
         });
     }
 };

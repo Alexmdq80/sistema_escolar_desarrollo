@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('usuario', function (Blueprint $table) {
+        Schema::table('legajo', function (Blueprint $table) {
             //
-            if (Schema::hasColumn('usuario', 'es_admin')) {
-              $table->dropColumn ('es_admin');
-            }
+            $table->mediumInteger('id_escuela')->unsigned()->after('id_persona');
+            $table->foreign('id_escuela')->references('id')->on('escuela');
         });
     }
 
@@ -24,9 +23,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('usuario', function (Blueprint $table) {
+        Schema::table('legajo', function (Blueprint $table) {
             //
-            $table->boolean('es_admin');
+            $table->dropForeign('legajo_id_escuela_foreign');
+            $table->dropColumn ('id_escuela');
+
         });
     }
 };
