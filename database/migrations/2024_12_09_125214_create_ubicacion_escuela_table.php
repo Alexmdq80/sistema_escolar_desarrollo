@@ -24,35 +24,35 @@ return new class extends Migration
         //CREAR TABLA DE UBICACIÓN ESCUELA
         $ue = new Ubicacion_Escuela();
         $ue->id = 1;
-        $ue->nombre = 'Mismo distrito';
+        $ue->nombre = 'MISMO DISTRITO';
         $ue->orden = 10;
         $ue->vigente = true;
         $ue->save();
 
         $ue = new Ubicacion_Escuela();
         $ue->id = 2;
-        $ue->nombre = 'Otro distrito de la misma región educativa';
+        $ue->nombre = 'OTRO DISTRITO DE LA MISMA REGIÓN EDUCATIVA';
         $ue->orden = 20;
         $ue->vigente = true;
         $ue->save();
 
         $ue = new Ubicacion_Escuela();
         $ue->id = 3;
-        $ue->nombre = 'Otra región educativa de la pcia. de Buenos Aires';
+        $ue->nombre = 'OTRA REGIÓN EDUCATIVA DE LA PROVINCIA DE BUENOS AIRES';
         $ue->orden = 30;
         $ue->vigente = true;
         $ue->save();
 
         $ue = new Ubicacion_Escuela();
         $ue->id = 4;
-        $ue->nombre = 'Otra provincia o CABA.';
+        $ue->nombre = 'OTRA PROVINCIA O CABA';
         $ue->orden = 40;
         $ue->vigente = true;
         $ue->save();
 
         $ue = new Ubicacion_Escuela();
         $ue->id = 5;
-        $ue->nombre = 'Otro país';
+        $ue->nombre = 'OTRO PAÍS';
         $ue->orden = 50;
         $ue->vigente = true;
         $ue->save();

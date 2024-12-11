@@ -48,6 +48,8 @@ return new class extends Migration
             $table->foreign('id_adulto_vinculo_resp_2')->references('id')->on('adulto_vinculo');
             $table->unsignedTinyInteger('id_adulto_vinculo_rest')->nullable();
             $table->foreign('id_adulto_vinculo_rest')->references('id')->on('adulto_vinculo');
+            $table->unsignedTinyInteger('id_condicion_finalizacion')->nullable();
+            $table->foreign('id_condicion_finalizacion')->references('id')->on('condicion_finalizacion');
             $table->boolean('proyecto_inclusion_si')->nullable();
             $table->boolean('concurre_especial_si')->nullable();
             $table->boolean('asistente_externo_si')->nullable();

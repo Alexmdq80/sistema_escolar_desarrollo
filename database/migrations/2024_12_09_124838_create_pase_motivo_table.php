@@ -23,42 +23,42 @@ return new class extends Migration
         //CREAR TABLA DE PASE_MOTIVO
         $pm = new Pase_Motivo();
         $pm->id = 1;
-        $pm->nombre = 'Mudanza';
+        $pm->nombre = 'MUDANZA';
         $pm->orden = 10;
         $pm->vigente = true;
         $pm->save();
 
         $pm = new Pase_Motivo();
         $pm->id = 2;
-        $pm->nombre = 'Distancia a la escuela';
+        $pm->nombre = 'DISTANCIA A LA ESCUELA';
         $pm->orden = 20;
         $pm->vigente = true;
         $pm->save();
 
         $pm = new Pase_Motivo();
         $pm->id = 3;
-        $pm->nombre = 'Dificultades económicas';
+        $pm->nombre = 'DIFICULTADES ECONÓMICAS';
         $pm->orden = 30;
         $pm->vigente = true;
         $pm->save();
 
         $pm = new Pase_Motivo();
         $pm->id = 4;
-        $pm->nombre = 'Situación de salud del estudiante';
+        $pm->nombre = 'SITUACIÓN DE SALUD DEL ESTUDIANTE';
         $pm->orden = 40;
         $pm->vigente = true;
         $pm->save();
 
         $pm = new Pase_Motivo();
         $pm->id = 5;
-        $pm->nombre = 'Trabajo del responsable';
+        $pm->nombre = 'TRABAJO DEL RESPONSABLE';
         $pm->orden = 50;
         $pm->vigente = true;
         $pm->save();
 
         $pm = new Pase_Motivo();
         $pm->id = 6;
-        $pm->nombre = 'Otro';
+        $pm->nombre = 'OTRO';
         $pm->orden = 60;
         $pm->vigente = true;
         $pm->save();

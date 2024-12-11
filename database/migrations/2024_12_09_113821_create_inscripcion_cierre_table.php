@@ -25,36 +25,29 @@ return new class extends Migration
         //CREAR TABLA DE INSCRIPCION_CIERRE
         $ic = new Inscripcion_Cierre();
         $ic->id = 1;
-        $ic->nombre = 'Finalizado';
+        $ic->nombre = 'FINALIZADO';
         $ic->orden = 10;
         $ic->vigente = true;
         $ic->save();
 
         $ic = new Inscripcion_Cierre();
         $ic->id = 2;
-        $ic->nombre = 'Egresado';
+        $ic->nombre = 'BAJA CON PASE';
         $ic->orden = 20;
         $ic->vigente = true;
         $ic->save();
 
         $ic = new Inscripcion_Cierre();
         $ic->id = 3;
-        $ic->nombre = 'Baja con pase';
+        $ic->nombre = 'BAJA SIN PASE';
         $ic->orden = 30;
         $ic->vigente = true;
         $ic->save();
 
         $ic = new Inscripcion_Cierre();
         $ic->id = 4;
-        $ic->nombre = 'Baja sin pase';
+        $ic->nombre = 'ELIMINADO';
         $ic->orden = 40;
-        $ic->vigente = true;
-        $ic->save();
-
-        $ic = new Inscripcion_Cierre();
-        $ic->id = 5;
-        $ic->nombre = 'Eliminado';
-        $ic->orden = 50;
         $ic->vigente = true;
         $ic->save();
     }
