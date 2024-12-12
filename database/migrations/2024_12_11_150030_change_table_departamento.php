@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('departamento', function (Blueprint $table) {
-            $table->unsignedtinyInteger('id_region_numero')->nullable();
-            $table->foreign('id_region_numero')->references('id')->on('region_educativa');
+            $table->unsignedtinyInteger('region_numero')->index()->nullable();
             $table->unsignedsmallInteger('distrito_numero')->unique()->nullable();
         });
     }
@@ -24,7 +23,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('departamento', function (Blueprint $table) {
-            //
+            $table->dropIndex('departamento_region_numero_index');
+            $table->dropColumn('region_numero');
+            $table->dropUnique('departamento_distrito_numero_unique');
+            $table->dropColumn('distrito_numero');
         });
     }
 };
