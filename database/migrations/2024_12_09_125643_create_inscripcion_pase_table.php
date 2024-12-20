@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::create('inscripcion_pase', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedMediumInteger('id_escuela')->nullable();
+            $table->foreign('id_escuela')->references('id')->on('escuela');
+            $table->tinyInteger('id_region_educativa')->unsigned()->nullable();
+            $table->foreign('id_region_educativa')->references('id')->on('region_educativa');
             $table->smallInteger('id_departamento_escuela')->unsigned()->nullable();
             $table->foreign('id_departamento_escuela')->references('id')->on('departamento');
             $table->tinyInteger('id_provincia_escuela')->unsigned()->nullable();
             $table->foreign('id_provincia_escuela')->references('id')->on('provincia');
             $table->tinyInteger('id_pais_escuela')->unsigned();
             $table->foreign('id_pais_escuela')->references('id')->on('pais');
-            $table->foreign('id_escuela')->references('id')->on('escuela');
             $table->unsignedInteger('id_inscripcion_historial');
             $table->foreign('id_inscripcion_historial')->references('id')->on('inscripcion_historial');
             $table->unsignedTinyInteger('id_pase_motivo');
@@ -28,7 +30,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('id_ubicacion_escuela');
             $table->foreign('id_ubicacion_escuela')->references('id')->on('ubicacion_escuela');
             $table->string('otro_motivo', 255)->nullable();
-            $table->string('detalle', 255)->nullable();
+            $table->string('observaciones', 255)->nullable();
             $table->date('fecha')->nullable();
             $table->timestamps();
 
