@@ -50,6 +50,13 @@ return new class extends Migration
         $ic->orden = 40;
         $ic->vigente = true;
         $ic->save();
+
+        $ic = new Inscripcion_Cierre();
+        $ic->id = 5;
+        $ic->nombre = 'REUBICADO';
+        $ic->orden = 50;
+        $ic->vigente = true;
+        $ic->save();
     }
 
     /**

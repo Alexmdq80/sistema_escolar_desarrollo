@@ -9,4 +9,5 @@ class Inscripcion_Pase extends Model
 {
     protected $table = "inscripcion_pase";
     use HasFactory;
+    public $timestamps = false;
 }

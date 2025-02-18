@@ -12,9 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('inscripcion_baja', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_usuario')->comment('Usuario que generó el movimiento');
-            $table->foreign('id_usuario')->references('id')->on('usuario');
-            $table->date('fecha')->nullable();
+            /*$table->dropForeign('inscripcion_baja_id_usuario_foreign');
+            $table->dropColumn('id_usuario');*/
+            $table->dropColumn('created_at');
+            $table->dropColumn('updated_at');
+
         });
     }
 
@@ -24,9 +26,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('inscripcion_baja', function (Blueprint $table) {
-            $table->dropForeign('inscripcion_baja_id_usuario_foreign');
-            $table->dropColumn('id_usuario');
-            $table->dropColumn('fecha');
+            /*$table->unsignedBigInteger('id_usuario')->comment('Usuario que generó el movimiento');
+            $table->foreign('id_usuario')->references('id')->on('usuario');*/
+            $table->timestamps();
         });
     }
 };

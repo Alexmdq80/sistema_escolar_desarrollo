@@ -22,7 +22,11 @@ return new class extends Migration
             $table->dropColumn('responsable_2');
             $table->dropForeign('inscripcion_historial_restringida_foreign');
             $table->dropColumn('restringida');
-
+            $table->unsignedBigInteger('id_usuario_old')->comment('Usuario que generó la inscripción original.');
+            $table->foreign('id_usuario_old')->references('id')->on('usuario');
+            $table->timestamp('created_at_old');
+            $table->timestamp('updated_at_old');
+            $table->date('fecha_old')->nullable();
         });
     }
 
@@ -38,6 +42,11 @@ return new class extends Migration
             $table->foreign('responsable_2')->references('id')->on('estudiante_adulto_vinculo');
             $table->unsignedBigInteger('restringida')->nullable()->comment('ID de EAV. Adulto con restricción hacia el estudiante.');
             $table->foreign('restringida')->references('id')->on('estudiante_adulto_vinculo');
+            $table->dropForeign('inscripcion_historial_id_usuario_old_foreign');
+            $table->dropColumn('id_usuario_old');
+            $table->dropColumn('created_at_old');
+            $table->dropColumn('updated_at_old');
+            $table->dropColumn('fecha_old');
         });
     }
 };
