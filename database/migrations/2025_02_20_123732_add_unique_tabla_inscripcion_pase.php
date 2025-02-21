@@ -22,7 +22,13 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('inscripcion_pase', function (Blueprint $table) {
-            //
+        //  $table->unsignedInteger('id_inscripcion_historial')->index()->change();
         });
+
+        Schema::table('inscripcion_pase', function (Blueprint $table) {
+        //   $table->dropUnique('inscripcion_pase_id_inscripcion_historial_unique');
+        //    $table->renameIndex('inscripcion_pase_id_inscripcion_historial_index', 'inscripcion_pase_id_inscripcion_historial_foreign');
+          });
+
     }
 };
