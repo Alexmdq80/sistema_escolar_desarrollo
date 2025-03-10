@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('inscripcion_pase', function (Blueprint $table) {
-            $table->dropForeign('inscripcion_pase_id_inscripcion_historial_foreign');
+        Schema::table('inscripcion_historial', function (Blueprint $table) {
+            $table->string('codigo_abc', 10)->nullable()->change();
         });
-
     }
 
     /**
@@ -22,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('inscripcion_pase', function (Blueprint $table) {
-            $table->foreign('id_inscripcion_historial')->references('id')->on('inscripcion_historial');
+        Schema::table('inscripcion_historial', function (Blueprint $table) {
+            //
         });
     }
 };
