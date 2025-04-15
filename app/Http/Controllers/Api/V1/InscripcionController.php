@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Inscripcion;
 use App\Http\Resources\InscripcionResource;
+use Illuminate\Http\JsonResponse;
 
 class InscripcionController extends Controller
 {
@@ -23,15 +24,28 @@ class InscripcionController extends Controller
         //                 ->paginate();
 
         // $valor = $request->input('id_espacio_academico');
-        
+
         // $valor = $request->route('index');
         $inscripcion = Inscripcion::paginate();
         // $inscripcion = Inscripcion::where('id_espacio_academico', $valor)->get();
-     
+
         return InscripcionResource::collection($inscripcion);
     }
 
+    public function obtenerInscripcion(int $id): JsonResponse
+    {
+        $inscripcion = Inscripcion::with(['persona','persona_firma','persona_responsable_1',
+        'persona_responsable_2','persona_restringida','usuario','ciclo_lectivo','espacio_academico',
+        'espacio_academico.plan_estudio','espacio_academico.anio',
+        'escuela_procedencia','escuela_destino','nivel_procedencia','modalidad_procedencia',
+        'condicion'])->find($id);
 
+        if ($inscripcion) {
+            return response()->json($inscripcion);
+        } else {
+            return response()->json(['mensaje' => 'Inscripción no encontrada'], 404);
+        }
+    }
     // public function showByEspacio(Request $request)
 
     // public function showByEspacio(Request $request)
@@ -41,7 +55,7 @@ class InscripcionController extends Controller
     //     $id = 7;
     //     // $inscripcion = Inscripcion::latest()->take(1)->get();
     //     $inscripcion = Inscripcion::where('id_espacio_academico', $id)->get();
-     
+
     //     return InscripcionResource::collection($inscripcion);
     // }
     /**

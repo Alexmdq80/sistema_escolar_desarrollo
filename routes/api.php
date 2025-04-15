@@ -24,7 +24,7 @@ use App\Http\Controllers\Api\V1\InscripcionController;
 //     return $request->user();
 // });
 
-  
+
 
 // Route::get('inscripciones/show-by-espacio', [InscripcionController::class,'showByEspacio']);
 
@@ -32,16 +32,20 @@ use App\Http\Controllers\Api\V1\InscripcionController;
 // Route::apiResource('inscripciones/show-by-espacio', [InscripcionController::class,'showByEspacio']);
 
 
+
+Route::get('/inscripciones/{id}', [InscripcionController::class, 'obtenerInscripcion']);
+Route::post('auth/login', LoginController::class)->name('login');
+
 Route::middleware('auth:sanctum')->group(function () {
 
-    Route::apiResource('personas', PersonaController::class);
-    Route::apiResource('inscripciones', InscripcionController::class);
+   Route::apiResource('inscripciones', InscripcionController::class);
     // Route::apiResource('inscripciones/showByEspacio/{id}', [InscripcionController::class, 'showByEspacio']);
-     
+    Route::apiResource('personas', PersonaController::class);
+
     Route::get('perfil', [PerfilController::class, 'show']);
     Route::put('perfil', [PerfilController::class, 'update']);
     Route::post('auth/logout', LogoutController::class);
-  
+
     // Route::post('alquileres/inicio', [AlquilerController::class, 'inicio']);
     // Route::put('alquileres/finalizar/{alquiler}', [AlquilerController::class, 'finalizar']);
     // Route::get('alquileres', [AlquilerController::class, 'index']);
@@ -54,4 +58,4 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 Route::post('auth/registro', RegistroController::class)->name('registro');
-Route::post('auth/login', LoginController::class)->name('login');
+

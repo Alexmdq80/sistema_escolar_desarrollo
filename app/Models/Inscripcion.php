@@ -24,17 +24,17 @@ class Inscripcion extends Model
     public function persona_firma() {
         return $this->belongsTo(Estudiante_Adulto_Vinculo::class, "id_persona_firma", "id");
     }
-    public function persona_responable_1() {
-        return $this->belongsTo(Estudiante_Adulto_Vinculo::class, "id_responsable_1", "id");
+    public function persona_responsable_1() {
+        return $this->belongsTo(Estudiante_Adulto_Vinculo::class, "responsable_1", "id");
     }
-    public function persona_responable_2() {
-        return $this->belongsTo(Estudiante_Adulto_Vinculo::class, "id_responsable_2", "id");
+    public function persona_responsable_2() {
+        return $this->belongsTo(Estudiante_Adulto_Vinculo::class, "responsable_2", "id");
     }
     public function persona_restringida() {
-        return $this->belongsTo(Estudiante_Adulto_Vinculo::class, "id_restringida", "id");
+        return $this->belongsTo(Estudiante_Adulto_Vinculo::class, "restringida", "id");
     }
     public function usuario() {
-        return $this->belongsTo(Usuario::class, "id_usuario", "id");
+        return $this->belongsTo(User::class, "id_usuario", "id");
     }
     public function ciclo_lectivo() {
         return $this->belongsTo(Ciclo_Lectivo::class, "id_ciclo_lectivo", "id");

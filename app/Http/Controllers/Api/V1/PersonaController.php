@@ -22,7 +22,7 @@ class PersonaController extends Controller
         //                 ->paginate();
         // $personas = Persona::all()->take(500)->paginate();
         $personas = Persona::paginate();
-        
+
         return PersonaResource::collection($personas);
     }
 
@@ -39,7 +39,7 @@ class PersonaController extends Controller
      */
     public function show(Persona $persona)
     {
-        //
+
     }
 
     /**

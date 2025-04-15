@@ -19,15 +19,18 @@ class RegistroController extends Controller
     {
         // Lógica
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'nombre' => ['required', 'string', 'max:255'],
+            'apellido' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:usuario'],
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'clave' => '123456',
         ]);
 
         $device = substr($request->userAgent() ?? '', 0, 255);
