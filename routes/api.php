@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\Auth\RegistroController;
 use App\Http\Controllers\Api\V1\Auth\PerfilController;
 use App\Http\Controllers\Api\V1\PersonaController;
 use App\Http\Controllers\Api\V1\InscripcionController;
+// use Illuminate\Validation\ValidationException;
 /*
 
 |--------------------------------------------------------------------------
@@ -32,9 +33,16 @@ use App\Http\Controllers\Api\V1\InscripcionController;
 // Route::apiResource('inscripciones/show-by-espacio', [InscripcionController::class,'showByEspacio']);
 
 
+/* Route::post('/test-error', function () {
+    throw ValidationException::withMessages([
+        'test' => ['Este es un error de prueba.'],
+    ]);
+});*/
 
 Route::get('/inscripciones/{id}', [InscripcionController::class, 'obtenerInscripcion']);
 Route::post('auth/login', LoginController::class)->name('login');
+
+
 
 Route::middleware('auth:sanctum')->group(function () {
 
