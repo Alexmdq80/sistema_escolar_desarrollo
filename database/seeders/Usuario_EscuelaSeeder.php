@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Usuario_Escuela;
-use App\Models\Usuario;
+use App\Models\User;
 // use App\Models\Persona;
 
 use Illuminate\Database\Seeder;
@@ -21,7 +21,7 @@ class Usuario_EscuelaSeeder extends Seeder
         //                    ->where('id_documento_tipo', 1)
         //                    ->get();
 
-        $usuario = Usuario::where('nombre_usuario', "alex")
+        $usuario = User::where('nombre_usuario', "alex")
                            ->get();
 
         $existe_ue = $ue::count();

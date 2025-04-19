@@ -39,8 +39,6 @@ use App\Http\Controllers\Api\V1\InscripcionController;
     ]);
 });*/
 
-Route::get('/inscripciones/{id}', [InscripcionController::class, 'obtenerInscripcion']);
-Route::post('auth/login', LoginController::class)->name('login');
 
 
 
@@ -64,6 +62,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::apiResource('bicicletas', BicicletaController::class)->except(['index', 'show'])->middleware('es_admin');
 });
 
-
+Route::get('/usuarios/{email}', [PerfilController::class, 'obtenerUsuario']);
+Route::get('/inscripciones/{id}', [InscripcionController::class, 'obtenerInscripcion']);
+Route::post('auth/login', LoginController::class)->name('login');
 Route::post('auth/registro', RegistroController::class)->name('registro');
+
 

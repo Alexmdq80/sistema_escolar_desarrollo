@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 // use App\Models\Persona;
-use App\Models\Usuario;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class UsuarioSeeder extends Seeder
@@ -14,10 +14,10 @@ class UsuarioSeeder extends Seeder
     public function run(): void
     {
 
-        $usuario = new Usuario();
+        $usuario = new User();
 
        // $persona = new Persona();
- 
+
     //    $persona = new Persona();
 
         // $persona = Persona::where('documento_numero', 32126643)
@@ -25,10 +25,10 @@ class UsuarioSeeder extends Seeder
         //                   ->get();
 
         $existe = $usuario::count();
-                     
+
      //   if (!empty($persona[0])) {
-        if (!$existe) {  
-            // $nombre = explode(" ", $persona[0]->nombre);       
+        if (!$existe) {
+            // $nombre = explode(" ", $persona[0]->nombre);
             // $usuario->id_persona = $persona[0]->id;
             // $usuario->nombre = strtolower($nombre[0]);
             $usuario->nombre_usuario = "alex";

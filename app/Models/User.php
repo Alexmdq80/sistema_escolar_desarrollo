@@ -48,4 +48,15 @@ class User extends Authenticatable
        'email_verified_at' => 'datetime',
        'password' => 'hashed',
     ];
+
+    public function inscripiones(){
+        return $this->hasMany(Inscripcion::class,"id_usuario","id");
+    }
+    public function inscripionesHistorial(){
+        return $this->hasMany(Inscripcion_Historial::class,"id_usuario","id");
+    }
+    public function inscripionesHistorialInfo(){
+        return $this->hasMany(Inscripcion_Historial_Info::class,"id_usuario","id");
+    }
+
 }

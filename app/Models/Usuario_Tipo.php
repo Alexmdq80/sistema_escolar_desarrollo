@@ -11,10 +11,9 @@ class Usuario_Tipo extends Model
     protected $table = "usuario_tipo";
     protected $fillable = ["nombre","orden","vigente"];
 
-    // public function personas() {
-    //     return $this->hasMany(Persona::class, "id_sexo", "id" );
-    // }
-
+    public function usuarioEscuela(){
+        return $this->hasMany(Usuario_Escuela::class,"id_usuario_tipo","id");
+    }
 
 
 }

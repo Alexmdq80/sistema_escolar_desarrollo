@@ -32,20 +32,30 @@ class LoginController extends Controller
         }
 
         $ue = Usuario_Escuela::where('id_usuario', $user->id)
-                            ->where('id_escuela', $request->id_escuela)->get();
+                            ->where('id_escuela', $request->id_escuela)
+                            ->with('UsuarioTipo')
+                            ->first();
 
-        if ($ue->count() === 0) {
+        if (!$ue) {
             throw ValidationException::withMessages([
                 'usuario_escuela' => ['El usuario no tiene permisos para ese colegio.'],
             ]);
         }
-        return response()->json($user->id);
+
+        if (!$ue->verificado) {
+            throw ValidationException::withMessages([
+                'usuario_escuela' => ['El usuario no está verificado.'],
+            ]);
+        }
+
 
         $device    = substr($request->userAgent() ?? '', 0, 255);
         $expiresAt = $request->remember ? null : now()->addMinutes(60);
 
         return response()->json([
            'access_token' => $user->createToken($device, expiresAt: $expiresAt)->plainTextToken,
+           'usuario' => $user,
+           'usuario_escuela' => $ue
         ], Response::HTTP_CREATED);
 
      //   return response()->json($user);

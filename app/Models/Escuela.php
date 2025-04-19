@@ -13,8 +13,8 @@ class Escuela extends Model
 
     protected $fillable = ["cue_anexo","clave_provincial",
                            "nombre","numero","codigo_localidad",
-                           "domicilio","telefono","email","codigo_postal" 
-                        ];                        
+                           "domicilio","telefono","email","codigo_postal"
+                        ];
     public $timestamps = false;
 
     public function localidad_asentamiento() {
@@ -51,7 +51,7 @@ class Escuela extends Model
         return $this->belongsToMany(Otras_Ofertas::class, "escuela_otras_ofertas","id_escuela", "id_otras_ofertas");
     }
     public function usuarios() {
-        return $this->belongsToMany(Usuario::class, "usuario_escuela","id_escuela", "id_usuario");
+        return $this->belongsToMany(User::class, "usuario_escuela","id_escuela", "id_usuario");
     }
     public function propuestas_institucionales() {
         return $this->belongsToMany(Propuesta_Institucional::class,"escuela_PI","id_escuela","id_propuesta_institucional");

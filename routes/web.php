@@ -6,7 +6,7 @@ use App\Models\Sexo;
 use App\Models\Documento_Tipo;
 use App\Models\Escuela;
 use App\Models\Nivel;
-use App\Models\Usuario;
+use App\Models\User;
 use App\Models\Localidad_Censal;
 use App\Models\Calle;
 use App\Models\Adulto_Vinculo;
@@ -40,7 +40,7 @@ Route::get('/', function () {
 //     // DB::enableQueryLog();
 
 //     // $nivel = Nivel::find(1);
-    
+
 //     // $escuelas = $nivel->escuela;
 
 //     // dd(DB::getQueryLog());
@@ -54,7 +54,7 @@ Route::get('/', function () {
 //     //         $escuela->provincia,
 //     //         $escuela->pais,
 //     //         $escuela->continente,
-//     //         $escuela->ambito, 
+//     //         $escuela->ambito,
 //     //         $escuela->dependencia,
 //     //         $escuela->sector];
 //     // $persona = Persona::find(3);
@@ -84,7 +84,7 @@ Route::get('/', function () {
 //     // $inscripcion = Inscripcion::find(1);
 //     // return $inscripcion->escuela_destino;
 //     $r = Estudiante_Adulto_Vinculo::where('id_adulto_vinculo',9)->get();
-    
+
 //     return $r;
 // });
 

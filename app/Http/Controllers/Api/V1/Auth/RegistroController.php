@@ -18,6 +18,12 @@ class RegistroController extends Controller
     public function __invoke(Request $request)
     {
         // Lógica
+
+        if (User::where('email', $request->email)->exists()) {
+            return response()->json(['message' => 'El correo electrónico ya está registrado.'], Response::HTTP_CONFLICT);
+        }
+
+
         $request->validate([
             'nombre' => ['required', 'string', 'max:255'],
             'apellido' => ['required', 'string', 'max:255'],
@@ -33,10 +39,15 @@ class RegistroController extends Controller
             'clave' => '123456',
         ]);
 
-        $device = substr($request->userAgent() ?? '', 0, 255);
+        return response()->json([
+            'resultado' => 'usuario creado exitosamente',
+        ], Response::HTTP_CREATED);
+
+        /*    $device = substr($request->userAgent() ?? '', 0, 255);
 
         return response()->json([
             'access_token' => $user->createToken($device)->plainTextToken,
         ], Response::HTTP_CREATED);
+    */
     }
 }
