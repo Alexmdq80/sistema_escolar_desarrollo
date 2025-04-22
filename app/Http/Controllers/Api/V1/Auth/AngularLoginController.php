@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
 /**
  * @group Auth
  */
-class LoginController extends Controller
+class AngularLoginController extends Controller
 {
     public function __invoke(Request $request)
     {

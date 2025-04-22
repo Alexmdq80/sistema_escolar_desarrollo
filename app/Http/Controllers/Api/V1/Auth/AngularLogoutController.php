@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 /**
  * @group Auth
  */
-class LogoutController extends Controller
+class AngularLogoutController extends Controller
 {
     public function __invoke(Request $request)
     {

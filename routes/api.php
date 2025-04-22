@@ -2,12 +2,18 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\V1\Auth\LoginController;
-use App\Http\Controllers\Api\V1\Auth\LogoutController;
-use App\Http\Controllers\Api\V1\Auth\RegistroController;
-use App\Http\Controllers\Api\V1\Auth\PerfilController;
+use App\Http\Controllers\Api\V1\Auth\AngularLoginController;
+use App\Http\Controllers\Api\V1\Auth\AngularLogoutController;
+use App\Http\Controllers\Api\V1\Auth\AngularRegistroController;
+use App\Http\Controllers\Api\V1\Auth\AngularPerfilController;
+
 use App\Http\Controllers\Api\V1\PersonaController;
 use App\Http\Controllers\Api\V1\InscripcionController;
+
+use App\Http\Controllers\Api\V1\Auth_VBA\VbaLoginController;
+use App\Http\Controllers\Api\V1\Auth_VBA\VbaLogoutController;
+use App\Http\Controllers\Api\V1\Auth_VBA\VbaRegistroController;
+use App\Http\Controllers\Api\V1\Auth_VBA\VbaPerfilController;
 // use Illuminate\Validation\ValidationException;
 /*
 
@@ -40,19 +46,38 @@ use App\Http\Controllers\Api\V1\InscripcionController;
 });*/
 
 
-
-
 Route::middleware('auth:sanctum')->group(function () {
 
    Route::apiResource('inscripciones', InscripcionController::class);
-    // Route::apiResource('inscripciones/showByEspacio/{id}', [InscripcionController::class, 'showByEspacio']);
-    Route::apiResource('personas', PersonaController::class);
+   Route::apiResource('personas', PersonaController::class);
 
-    Route::get('perfil', [PerfilController::class, 'show']);
-    Route::put('perfil', [PerfilController::class, 'update']);
-    Route::post('auth/logout', LogoutController::class);
+   Route::group(['prefix' => 'auth'], function () {
+        Route::get('perfil', [AngularPerfilController::class, 'show']);
+        Route::put('perfil', [AngularPerfilController::class, 'update']);
+        Route::post('auth/logout', AngularLogoutController::class);
+   });
 
-    // Route::post('alquileres/inicio', [AlquilerController::class, 'inicio']);
+   Route::group(['prefix' => 'auth-VBA'], function () {
+        Route::put('vbaPerfil', [VbaPerfilController::class, 'update']);
+   });
+   Route::get('/usuarios/{email}', [VbaPerfilController::class, 'obtenerUsuario']);
+
+});
+
+Route::get('/inscripciones/{id}', [InscripcionController::class, 'obtenerInscripcion']);
+
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('auth/login', AngularLoginController::class)->name('login');
+    Route::post('auth/registro', AngularRegistroController::class)->name('registro');
+});
+
+Route::group(['prefix' => 'auth-VBA'], function () {
+    Route::post('vbaLogin', VbaLoginController::class)->name('vbaLogin');
+    Route::post('vbaRegistro', VbaRegistroController::class)->name('vbaRegistro');
+    Route::get('/check-user/{email}', [VbaPerfilController::class, 'checkUser']);
+});
+
+ // Route::post('alquileres/inicio', [AlquilerController::class, 'inicio']);
     // Route::put('alquileres/finalizar/{alquiler}', [AlquilerController::class, 'finalizar']);
     // Route::get('alquileres', [AlquilerController::class, 'index']);
 
@@ -60,11 +85,4 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // // Rutas que requieren el middleware "es_admin"
     // Route::apiResource('bicicletas', BicicletaController::class)->except(['index', 'show'])->middleware('es_admin');
-});
-
-Route::get('/usuarios/{email}', [PerfilController::class, 'obtenerUsuario']);
-Route::get('/inscripciones/{id}', [InscripcionController::class, 'obtenerInscripcion']);
-Route::post('auth/login', LoginController::class)->name('login');
-Route::post('auth/registro', RegistroController::class)->name('registro');
-
 

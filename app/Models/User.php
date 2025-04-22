@@ -58,5 +58,8 @@ class User extends Authenticatable
     public function inscripionesHistorialInfo(){
         return $this->hasMany(Inscripcion_Historial_Info::class,"id_usuario","id");
     }
+    public function usuarioEscuelas(){
+        return $this->hasMany(Usuario_Escuela::class,"id_usuario","id");
+    }
 
 }
