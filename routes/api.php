@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\V1\Auth\AngularPerfilController;
 
 use App\Http\Controllers\Api\V1\PersonaController;
 use App\Http\Controllers\Api\V1\InscripcionController;
+use App\Http\Controllers\Api\V1\InscripcionController_VBA;
+use App\Http\Controllers\Api\V1\HealthCheckController;
 
 use App\Http\Controllers\Api\V1\Auth_VBA\VbaLoginController;
 use App\Http\Controllers\Api\V1\Auth_VBA\VbaLogoutController;
@@ -45,26 +47,37 @@ use App\Http\Controllers\Api\V1\Auth_VBA\VbaPerfilController;
     ]);
 });*/
 
+Route::get('/health', [HealthCheckController::class, 'check']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
-   Route::apiResource('inscripciones', InscripcionController::class);
-   Route::apiResource('personas', PersonaController::class);
+   Route::group(['prefix' => 'vba'], function () {
+       Route::get('inscripciones/{id}', [InscripcionController_VBA::class, 'obtenerInscripcion']);
+   });
 
-   Route::group(['prefix' => 'auth'], function () {
+   Route::group(['prefix' => 'angular'], function () {
+       Route::apiResource('inscripciones', InscripcionController::class);
+       Route::apiResource('personas', PersonaController::class);
+   });
+
+
+   Route::group(['prefix' => 'auth-Angular'], function () {
         Route::get('perfil', [AngularPerfilController::class, 'show']);
         Route::put('perfil', [AngularPerfilController::class, 'update']);
-        Route::post('auth/logout', AngularLogoutController::class);
+        Route::post('logout', AngularLogoutController::class);
    });
 
    Route::group(['prefix' => 'auth-VBA'], function () {
         Route::put('vbaPerfil', [VbaPerfilController::class, 'update']);
+        Route::get('usuario_actual/{id_escuela}', [VbaPerfilController::class, 'obtenerUsuario']);
+        Route::post('logout', [VbaLogoutController::class, 'logout']);
    });
-   Route::get('/usuarios/{email}', [VbaPerfilController::class, 'obtenerUsuario']);
+
+
 
 });
 
-Route::get('/inscripciones/{id}', [InscripcionController::class, 'obtenerInscripcion']);
+
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('auth/login', AngularLoginController::class)->name('login');

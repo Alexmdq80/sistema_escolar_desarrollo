@@ -50,7 +50,11 @@ class VbaLoginController extends Controller
 
 
         $device    = substr($request->userAgent() ?? '', 0, 255);
-        $expiresAt = $request->remember ? null : now()->addMinutes(60);
+        $expiresAt = $request->remember ? null : now()->addMinutes(180);
+
+        // Eliminar todos los tokens existentes del usuario
+        // $user->tokens()->delete();
+        $user->tokens()->where('name', $device)->delete();
 
         return response()->json([
            'access_token' => $user->createToken($device, expiresAt: $expiresAt)->plainTextToken,
