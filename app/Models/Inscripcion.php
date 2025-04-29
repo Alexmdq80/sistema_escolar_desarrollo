@@ -49,7 +49,7 @@ class Inscripcion extends Model
         return $this->belongsTo(Escuela::class, "id_escuela_destino", "id");
     }
     public function nivel_procedencia() {
-        return $this->belongsTo(Escuela::class, "id_nivel_procedencia", "id");
+        return $this->belongsTo(Nivel::class, "id_nivel_procedencia", "id");
     }
     public function modalidad_procedencia() {
         return $this->belongsTo(Modalidad::class, "id_modalidad_procedencia", "id");
