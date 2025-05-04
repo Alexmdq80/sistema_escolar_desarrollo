@@ -5,8 +5,14 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Inscripcion;
+use App\Models\Inscripcion_Finalizado;
+use App\Models\Inscripcion_Historial_Info;
+use App\Models\Condicion;
+use App\Models\Anio;
+use App\Models\Espacio_Academico;
 use App\Http\Resources\InscripcionResource;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
 
 class InscripcionController_VBA extends Controller
 {
@@ -263,6 +269,170 @@ class InscripcionController_VBA extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+    public function obtenerCondiciones(Request $request) {
+        $anio = $request->anio;
+
+        if ($anio === 6) {
+            $condiciones = Condicion::where(function ($query) {
+                $query->where('nombre', 'EGRESADO/A')
+                    ->orWhere('nombre', 'FINALIZADO/A CON ÁREAS PENDIENTES');
+                    })
+                ->where('vigente', TRUE)
+                ->select('nombre', 'id')
+                ->get();
+        } else {
+            $condiciones = Condicion::where('nombre', '<>', 'EGRESADO/A')
+                                    ->where('nombre', '<>', 'FINALIZADO/A CON ÁREAS PENDIENTES')
+                                    ->where('vigente', TRUE)
+                                    ->select('nombre','id')
+                                    ->get();
+        }
+
+        if ($condiciones) {
+            return response()->json($condiciones);
+        } else {
+            return response()->json(['mensaje' => 'Año no encontrado'], 404);
+        }
+
+    }
+
+    public function obtenerEspaciosAcademicos(Request $request) {
+        $ciclo_lectivo = $request->ciclo_lectivo;
+        $id_condicion = $request->id_condicion;
+        $anio = $request->anio;
+
+       /* $condicion = Condicion::find($id_condicion); */
+
+        $condicion =Condicion::where('id', $id_condicion)->value('nombre');
+
+        $query = Espacio_Academico::with('ciclo_lectivo', 'anio', 'ciclo_plan_estudio','plan_estudio','turno_inicio');
+
+        if (str_contains(strtoupper($condicion), 'SIGUIENTE')) {
+           // \Log::info('anio: ' . $anio);
+            if (is_numeric($anio)) {
+                $anio++;
+            } else {
+                $anio = 4;
+            }
+        }
+
+        if ($ciclo_lectivo) {
+            $query->whereHas('ciclo_lectivo', function ($q) use ($ciclo_lectivo) {
+                $q->where('nombre', $ciclo_lectivo);
+            });
+        }
+
+        if ($anio) {
+            if (is_numeric($anio)) {
+                if ($anio < 4) {
+                    $query->whereHas('anio', function ($q) use ($anio) {
+                        $q->where('nombre', $anio)
+                          ->orWhere('nombre', 'A.F.');
+                    });
+                } else {
+                    $query->whereHas('anio', function ($q) use ($anio) {
+                        $q->where('nombre', $anio);
+                    });
+                }
+            } else {
+                $query->whereHas('ciclo_plan_estudio', function ($q) {
+                    $q->where('nombre', 'CICLO BÁSICO');
+                });
+             }
+        }
+
+        //$ea = $query->get();
+
+        $ea = $query->get()->map(function ($espacioAcademico) {
+            return [
+                'CICLO' => $espacioAcademico->ciclo_lectivo ? $espacioAcademico->ciclo_lectivo->nombre : null,
+                'AÑO' => $espacioAcademico->anio ? $espacioAcademico->anio->nombre : null,
+                'DIVISIÓN' => $espacioAcademico->division,
+                'PLAN DE ESTUDIO' => $espacioAcademico->plan_estudio ? $espacioAcademico->plan_estudio->nombre : null,
+                'TURNO' => $espacioAcademico->turno_inicio ? $espacioAcademico->turno_inicio->nombre : null,
+                'ID' => $espacioAcademico->id,
+                'ID_CICLO_LECTIVO' => $espacioAcademico->ciclo_lectivo->id
+            ];
+        });
+
+        if ($ea->isEmpty()) {
+            return response()->json(['mensaje' => 'No se encontraron resultados con los parámetros proporcionados'], 404);
+        } else {
+            return response()->json($ea);
+        }
+    }
+
+
+    public function corregirHistorialCondicion(Request $request) {
+        $id_inscripcion_historial = $request->id_inscripcion_historial;
+        $id_persona = $request->id_persona;
+        $id_espacio_academico = $request->id_espacio_academico;
+        $id_condicion = $request->id_condicion;
+
+    /*    \Log::info('id_inscripcion_historial: ' . $id_inscripcion_historial);
+        \Log::info('id_persona: ' . $id_persona);
+        \Log::info('id_espacio_academico: ' . $id_espacio_academico);
+        \Log::info('id_condicion: ' . $id_condicion); */
+
+        /* CHEQUEAR QUE EL MOVIMIENTO A CORREGIR SEA DEL TIPO "FINALIZADO" EN HISTORIAL_INFO*/
+
+        $ih_info = Inscripcion_Historial_Info::where('id_inscripcion_historial', $id_inscripcion_historial)
+                                             ->first();
+
+        if ($ih_info->id_inscripcion_cierre <> 1) { /* INSCRIPCIÓN POR FINALIZACIÓN */
+            throw ValidationException::withMessages([
+                'cierre' => ['Ese movimiento aplica sólo para inscripciones finalizadas.'],
+            ]);
+        }
+
+        /* TRAER EL REGISTRO INSCRIPCION_FINALIZADO, TIENE QUE EXISTIR SÍ O SÍ */
+        $i_finalizado = Inscripcion_Finalizado::with('condicion')
+                                              ->where('id_inscripcion_historial', $id_inscripcion_historial)
+                                              ->first();
+
+        if (!$i_finalizado) {
+            throw ValidationException::withMessages([
+                'inscripcion_finalizado' => ['Error inesperado, no se encontró la finalización de la inscripción.'],
+            ]);
+        }
+
+        $inscripcion = null;
+
+        if ($i_finalizado->condicion->nombre != 'EGRESADO/A' &&
+            $i_finalizado->condicion->nombre != 'FINALIZADO/A CON ÁREAS PENDIENTES') {
+        /* TRAER EL REGISTRO INSCRIPCION, SÓLO SI AÚN ESTÁ EN COLEGIO,
+        TENER EN CUENTA QUE SI LA CONDICIÓN ES CON PASE, PERO AÚN NO REALIZÓ EL PASE,
+        IGUALMENTE VA A PODER CORREGIR DICHA SITUACIÓN. */
+            $inscripcion = Inscripcion::where('id_persona', $id_persona)
+                                      ->first();
+
+            if (!$inscripcion) {
+                throw ValidationException::withMessages([
+                    'inscripcion' => ['Error inesperado, no se encontró la inscripción.'],
+                ]);
+            }
+            $inscripcion->id_espacio_academico = $id_espacio_academico;
+            $inscripcion->id_condicion = $id_condicion;
+                    // Obtener el ID del usuario desde el token de Sanctum
+            $inscripcion->id_usuario = $request->user()->id;
+            $inscripcion->save();
+            /* CORREGIR LA CONDICIÓN Y EL ESPACIO ACADÉMICO EN LA INSCRIPCIÓN ÚLTIMA, SI LA HUBIERA,
+               SI NO LA HAY ES PORQUE EGRESÓ O CAMBIÓ DE ESTABLECIMIENTO*/
+        }
+        /* CORREGIR LA CONDICIÓN EN EL INSCRIPCION_FINALIZADO  */
+        $i_finalizado->id_condicion = $id_condicion;
+        $i_finalizado->save();
+
+        return response()->json([
+            'mensaje' => 'La información se ha actualizado correctamente.',
+            'inscripcion' => $inscripcion, // Recargar para obtener la última versión de la relación
+            'inscripcion_finalizado' => $i_finalizado, // Recargar para obtener la última versión de la relación
+        ], 200);
+///    'inscripcion_finalizado' => $i_finalizado->load('condicion'), // Recargar para obtener la última versión de la relación
+
+    }
+
     public function store(Request $request)
     {
         //

@@ -14,6 +14,10 @@ class Condicion extends Model
 
     public function inscripciones(){
         return $this->hasMany(Inscripcion::class,"id_condicion","id");
-    } 
+    }
+
+    public function inscripcionesFinalizadas() {
+        return $this->hasMany(Inscripcion_Finalizado::class, 'id_condicion');
+    }
 
 }

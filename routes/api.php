@@ -48,12 +48,17 @@ use App\Http\Controllers\Api\V1\Auth_VBA\VbaPerfilController;
 });*/
 
 Route::get('/health', [HealthCheckController::class, 'check']);
+Route::group(['prefix' => 'tablas'], function () {
+    Route::get('condicion/{anio}', [InscripcionController_VBA::class, 'obtenerCondiciones']);
+    Route::get('espacio-academico/', [InscripcionController_VBA::class, 'obtenerEspaciosAcademicos']);
+});
 
 Route::middleware('auth:sanctum')->group(function () {
 
    Route::group(['prefix' => 'vba'], function () {
        Route::get('inscripciones/{id}', [InscripcionController_VBA::class, 'obtenerInscripcion']);
-   });
+       Route::put('inscripciones-historial/corregir-condicion', [InscripcionController_VBA::class, 'corregirHistorialCondicion']);
+    });
 
    Route::group(['prefix' => 'angular'], function () {
        Route::apiResource('inscripciones', InscripcionController::class);
@@ -72,12 +77,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('usuario_actual/{id_escuela}', [VbaPerfilController::class, 'obtenerUsuario']);
         Route::post('logout', [VbaLogoutController::class, 'logout']);
    });
-
-
-
 });
-
-
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('auth/login', AngularLoginController::class)->name('login');
