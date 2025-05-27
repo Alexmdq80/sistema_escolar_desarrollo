@@ -61,7 +61,7 @@ Route::group(['prefix' => 'tablas'], function () {
 
 // Opcional: Ruta para reenviar el correo (si la necesitas)
 Route::post('/email/resend-manual', function (Request $request) {
-    // ... tu lógica para reenviar el correo ...
+
 })->name('verification.resend.manual');
 
 Route::get('/email/verify/{id}/{token}', function (Request $request, $id, $token) {
