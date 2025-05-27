@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+
 
 class User extends Authenticatable
 {
@@ -25,7 +26,8 @@ class User extends Authenticatable
         'apellido',
         'email',
         'password',
-        'clave'
+        'clave',
+        'verification_token'
     ];
 
     /**
@@ -37,6 +39,7 @@ class User extends Authenticatable
         'password',
         'clave',
         'remember_token',
+
     ];
 
     /**
@@ -48,6 +51,14 @@ class User extends Authenticatable
        'email_verified_at' => 'datetime',
        'password' => 'hashed',
     ];
+
+    public function markEmailAsVerified()
+    {
+        $this->forceFill([
+            'email_verified_at' => now(),
+            'verification_token' => null, // Limpiar el token después de usarlo
+        ])->save();
+    }
 
     public function inscripiones(){
         return $this->hasMany(Inscripcion::class,"id_usuario","id");

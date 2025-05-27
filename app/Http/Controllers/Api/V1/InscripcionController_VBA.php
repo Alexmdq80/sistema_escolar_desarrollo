@@ -9,10 +9,13 @@ use App\Models\Inscripcion_Finalizado;
 use App\Models\Inscripcion_Historial_Info;
 use App\Models\Condicion;
 use App\Models\Anio;
+use App\Models\Legajo;
 use App\Models\Espacio_Academico;
 use App\Http\Resources\InscripcionResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class InscripcionController_VBA extends Controller
 {
@@ -269,6 +272,36 @@ class InscripcionController_VBA extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    public function obtenerLegajo(Request $request): JsonResponse {
+     //   \Log::info('request->method: ' . $request->method());
+        if ($request->isMethod('put')) {
+             return response()->json(['error' => 'Método no soportado'], 405);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'id_estudiante' => 'required|integer|exists:persona,id', // Asumiendo que tienes una tabla 'personas'
+            'id_escuela' => 'required|integer|exists:escuela,id',   // Asumiendo que tienes una tabla 'escuelas'
+        ]);
+
+        if ($validator->fails()) {
+            throw ValidationException::withMessages($validator->errors()->toArray());
+        }
+
+        $id_estudiante = $request->id_estudiante;
+        $id_escuela = $request->id_escuela;
+
+        $legajo = Legajo::where('id_persona', $id_estudiante)
+                        ->where('id_escuela', $id_escuela)
+                        ->first();
+
+        if ($legajo) {
+            return response()->json($legajo);
+        } else {
+            return response()->json(['mensaje' => 'Legajo no encontrado'], 404);
+        }
+
+    }
+
 
     public function obtenerCondiciones(Request $request) {
         $anio = $request->anio;

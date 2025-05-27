@@ -46,6 +46,8 @@ class InscripcionController extends Controller
             return response()->json(['mensaje' => 'Inscripción no encontrada'], 404);
         }
     }
+
+
     // public function showByEspacio(Request $request)
 
     // public function showByEspacio(Request $request)

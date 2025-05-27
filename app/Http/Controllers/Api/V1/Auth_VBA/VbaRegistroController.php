@@ -10,12 +10,20 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Str; // Para generar el token
+use Illuminate\Support\Facades\Mail; // Para enviar el mail
+use App\Mail\EmailVerificationMail; // Tu nueva Mailable
 
 /**
  * @group Auth_VBA
  */
 class VbaRegistroController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+
     public function __invoke(Request $request)
     {
         // Lógica
@@ -24,7 +32,7 @@ class VbaRegistroController extends Controller
             'apellido' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:usuario'],
             'password' => ['required', 'confirmed', Password::defaults()],
-            'id_escuela' => ['required', 'integer']
+            'id_escuela' => ['integer']
         ]);
 
         if (User::where('email', $request->email)->exists()) {
@@ -37,17 +45,25 @@ class VbaRegistroController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'clave' => '123456',
+            'verification_token' => Str::random(60), // Genera un token aleatorio
+            'email_verified_at' => null, // Asegurarse de que esté nulo al registrar
         ]);
 
-        $ue = Usuario_Escuela::create([
-            'id_escuela' => $request->id_escuela,
-            'id_usuario' => $user->id,
-            'verificado' => false,
-            'id_usuario_tipo' => 5
-        ]);
+        if ($request->id_escuela) {
+            $ue = Usuario_Escuela::create([
+                'id_escuela' => $request->id_escuela,
+                'id_usuario' => $user->id,
+                'verificado' => false,
+                'id_usuario_tipo' => 5
+            ]);
+        }
+
+      //  dd($user->verification_token);
+
+        Mail::to($user->email)->send(new EmailVerificationMail($user));
 
         return response()->json([
-            'resultado' => 'usuario creado exitosamente',
+            'resultado' => 'usuario creado exitosamente, verfica tu correo electrónico.',
         ], Response::HTTP_CREATED);
 
         /*    $device = substr($request->userAgent() ?? '', 0, 255);

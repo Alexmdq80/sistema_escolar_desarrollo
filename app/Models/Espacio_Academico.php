@@ -18,7 +18,7 @@ class Espacio_Academico extends Model
     }
 
     public function ciclo_plan_estudio() {
-        return $this->belongsTo(ciclo_plan_estudio::class, "id_ciclo_plan_estudio");
+        return $this->belongsTo(Ciclo_Plan_Estudio::class, "id_ciclo_plan_estudio");
     }
 
     public function anio() {

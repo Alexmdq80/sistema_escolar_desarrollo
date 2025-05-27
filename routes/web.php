@@ -14,7 +14,8 @@ use App\Models\Domicilio;
 use App\Models\Contacto;
 use App\Models\Inscripcion;
 use App\Models\Estudiante_Adulto_Vinculo;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
 /*
 
 |--------------------------------------------------------------------------
@@ -26,6 +27,10 @@ use App\Models\Estudiante_Adulto_Vinculo;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/send-test-email', function () {
+    Mail::to('alexmdq80@gmail.com')->send(new TestMail());
+    return '¡Correo de prueba enviado!';
+});
 
 Route::get('/', function () {
     return view('welcome');
