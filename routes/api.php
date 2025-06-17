@@ -17,6 +17,8 @@ use App\Http\Controllers\Api\V1\Auth_VBA\VbaLogoutController;
 use App\Http\Controllers\Api\V1\Auth_VBA\VbaRegistroController;
 use App\Http\Controllers\Api\V1\Auth_VBA\VbaPerfilController;
 
+use App\Http\Controllers\Api\V1\Auth\EmailVerificationController;
+
 use App\Models\User; // Asegúrate de importar tu modelo User
 use Illuminate\Support\Facades\URL; // Para la firma de URL
 
@@ -59,8 +61,17 @@ Route::group(['prefix' => 'tablas'], function () {
     Route::get('espacio-academico/', [InscripcionController_VBA::class, 'obtenerEspaciosAcademicos']);
 });
 
+Route::post('/refresh-token', [VbaLoginController::class, 'refreshToken']);
+
+  // Apunta al método 'verify' del nuevo controlador
+Route::get('/email/verify/{id}/{token}', [EmailVerificationController::class, 'verify'])->name('verification.verify');
+
+// Apunta al método 'resend' del nuevo controlador
+//Route::post('/email/resend-manual', [EmailVerificationController::class, 'resend'])->name('verification.resend.manual');
+
+
 // Opcional: Ruta para reenviar el correo (si la necesitas)
-Route::post('/email/resend-manual', function (Request $request) {
+/* Route::post('/email/resend-manual', function (Request $request) {
 
 })->name('verification.resend.manual');
 
@@ -102,9 +113,13 @@ Route::get('/email/verify/{id}/{token}', function (Request $request, $id, $token
     // 7. Responder al usuario
     return response()->json(['message' => '¡Felicidades! Tu correo electrónico ha sido verificado con éxito.'], 200);
 
-})->name('verification.verify');
+})->name('verification.verify'); */
 
 Route::middleware('auth:sanctum')->group(function () {
+
+   Route::post('/user/resend-verification', [EmailVerificationController::class, 'resendAuthenticated'])
+        ->name('verification.resend.authenticated');
+
    Route::group(['prefix' => 'estudiante'], function () {
        Route::get('legajo', [InscripcionController_VBA::class, 'obtenerLegajo']);
    });

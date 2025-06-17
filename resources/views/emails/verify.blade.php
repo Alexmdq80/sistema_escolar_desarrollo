@@ -12,5 +12,6 @@ Este enlace expirará en 60 minutos.
 Si no creaste una cuenta, puedes ignorar este correo.
 
 Gracias,<br>
-{{ config('app.name') }}
+Sistema de Gestión Escolar
+
 </x-mail::message>

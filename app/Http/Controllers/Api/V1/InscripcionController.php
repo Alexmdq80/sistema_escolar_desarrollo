@@ -43,7 +43,7 @@ class InscripcionController extends Controller
         if ($inscripcion) {
             return response()->json($inscripcion);
         } else {
-            return response()->json(['mensaje' => 'Inscripción no encontrada'], 404);
+            return response()->json(['message' => 'Inscripción no encontrada'], 404);
         }
     }
 

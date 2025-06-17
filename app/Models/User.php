@@ -72,5 +72,8 @@ class User extends Authenticatable
     public function usuarioEscuelas(){
         return $this->hasMany(Usuario_Escuela::class,"id_usuario","id");
     }
+    public function refreshTokens() {
+        return $this->hasMany(RefreshToken::class, 'id_usuario', 'id');
+    }
 
 }

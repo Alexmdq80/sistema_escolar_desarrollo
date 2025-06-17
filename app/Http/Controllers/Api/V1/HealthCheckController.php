@@ -12,7 +12,7 @@ class HealthCheckController extends Controller
      */
     public function check()
     {
-         //   sleep(5);
-        return response()->json(['status' => 'ok']);
+        //sleep(3);
+        return response()->json(['message' => 'ok']);
     }
 }

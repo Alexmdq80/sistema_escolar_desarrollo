@@ -28,7 +28,7 @@ class VbaLogoutController extends Controller
 
       /*  return response()->noContent();*/
 
-        return response()->json(['resultado' => 'logout del dispositivo exitoso'], 200);
+        return response()->json(['message' => 'logout del dispositivo exitoso'], 200);
 
     }
  /*   public function logout(Request $request)

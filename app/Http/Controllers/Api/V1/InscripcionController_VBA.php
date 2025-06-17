@@ -254,7 +254,7 @@ class InscripcionController_VBA extends Controller
         if ($inscripcion) {
             return response()->json($inscripcion);
         } else {
-            return response()->json(['mensaje' => 'Inscripción no encontrada'], 404);
+            return response()->json(['message' => 'Inscripción no encontrada'], 404);
         }
     }
     // public function showByEspacio(Request $request)
@@ -297,7 +297,7 @@ class InscripcionController_VBA extends Controller
         if ($legajo) {
             return response()->json($legajo);
         } else {
-            return response()->json(['mensaje' => 'Legajo no encontrado'], 404);
+            return response()->json(['message' => 'Legajo no encontrado'], 404);
         }
 
     }
@@ -325,7 +325,7 @@ class InscripcionController_VBA extends Controller
         if ($condiciones) {
             return response()->json($condiciones);
         } else {
-            return response()->json(['mensaje' => 'Año no encontrado'], 404);
+            return response()->json(['message' => 'Año no encontrado'], 404);
         }
 
     }
@@ -390,7 +390,7 @@ class InscripcionController_VBA extends Controller
         });
 
         if ($ea->isEmpty()) {
-            return response()->json(['mensaje' => 'No se encontraron resultados con los parámetros proporcionados'], 404);
+            return response()->json(['message' => 'No se encontraron resultados con los parámetros proporcionados'], 404);
         } else {
             return response()->json($ea);
         }
@@ -458,7 +458,7 @@ class InscripcionController_VBA extends Controller
         $i_finalizado->save();
 
         return response()->json([
-            'mensaje' => 'La información se ha actualizado correctamente.',
+            'message' => 'La información se ha actualizado correctamente.',
             'inscripcion' => $inscripcion, // Recargar para obtener la última versión de la relación
             'inscripcion_finalizado' => $i_finalizado, // Recargar para obtener la última versión de la relación
         ], 200);
