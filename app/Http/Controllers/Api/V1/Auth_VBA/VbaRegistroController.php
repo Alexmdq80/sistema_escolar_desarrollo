@@ -13,6 +13,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Str; // Para generar el token
 use Illuminate\Support\Facades\Mail; // Para enviar el mail
 use App\Mail\EmailVerificationMail; // Tu nueva Mailable
+use Illuminate\Support\Carbon; 
 
 /**
  * @group Auth_VBA
@@ -31,6 +32,7 @@ class VbaRegistroController extends Controller
             'nombre' => ['required', 'string', 'max:255'],
             'apellido' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:usuario'],
+            'email_confirmation' => ['required', 'string', 'email', 'same:email'],
             'password' => ['required', 'confirmed', Password::defaults()],
             'id_escuela' => ['integer']
         ]);
@@ -44,19 +46,20 @@ class VbaRegistroController extends Controller
             'apellido' => $request->apellido,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'clave' => '123456',
             'verification_token' => Str::random(60), // Genera un token aleatorio
             'email_verified_at' => null, // Asegurarse de que esté nulo al registrar
+            'email_set_at' => \Carbon\Carbon::now(), // Para la lógica de 24h que discutimos
+            'email_correction_attempts' => 0, // Para la lógica de intentos
         ]);
 
-        if ($request->id_escuela) {
+     /*   if ($request->id_escuela) {
             $ue = Usuario_Escuela::create([
                 'id_escuela' => $request->id_escuela,
                 'id_usuario' => $user->id,
                 'verificado' => false,
                 'id_usuario_tipo' => 5
             ]);
-        }
+        } */
 
       //  dd($user->verification_token);
 
