@@ -9,7 +9,8 @@ class Kernel extends ConsoleKernel
 {
      protected $commands = [
         // Aquí debes agregar la clase de tu comando
-        \App\Console\Commands\GenerateUserUuids::class,
+        \app\Console\Commands\GenerateUserUuids::class,
+        \app\Console\Commands\ClearSanctumTokens::class
     ];
     /**
      * Define the application's command schedule.

@@ -10,7 +10,9 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-
+use App\Mail\EmailVerificationMail; 
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str; 
 /**
  * @group Auth_VBA
  */
@@ -27,6 +29,7 @@ class VbaPerfilController extends Controller
             'nombre' => ['required', 'string'],
             'apellido' => ['required', 'string'],
             'email' => ['required', 'email', Rule::unique('usuario')->ignore(auth()->user())],
+            'email_confirmation' => ['required', 'string', 'email', 'same:email'],
             'current_password' => ['required', 'current_password'],
             'password'         => ['required', 'confirmed', Password::defaults()],
         ]);
@@ -41,17 +44,23 @@ class VbaPerfilController extends Controller
         }
 
         if ($user->email <> $validatedData['email']) {
-        /* habría que chequear si modificó el email, en ese caso
-        eliminar los timestamps de verificación del email */
+            /* eliminar los timestamps de verificación del email */        
             $user->email_verified_at = null;
+            $user->verification_token = Str::random(60) // Genera un token aleatorio
+
+            /* enviar email */  
+            Mail::to($user->email)->send(new EmailVerificationMail($user));
+
+        }
+
+        if (isset($validatedData['password'])) {
+            $user->password = Hash::make($validatedData['password']);
         }
 
         $user->email = $validatedData['email'];
         $user->nombre = $validatedData['nombre'];
         $user->apellido = $validatedData['apellido'];
-        if (isset($validatedData['password'])) {
-            $user->password = Hash::make($validatedData['password']);
-        }
+       
 
         $user->save();
 

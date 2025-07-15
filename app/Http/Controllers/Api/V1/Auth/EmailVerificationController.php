@@ -15,6 +15,9 @@ class EmailVerificationController extends Controller
     // Método para manejar la verificación del correo
     public function verify(Request $request, $id, $token)
     {
+        // --- AÑADE ESTA LÍNEA TEMPORALMENTE ---
+        \Log::info('Intentando verificar email. Request URL: ' . $request->fullUrl());
+        // --- FIN DE LA LÍNEA TEMPORAL ---
         // 1. Buscar al usuario por ID
         $user = User::find($id);
 
