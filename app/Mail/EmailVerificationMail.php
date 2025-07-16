@@ -31,7 +31,7 @@ class EmailVerificationMail extends Mailable
        if (empty($user->verification_token)) {
             // Esto no debería ocurrir si lo asignaste en RegisterController
             // Considera lanzar una excepción o loggear un error
-            \Log::error('User has no verification token when trying to send email!', ['user_id' => $user->id]);
+            // \Log::error('User has no verification token when trying to send email!', ['user_id' => $user->id]);
             // Si el token es null, esto causará el error.
             // Podrías generar uno aquí temporalmente para probar,
             // pero lo ideal es que venga del RegisterController.

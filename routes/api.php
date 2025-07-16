@@ -54,7 +54,7 @@ use Illuminate\Support\Facades\URL; // Para la firma de URL
     Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/user/resend-verification', [EmailVerificationController::class, 'resendAuthenticated'])
-            ->name('verification.resend.authenticated')
+            ->name('verification.resend.authenticated')   
             ->middleware('throttle:3,30');
 
         Route::group(['prefix' => 'estudiante'], function () {
@@ -79,6 +79,7 @@ use Illuminate\Support\Facades\URL; // Para la firma de URL
 
         Route::group(['prefix' => 'auth-VBA'], function () {
             Route::put('vbaPerfil', [VbaPerfilController::class, 'update']);
+            Route::put('vbaPerfilChangeEmail', [VbaPerfilController::class, 'changeEmail']);
             Route::get('usuario_actual/{id_escuela}', [VbaPerfilController::class, 'obtenerUsuario']);
             Route::post('logout', [VbaLogoutController::class, 'logout']);
         });

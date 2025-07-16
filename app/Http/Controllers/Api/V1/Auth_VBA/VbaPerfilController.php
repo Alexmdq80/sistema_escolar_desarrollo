@@ -11,8 +11,10 @@ use Illuminate\Validation\Rules\Password;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use App\Mail\EmailVerificationMail; 
+use App\Mail\EmailChangedNotificationMail; 
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str; 
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 /**
  * @group Auth_VBA
  */
@@ -28,7 +30,7 @@ class VbaPerfilController extends Controller
         $validatedData = $request->validate([
             'nombre' => ['required', 'string'],
             'apellido' => ['required', 'string'],
-            'email' => ['required', 'email', Rule::unique('usuario')->ignore(auth()->user())],
+            'email' => ['required', 'email', Rule::unique('usuario')->ignore(auth()->user()->id, 'id')],
             'email_confirmation' => ['required', 'string', 'email', 'same:email'],
             'current_password' => ['required', 'current_password'],
             'password'         => ['required', 'confirmed', Password::defaults()],
@@ -36,21 +38,24 @@ class VbaPerfilController extends Controller
 
         $user = $request->user(); // El usuario autenticado a través del token
 
-    // Verificar la contraseña actual
+        // Verificar la contraseña actual
         if (!Hash::check($validatedData['current_password'], $user->password)) {
             throw ValidationException::withMessages([
                 'current_password' => ['La contraseña actual es incorrecta.'],
             ]);
         }
+        $oldEmail = $user->email; // Guarda el correo electrónico antiguo antes de actualizarlo
 
-        if ($user->email <> $validatedData['email']) {
+        if ($user->email !== $validatedData['email']) {
             /* eliminar los timestamps de verificación del email */        
             $user->email_verified_at = null;
-            $user->verification_token = Str::random(60) // Genera un token aleatorio
+            $user->verification_token = Str::random(60); // Genera un token aleatorio
 
-            /* enviar email */  
-            Mail::to($user->email)->send(new EmailVerificationMail($user));
+            /* enviar email de verificación al nuevo correo */
+            Mail::to($validatedData['email'])->send(new EmailVerificationMail($user));
 
+            /* enviar email de notificación al correo antiguo */
+            Mail::to($oldEmail)->send(new EmailChangedNotificationMail($user)); // Envía al correo antiguo
         }
 
         if (isset($validatedData['password'])) {
@@ -68,6 +73,7 @@ class VbaPerfilController extends Controller
             'email' => $validatedData['email'],
             'nombre' => $validatedData['nombre'],
             'apellido' => $validatedData['apellido'],
+            'email_verified_at' => $user->email_verified_at
         ];
 
         return response()->json($responseData, Response::HTTP_ACCEPTED);
@@ -122,5 +128,40 @@ class VbaPerfilController extends Controller
         } else {
             return response()->json(['mensaje' => 'Usuario no encontrado'], 404);
         }
+    }
+
+    public function changeEmail(Request $request)
+    {
+        $validatedData = $request->validate([
+            'email' => ['required', 'email', Rule::unique('usuario')->ignore(auth()->user()->id, 'id')],
+            'email_confirmation' => ['required', 'string', 'email', 'same:email'],
+        ]);
+
+        $user = $request->user(); // El usuario autenticado a través del token
+
+        $oldEmail = $user->email; // Guarda el correo electrónico antiguo antes de actualizarlo
+
+        if ($user->email !== $validatedData['email']) {
+            /* eliminar los timestamps de verificación del email */        
+            $user->email_verified_at = null;
+            $user->verification_token = Str::random(60); // Genera un token aleatorio
+
+            /* enviar email de verificación al nuevo correo */
+            Mail::to($validatedData['email'])->send(new EmailVerificationMail($user));
+
+            /* enviar email de notificación al correo antiguo */
+            Mail::to($oldEmail)->send(new EmailChangedNotificationMail($user)); // Envía al correo antiguo
+        }
+
+        $user->email = $validatedData['email'];      
+
+        $user->save();
+
+        $responseData = [
+            'email' => $validatedData['email'],
+            'email_verified_at' => $user->email_verified_at
+        ];
+
+        return response()->json($responseData, Response::HTTP_ACCEPTED);
     }
 }
