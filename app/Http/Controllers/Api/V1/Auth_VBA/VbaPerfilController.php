@@ -30,8 +30,8 @@ class VbaPerfilController extends Controller
         $validatedData = $request->validate([
             'nombre' => ['required', 'string'],
             'apellido' => ['required', 'string'],
-            'email' => ['required', 'email', Rule::unique('usuario')->ignore(auth()->user()->id, 'id')],
-            'email_confirmation' => ['required', 'string', 'email', 'same:email'],
+           // 'email' => ['required', 'email', Rule::unique('usuario')->ignore(auth()->user()->id, 'id')],
+           // 'email_confirmation' => ['required', 'string', 'email', 'same:email'],
             'current_password' => ['required', 'current_password'],
             'password'         => ['required', 'confirmed', Password::defaults()],
         ]);
@@ -44,25 +44,25 @@ class VbaPerfilController extends Controller
                 'current_password' => ['La contraseña actual es incorrecta.'],
             ]);
         }
-        $oldEmail = $user->email; // Guarda el correo electrónico antiguo antes de actualizarlo
+      //  $oldEmail = $user->email; // Guarda el correo electrónico antiguo antes de actualizarlo
 
-        if ($user->email !== $validatedData['email']) {
-            /* eliminar los timestamps de verificación del email */        
+      /*  if ($user->email !== $validatedData['email']) {
+            / eliminar los timestamps de verificación del email        
             $user->email_verified_at = null;
             $user->verification_token = Str::random(60); // Genera un token aleatorio
 
-            /* enviar email de verificación al nuevo correo */
+            / enviar email de verificación al nuevo correo 
             Mail::to($validatedData['email'])->send(new EmailVerificationMail($user));
 
-            /* enviar email de notificación al correo antiguo */
+            / enviar email de notificación al correo antiguo 
             Mail::to($oldEmail)->send(new EmailChangedNotificationMail($user)); // Envía al correo antiguo
-        }
+        } */
 
         if (isset($validatedData['password'])) {
             $user->password = Hash::make($validatedData['password']);
         }
 
-        $user->email = $validatedData['email'];
+      //  $user->email = $validatedData['email'];
         $user->nombre = $validatedData['nombre'];
         $user->apellido = $validatedData['apellido'];
        
@@ -70,10 +70,10 @@ class VbaPerfilController extends Controller
         $user->save();
 
         $responseData = [
-            'email' => $validatedData['email'],
+        //    'email' => $validatedData['email'],
             'nombre' => $validatedData['nombre'],
             'apellido' => $validatedData['apellido'],
-            'email_verified_at' => $user->email_verified_at
+        //    'email_verified_at' => $user->email_verified_at
         ];
 
         return response()->json($responseData, Response::HTTP_ACCEPTED);
@@ -135,9 +135,16 @@ class VbaPerfilController extends Controller
         $validatedData = $request->validate([
             'email' => ['required', 'email', Rule::unique('usuario')->ignore(auth()->user()->id, 'id')],
             'email_confirmation' => ['required', 'string', 'email', 'same:email'],
+            'current_password' => ['required', 'current_password'],
         ]);
 
         $user = $request->user(); // El usuario autenticado a través del token
+        // Verificar la contraseña actual
+        if (!Hash::check($validatedData['current_password'], $user->password)) {
+            throw ValidationException::withMessages([
+                'current_password' => ['La contraseña actual es incorrecta.'],
+            ]);
+        }
 
         $oldEmail = $user->email; // Guarda el correo electrónico antiguo antes de actualizarlo
 

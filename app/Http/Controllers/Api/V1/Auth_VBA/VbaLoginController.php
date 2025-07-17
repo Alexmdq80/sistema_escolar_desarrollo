@@ -13,6 +13,9 @@ use App\Models\RefreshToken;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Illuminate\Auth\Events\Login; // <-- ¡Importa este evento!
+use Illuminate\Auth\Events\Failed; // <-- ¡Asegúrate de que esta línea esté!
+
 
 /**
  * @group Auth_VBA
@@ -34,16 +37,28 @@ class VbaLoginController extends Controller
                       ->with('UsuarioTipo')
                       ->first()*/
 
-        $user = User::where('email', $request->email)
-             ->with(['usuarioEscuelas.usuarioTipo']) // Carga anidada aquí
-             ->first();
+        $user = User::where('email', $request->email)->first();
+             //->with(['usuarioEscuelas.usuarioTipo']) // Carga anidada aquí
+             //->first();
+    
 
+        /*if (!$user || !Hash::check($request->password, $user->password)) {
+            event(new \Illuminate\Auth\Events\Failed(null, $request->only('email'), 'sanctum'));
+            throw ValidationException::withMessages([
+                'email' => ['El usuario y/o la contraseña no son válidas.'],
+            ]);
+        }*/
+
+           // Si el usuario no existe O la contraseña es incorrecta
         if (!$user || !Hash::check($request->password, $user->password)) {
+            // Disparar el evento Failed.
+            // Si $user es null, pasamos null. Si $user es un objeto, lo pasamos.
+            // El Listener LogFailedLoginAttempt ya está preparado para manejar 'null' o el objeto User.
+            event(new Failed($user, $request->only('email'), 'sanctum'));
             throw ValidationException::withMessages([
                 'email' => ['El usuario y/o la contraseña no son válidas.'],
             ]);
         }
-
         //$ue = Usuario_Escuela::where('id_usuario', $user->id)
         //                    ->where('id_escuela', $request->id_escuela)
         //                    ->with('UsuarioTipo')
@@ -90,6 +105,8 @@ class VbaLoginController extends Controller
             'device_id' => $device,
         ]);
 
+        event(new Login($user, false, 'sanctum'));
+        
         return response()->json([
            'access_token' => $user->createToken($device, expiresAt: $expiresAt)->plainTextToken,
            'refresh_token' => $refreshToken,
