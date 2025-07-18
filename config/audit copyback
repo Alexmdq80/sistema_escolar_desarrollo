@@ -13,8 +13,7 @@ return [
     |
     */
 
-    'implementation' => OwenIt\Auditing\Models\Audit::class, // Usamos el modelo base por ahora,
-                                                              // ya que los casts no eran el problema final.
+    'implementation' => OwenIt\Auditing\Models\Audit::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -50,24 +49,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Audit Event Mapping (GLOBAL)
+    | Audit Events
     |--------------------------------------------------------------------------
     |
-    | Here you may configure which events should use a specific audit driver.
-    | This section maps events (like Laravel's Auth events) to audit drivers.
-    | If an event is not mapped here, it will fall back to the default driver.
+    | The Eloquent events that trigger an Audit.
     |
     */
+
     'events' => [
-        // Eventos de Eloquent (para auditar cambios en modelos que usan HasAuditableTrait)
         'created',
         'updated',
         'deleted',
         'restored',
-        // Mapeo explícito de los eventos de autenticación a tu driver 'authentication'
-        \Illuminate\Auth\Events\Failed::class => 'authentication',
-        \Illuminate\Auth\Events\Login::class => 'authentication',
-        \Illuminate\Auth\Events\Logout::class => 'authentication', // Si auditas el logout
     ],
 
     /*
@@ -151,32 +144,49 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Audit Drivers (CONSOLIDATED AND CORRECTED)
+    | Audit Driver
     |--------------------------------------------------------------------------
     |
-    | Define your audit drivers here. The 'database' driver is the default,
-    | but you can specify others like 'authentication' for specific events.
+    | The default audit driver used to keep track of changes.
+    |
+    */
+
+    //'driver' => 'database',
+    'drivers' => [
+        'database' => [
+            'table'     => 'audits', // Esta es la tabla por defecto para las operaciones CRUD en modelos
+            'connection' => null,
+        ],
+    'authentication' => [
+        'table'     => 'authentication_audits',
+        'model'     => App\Models\AuthenticationAudit::class, // <-- ¡Cambia a tu modelo!
+        'enabled'   => true,
+        'strict'    => false, // Puedes probar con true/false. Por ahora, déjalo así.
+        'events'    => null,
+        'limits'    => true,
+        'excludes'  => [],
+        'resolves'  => [],
+        'relations' => [
+            'enabled' => false,
+            'audit'   => [],
+        ],
+        // Puedes añadir más drivers si planeas separar otras auditorías en el futuro
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audit Driver Configurations
+    |--------------------------------------------------------------------------
+    |
+    | Available audit drivers and respective configurations.
     |
     */
 
     'drivers' => [
         'database' => [
-            'table'      => 'audits', // Tabla por defecto para auditorías generales de modelos
+            'table' => 'audits',
             'connection' => null,
-        ],
-        'authentication' => [
-            'table'      => 'authentication_audits', // Tu tabla personalizada para autenticación
-            'model'      => OwenIt\Auditing\Models\Audit::class, // Usa el modelo base de auditing
-            'enabled'    => true,
-            'strict'     => false,
-            'events'     => null, // Esto es 'null' aquí porque los eventos se mapean globalmente arriba
-            'limits'     => true,
-            'excludes'   => [],
-            'resolves'   => [],
-            'relations'  => [
-                'enabled' => false,
-                'audit'   => [],
-            ],
         ],
     ],
 

@@ -35,14 +35,24 @@ return [
     | Supported: "session"
     |
     */
+    /*
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+    ],*/
 
     'guards' => [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
-     //       'provider' => 'usuario',
         ],
-    ],
+        'sanctum' => [ // <-- ¡Añade esto!
+            'driver' => 'sanctum',
+            'provider' => 'users', // Este debe coincidir con el nombre de tu proveedor de usuarios
+        ],
+]   ,
 
     /*
     |--------------------------------------------------------------------------

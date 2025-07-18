@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Login; // <-- ¡Importa este evento!
 use Illuminate\Auth\Events\Failed; // <-- ¡Asegúrate de que esta línea esté!
+// use OwenIt\Auditing\Models\Audit;
 
 
 /**
@@ -41,6 +42,16 @@ class VbaLoginController extends Controller
              //->with(['usuarioEscuelas.usuarioTipo']) // Carga anidada aquí
              //->first();
     
+        // --- AÑADE ESTAS LÍNEAS TEMPORALMENTE ---
+        Log::info('DEBUG LOGIN: Tipo de $user: ' . gettype($user));
+        if ($user) {
+            Log::info('DEBUG LOGIN: User ID: ' . $user->id ?? 'N/A');
+            Log::info('DEBUG LOGIN: User Email: ' . $user->email ?? 'N/A');
+        } else {
+            Log::info('DEBUG LOGIN: $user es null.');
+        }
+        Log::info('DEBUG LOGIN: Credenciales intentadas: ' . json_encode($request->only('email')));
+        // 
 
         /*if (!$user || !Hash::check($request->password, $user->password)) {
             event(new \Illuminate\Auth\Events\Failed(null, $request->only('email'), 'sanctum'));
