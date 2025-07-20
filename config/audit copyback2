@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'implementation' => OwenIt\Auditing\Models\Audit::class,
+    'implementation' => OwenIt\Auditing\Models\Audit::class, // Usamos el modelo base por ahora,
+                                                              // ya que los casts no eran el problema final.
 
     /*
     |--------------------------------------------------------------------------
@@ -49,18 +50,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Audit Events
+    | Audit Event Mapping (GLOBAL)
     |--------------------------------------------------------------------------
     |
-    | The Eloquent events that trigger an Audit.
+    | Here you may configure which events should use a specific audit driver.
+    | This section maps events (like Laravel's Auth events) to audit drivers.
+    | If an event is not mapped here, it will fall back to the default driver.
     |
     */
-
     'events' => [
+        // Eventos de Eloquent (para auditar cambios en modelos que usan HasAuditableTrait)
         'created',
         'updated',
         'deleted',
         'restored',
+        // Mapeo explícito de los eventos de autenticación a tu driver 'authentication'
+        \Illuminate\Auth\Events\Failed::class => 'authentication',
+        \Illuminate\Auth\Events\Login::class => 'authentication',
+        \Illuminate\Auth\Events\Logout::class => 'authentication', // Si auditas el logout
     ],
 
     /*
@@ -144,49 +151,33 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Audit Driver
+    | Audit Drivers (CONSOLIDATED AND CORRECTED)
     |--------------------------------------------------------------------------
     |
-    | The default audit driver used to keep track of changes.
-    |
-    */
-
-    //'driver' => 'database',
-    'drivers' => [
-        'database' => [
-            'table'     => 'audits', // Esta es la tabla por defecto para las operaciones CRUD en modelos
-            'connection' => null,
-        ],
-    'authentication' => [
-        'table'     => 'authentication_audits',
-        'model'     => App\Models\AuthenticationAudit::class, // <-- ¡Cambia a tu modelo!
-        'enabled'   => true,
-        'strict'    => false, // Puedes probar con true/false. Por ahora, déjalo así.
-        'events'    => null,
-        'limits'    => true,
-        'excludes'  => [],
-        'resolves'  => [],
-        'relations' => [
-            'enabled' => false,
-            'audit'   => [],
-        ],
-        // Puedes añadir más drivers si planeas separar otras auditorías en el futuro
-        ],
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Audit Driver Configurations
-    |--------------------------------------------------------------------------
-    |
-    | Available audit drivers and respective configurations.
+    | Define your audit drivers here. The 'database' driver is the default,
+    | but you can specify others like 'authentication' for specific events.
     |
     */
 
     'drivers' => [
         'database' => [
-            'table' => 'audits',
+            'table'      => 'audits', // Tabla por defecto para auditorías generales de modelos
             'connection' => null,
+        ],
+        'authentication' => [
+            'table'      => 'authentication_audits', // Tu tabla personalizada para autenticación
+        //    'model'      => OwenIt\Auditing\Models\Audit::class, // Usa el modelo base de auditing
+            'model'      => App\Models\AuthenticationAudit::class, // <-- ¡Asegúrate que apunte a tu modelo!
+            'enabled'    => true,
+            'strict'     => false,
+            'events'     => null, // Esto es 'null' aquí porque los eventos se mapean globalmente arriba
+            'limits'     => true,
+            'excludes'   => [],
+            'resolves'   => [],
+            'relations'  => [
+                'enabled' => false,
+                'audit'   => [],
+            ],
         ],
     ],
 

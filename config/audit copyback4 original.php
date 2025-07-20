@@ -61,11 +61,6 @@ return [
         'updated',
         'deleted',
         'restored',
-        'OwenIt\Auditing\Events\AuditCustom', // Si usas eventos custom de Auditing
-
-        // \Illuminate\Auth\Events\Failed::class => 'authentication', // <-- Mapeo a tu driver
-       //\Illuminate\Auth\Events\Login::class => 'authentication',   // <-- Mapeo a tu driver
-       // \Illuminate\Auth\Events\Logout::class => 'authentication', // <-- Mapeo a tu driver
     ],
 
     /*
@@ -157,28 +152,23 @@ return [
     */
 
     'driver' => 'database',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audit Driver Configurations
+    |--------------------------------------------------------------------------
+    |
+    | Available audit drivers and respective configurations.
+    |
+    */
+
     'drivers' => [
         'database' => [
-            'table'      => 'audits', // Esta es la tabla por defecto para las operaciones CRUD en modelos
+            'table' => 'audits',
             'connection' => null,
         ],
-        'authentication' => [
-            'table'      => 'authentication_audits',
-            'model'      => App\Models\AuthenticationAudit::class, // <-- ¡Asegúrate de que este modelo exista!
-            'enabled'    => true,
-            'strict'     => false,
-            'events'     => null, // Esto es correcto si mapeas los eventos en la sección 'events' global
-            'limits'     => true,
-            'excludes'   => [],
-            'resolves'   => [],
-            'relations'  => [
-                'enabled' => false,
-                'audit'   => [],
-            ],
-        ],
-
-        // No hay nada más aquí, el array 'drivers' termina correctamente
     ],
+
     /*
     |--------------------------------------------------------------------------
     | Audit Queue Configurations
@@ -205,10 +195,4 @@ return [
     */
 
     'console' => false,
-
-    'sensitive_fields' => [
-        'password',
-        'remember_token',
-        // Otros campos que consideres sensibles y no deban auditarse nunca
-    ],
 ];

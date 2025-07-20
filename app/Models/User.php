@@ -10,13 +10,15 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-use OwenIt\Auditing\Contracts\Auditable; // Importa la interfaz
-use OwenIt\Auditing\Auditable as AuditableTrait; // Importa el trait
+//use OwenIt\Auditing\Contracts\Auditable; // Importa la interfaz
+//use OwenIt\Auditing\Auditable as AuditableTrait; // Importa el trait
 
 
-class User extends Authenticatable implements Auditable
+//class User extends Authenticatable implements Auditable
+class User extends Authenticatable
+
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, AuditableTrait;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes; //, AuditableTrait;
 
     /**
      * The attributes that are mass assignable.

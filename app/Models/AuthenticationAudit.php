@@ -21,6 +21,6 @@ class AuthenticationAudit extends BaseAudit
     protected $casts = [
         'old_values' => 'array', // Castear a array
         'new_values' => 'array', // Castear a array
-        'tags' => 'array',       // Si 'tags' también es un array, cásatalo
+        //'tags' => 'array',       // Si 'tags' también es un array, cásatalo
     ];
 }

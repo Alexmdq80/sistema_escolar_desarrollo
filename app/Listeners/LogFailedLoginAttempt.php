@@ -2,9 +2,15 @@
 
 namespace App\Listeners;
 
+use App\Models\AuthenticationAudit;
+
 use Illuminate\Auth\Events\Failed;
-use OwenIt\Auditing\Models\Audit;
+// ELIMINAR ESTA LÍNEA: use OwenIt\Auditing\Models\Audit; este funciona, pero en tabla audits
+use OwenIt\Auditing\Facades\Auditor; // <--- Esta es la Facade correcta a usar
+use App\Models\User; // Asegúrate de que este 'use' esté presente si usas el modelo User
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Config; // <-- ¡Asegúrate de que esté aquí si vas a usar Config!
+
 
 class LogFailedLoginAttempt
 {
@@ -16,18 +22,26 @@ class LogFailedLoginAttempt
      */
     public function handle(Failed $event)
     {
-        // Depuración: Añade un dd() para ver qué contiene $event->user
-        // dd($event->user, gettype($event->user), $event->credentials);
-        $user_id = null;
-        $auditable_type = null; // Inicializar a null
+        // --- DIAGNÓSTICO TEMPORAL ---
+        /* $auditDrivers = Config::get('audit.drivers');
+            $authEventsMapping = Config::get('audit.events');
 
-        // Si el usuario existe (contraseña incorrecta)
+            Log::info('DEBUG: Configuración de drivers de auditoría:', $auditDrivers);
+            Log::info('DEBUG: Mapeo de eventos de autenticación:', $authEventsMapping);
+            // --- FIN DIAGNÓSTICO TEMPORAL ---*/
+        Log::info('DEBUG AUTH AUDIT: Intentando crear auditoría.');
+        Log::info('DEBUG AUTH AUDIT: Modelo de auditoría usado: ' . AuthenticationAudit::class);
+        Log::info('DEBUG AUTH AUDIT: Tabla definida en modelo: ' . (new AuthenticationAudit())->getTable());
+        //dd((new AuthenticationAudit())->getTable()); // Prueba esto si quieres detener la ejecución y ver la tabla
+
+
+        $user_id = null;
+        $auditable_type = null;
+
         if ($event->user instanceof User) {
             $user_id = $event->user->id;
             $auditable_type = get_class($event->user);
         } else {
-            // Este log se activará si $event->user no es un objeto User
-            // lo cual es esperable si el email no existe.
             Log::warning('Failed login event: User object not an instance of App\Models\User or is null.', [
                 'user_data_received' => $event->user,
                 'type_received' => gettype($event->user),
@@ -36,33 +50,41 @@ class LogFailedLoginAttempt
             ]);
         }
 
-        // --- ¡CAMBIO CRÍTICO AQUÍ! ---
         $emailAttempt = 'N/A';
         if (is_array($event->credentials) && isset($event->credentials['email'])) {
             $emailAttempt = $event->credentials['email'];
         } elseif (is_string($event->credentials)) {
-            // Si credentials es un string (como 'sanctum'), puedes registrarlo así
             $emailAttempt = 'Guard: ' . $event->credentials;
         }
-        // -----------------------------
 
         // Prepara los datos para la auditoría
         $auditData = [
-            'auditable_type' => $auditable_type, // Será null si el usuario no fue encontrado
-            'auditable_id' => $user_id,         // Será null si el usuario no fue encontrado
+            'auditable_type' => $auditable_type,
+            'auditable_id' => $user_id,
             'event' => 'failed_login',
-            'user_id' => $user_id,              // Será null si el usuario no fue encontrado
+            'user_id' => $user_id,
             'url' => request()->fullUrl(),
             'ip_address' => request()->ip(),
             'user_agent' => request()->header('User-Agent'),
-            'old_values' => json_encode(['email_attempt' => $emailAttempt]),
-            'new_values' => json_encode([]), 
-            'tags' => implode(',', ['authentication', 'failed_attempt']), // <-- ¡CORREGIDO A STRING!
-            'audit_driver' => 'authentication',
+            'old_values' => ['email_attempt' => $emailAttempt],
+            'new_values' => [],
+            'tags' => implode(',', ['authentication', 'failed_attempt']),
+            // ELIMINAR ESTA LÍNEA (ES REDUNDANTE): 'audit_driver' => 'authentication',
+          //  'audit_driver' => 'authentication', //volvemos a probar con esto
+
         ];
 
         //dd($auditData); // Puedes poner un dd() aquí para ver los datos finales antes de crear.
 
-        Audit::create($auditData);
+        // ¡ESTA ES LA LÍNEA CLAVE Y CORRECTA!
+        //Auditor::driver('authentication')->create($auditData);
+        //AuthenticationAudit::create($auditData);
+       // Auditor::create($auditData);
+        Auditor::driver('authentication')->create($auditData);
+
+        // Si quieres usar el modelo directamente, puedes hacerlo así:
+        // AuthenticationAudit::create($auditData); // Esto también funciona si el modelo está bien configurado
+        // Auditor::driver('authentication')->create($auditData); // Esta es la forma correcta de usar Auditor con tu driver personalizado
+
     }
 }

@@ -1,0 +1,155 @@
+<?php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audit Enabled
+    |--------------------------------------------------------------------------
+    |
+    | Set to false to disable Auditing.
+    |
+    */
+
+    'enabled' => env('AUDITING_ENABLED', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audit Implementation
+    |--------------------------------------------------------------------------
+    |
+    | Define which Audit model implementation should be used.
+    |
+    */
+
+    'implementation' => OwenIt\Auditing\Models\Audit::class,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audit Drivers
+    |--------------------------------------------------------------------------
+    |
+    | Define your audit drivers.
+    |
+    */
+
+    'drivers' => [
+        'database' => [
+            'table'      => 'audits', // La tabla por defecto
+            'connection' => null,     // Usa la conexión por defecto
+        ],
+        'authentication' => [ // <-- ¡Este es tu driver personalizado!
+            'table'      => 'authentication_audits', // La tabla de auditoría para autenticación
+            'model'      => App\Models\AuthenticationAudit::class, // Tu modelo de auditoría para autenticación
+            'enabled'    => true,
+            'strict'     => false,
+            'events'     => null, // Los eventos para este driver se definirán globalmente en 'events'
+            'limits'     => true,
+            'excludes'   => [],
+            'resolves'   => [],
+            'relations'  => [
+                'enabled' => false,
+                'audit'   => [],
+            ],
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audit Events
+    |--------------------------------------------------------------------------
+    |
+    | Define the events to audit by model or globally.
+    |
+    */
+
+    'events' => [
+        'created',
+        'updated',
+        'deleted',
+        'restored',
+        'OwenIt\Auditing\Events\AuditCustom', // Esto es si alguna vez usas el evento custom del paquete
+        \Illuminate\Auth\Events\Failed::class => 'authentication', // <-- Mapeo a tu driver
+        \Illuminate\Auth\Events\Login::class => 'authentication',   // <-- Mapeo a tu driver
+        \Illuminate\Auth\Events\Logout::class => 'authentication', // <-- Mapeo a tu driver
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audit Resolvers
+    |--------------------------------------------------------------------------
+    |
+    | Define the resolvers to be used in the audit.
+    |
+    */
+
+    'resolvers' => [
+        'url'        => OwenIt\Auditing\Resolvers\UrlResolver::class,
+        'ip_address' => OwenIt\Auditing\Resolvers\IpAddressResolver::class,
+        'user_agent' => OwenIt\Auditing\Resolvers\UserAgentResolver::class,
+        'user_id'    => OwenIt\Auditing\Resolvers\UserIdResolver::class,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audit User
+    |--------------------------------------------------------------------------
+    |
+    | Define the user to be used in the audit.
+    |
+    */
+
+    'user' => [
+        'morph_prefix' => 'auditable', // Esto es para modelos que usan auditable_type/id
+        'guards'       => [], // Si usas guardias específicos
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audit Threshold
+    |--------------------------------------------------------------------------
+    |
+    | Defines the number of audits to store for a given model.
+    |
+    */
+
+    'threshold' => 0,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audit Queue
+    |--------------------------------------------------------------------------
+    |
+    | Defines the queue to be used when auditing asynchronously.
+    |
+    */
+
+    'queue' => [
+        'connection' => null,
+        'queue'      => null,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audit Transformer
+    |--------------------------------------------------------------------------
+    |
+    | Defines the transformer to be used in the audit.
+    |
+    */
+
+    'transformer' => null, // Puedes dejar esto en null
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audit Ignore
+    |--------------------------------------------------------------------------
+    |
+    | Define which models or columns should be ignored when auditing.
+    |
+    */
+
+    'ignore' => [
+        // App\Models\User::class => ['password', 'remember_token'],
+    ],
+];

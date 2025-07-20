@@ -22,6 +22,12 @@ use App\Http\Controllers\Api\V1\Auth\EmailVerificationController;
 use App\Models\User; // Asegúrate de importar tu modelo User
 use Illuminate\Support\Facades\URL; // Para la firma de URL
 
+
+Route::get('/debug-audit-config', function () {
+    $auditConfig = Config::get('audit');
+    dd($auditConfig);
+});
+
 // use Illuminate\Validation\ValidationException;
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +60,7 @@ use Illuminate\Support\Facades\URL; // Para la firma de URL
     Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/user/resend-verification', [EmailVerificationController::class, 'resendAuthenticated'])
-            ->name('verification.resend.authenticated')   
+            ->name('verification.resend.authenticated')
             ->middleware('throttle:3,30');
 
         Route::group(['prefix' => 'estudiante'], function () {
