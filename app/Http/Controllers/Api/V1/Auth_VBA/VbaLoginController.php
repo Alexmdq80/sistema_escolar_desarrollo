@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Auth_VBA;
 
+use App\Models\AuthenticationAudit;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Usuario_Escuela;
@@ -41,7 +42,7 @@ class VbaLoginController extends Controller
         $user = User::where('email', $request->email)->first();
              //->with(['usuarioEscuelas.usuarioTipo']) // Carga anidada aquí
              //->first();
-    
+
         // --- AÑADE ESTAS LÍNEAS TEMPORALMENTE ---
         Log::info('DEBUG LOGIN: Tipo de $user: ' . gettype($user));
         if ($user) {
@@ -51,7 +52,7 @@ class VbaLoginController extends Controller
             Log::info('DEBUG LOGIN: $user es null.');
         }
         Log::info('DEBUG LOGIN: Credenciales intentadas: ' . json_encode($request->only('email')));
-        // 
+        //
 
         /*if (!$user || !Hash::check($request->password, $user->password)) {
             event(new \Illuminate\Auth\Events\Failed(null, $request->only('email'), 'sanctum'));
@@ -65,7 +66,19 @@ class VbaLoginController extends Controller
             // Disparar el evento Failed.
             // Si $user es null, pasamos null. Si $user es un objeto, lo pasamos.
             // El Listener LogFailedLoginAttempt ya está preparado para manejar 'null' o el objeto User.
-            event(new Failed($user, $request->only('email'), 'sanctum'));
+            // event(new Failed($user, $request->only('email'), 'sanctum'));
+
+            AuthenticationAudit::create([
+                'user_type' => $user ? get_class($user) : null,
+                'user_id' => $user ? $user->id : null,
+                'event' => 'failed_login',
+                'url' => request()->fullUrl(),
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+                'new_values' => ['email_attempted' => $request->email],
+                // ... otros campos relevantes para un fallo
+            ]);
+
             throw ValidationException::withMessages([
                 'email' => ['El usuario y/o la contraseña no son válidas.'],
             ]);
@@ -117,7 +130,7 @@ class VbaLoginController extends Controller
         ]);
 
         event(new Login($user, false, 'sanctum'));
-        
+
         return response()->json([
            'access_token' => $user->createToken($device, expiresAt: $expiresAt)->plainTextToken,
            'refresh_token' => $refreshToken,

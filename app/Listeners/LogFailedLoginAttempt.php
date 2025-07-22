@@ -6,8 +6,8 @@ use App\Models\AuthenticationAudit;
 
 use Illuminate\Auth\Events\Failed;
 // ELIMINAR ESTA LÍNEA: use OwenIt\Auditing\Models\Audit; este funciona, pero en tabla audits
-use OwenIt\Auditing\Facades\Auditor; // <--- Esta es la Facade correcta a usar
-use App\Models\User; // Asegúrate de que este 'use' esté presente si usas el modelo User
+//use OwenIt\Auditing\Facades\Auditor; // <--- Esta es la Facade correcta a usar
+//use App\Models\User; // Asegúrate de que este 'use' esté presente si usas el modelo User
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Config; // <-- ¡Asegúrate de que esté aquí si vas a usar Config!
 
@@ -69,22 +69,22 @@ class LogFailedLoginAttempt
             'old_values' => ['email_attempt' => $emailAttempt],
             'new_values' => [],
             'tags' => implode(',', ['authentication', 'failed_attempt']),
-            // ELIMINAR ESTA LÍNEA (ES REDUNDANTE): 'audit_driver' => 'authentication',
-          //  'audit_driver' => 'authentication', //volvemos a probar con esto
+            'audit_driver' => 'authentication', //volvemos a probar con esto
 
         ];
 
         //dd($auditData); // Puedes poner un dd() aquí para ver los datos finales antes de crear.
 
         // ¡ESTA ES LA LÍNEA CLAVE Y CORRECTA!
-        //Auditor::driver('authentication')->create($auditData);
-        //AuthenticationAudit::create($auditData);
-       // Auditor::create($auditData);
-        Auditor::driver('authentication')->create($auditData);
+        //Auditor::driver('database')->create($auditData);
+
+        AuthenticationAudit::create($auditData); //funciona, pero no guarda en la tabla authentication_audits
+        //Auditor::create($auditData);
+        //Auditor::driver('authentication')->create($auditData); // si pongo esto, no funciona
 
         // Si quieres usar el modelo directamente, puedes hacerlo así:
-        // AuthenticationAudit::create($auditData); // Esto también funciona si el modelo está bien configurado
-        // Auditor::driver('authentication')->create($auditData); // Esta es la forma correcta de usar Auditor con tu driver personalizado
-
+       // AuthenticationAudit::create($auditData); // Esto también funciona si el modelo está bien configurado
+        //Auditor::driver('authentication')->create($auditData); // Esta es la forma correcta de usar Auditor con tu driver personalizado
+        //AuthenticationAudit::create($auditData); // Usando el modelo directamente
     }
 }

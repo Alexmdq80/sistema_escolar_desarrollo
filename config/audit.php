@@ -62,10 +62,9 @@ return [
         'deleted',
         'restored',
         'OwenIt\Auditing\Events\AuditCustom', // Si usas eventos custom de Auditing
-
-        // \Illuminate\Auth\Events\Failed::class => 'authentication', // <-- Mapeo a tu driver
-       //\Illuminate\Auth\Events\Login::class => 'authentication',   // <-- Mapeo a tu driver
-       // \Illuminate\Auth\Events\Logout::class => 'authentication', // <-- Mapeo a tu driver
+        //\Illuminate\Auth\Events\Failed::class => 'authentication',
+        //\Illuminate\Auth\Events\Login::class => 'authentication',
+        //\Illuminate\Auth\Events\Logout::class => 'authentication', // Si también disparas Logout
     ],
 
     /*
@@ -159,11 +158,23 @@ return [
     'driver' => 'database',
     'drivers' => [
         'database' => [
-            'table'      => 'audits', // Esta es la tabla por defecto para las operaciones CRUD en modelos
+            'table' => 'audits',
             'connection' => null,
+            'model' => OwenIt\Auditing\Models\Audit::class, // <-- Asegúrate de que este modelo exista
+            'enabled' => true,
+            'strict' => false,
+            'events' => null, // Esto es correcto si mapeas los eventos en la sección 'events' global
+            'limits' => true,
+            'excludes' => [],
+            'resolves' => [],
+            'relations' => [
+                'enabled' => false,
+                'audit' => [],
+            ],
         ],
-        'authentication' => [
+        /*'authentication' => [
             'table'      => 'authentication_audits',
+            'connection' => null, // Puedes especificar una conexión si es necesario
             'model'      => App\Models\AuthenticationAudit::class, // <-- ¡Asegúrate de que este modelo exista!
             'enabled'    => true,
             'strict'     => false,
@@ -175,10 +186,10 @@ return [
                 'enabled' => false,
                 'audit'   => [],
             ],
-        ],
+        ]*/
 
-        // No hay nada más aquí, el array 'drivers' termina correctamente
     ],
+
     /*
     |--------------------------------------------------------------------------
     | Audit Queue Configurations

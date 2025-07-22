@@ -9,22 +9,21 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use OwenIt\Auditing\Auditable; // Importa el trait
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract; // Importa el contrato (necesario)
 
-//use OwenIt\Auditing\Contracts\Auditable; // Importa la interfaz
-//use OwenIt\Auditing\Auditable as AuditableTrait; // Importa el trait
-
-
-//class User extends Authenticatable implements Auditable
-class User extends Authenticatable
+class User extends Authenticatable implements AuditableContract
+//class User extends Authenticatable
 
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes; //, AuditableTrait;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, Auditable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+   // protected $auditDriver = 'authentication';
 
     protected $table = "usuario";
 

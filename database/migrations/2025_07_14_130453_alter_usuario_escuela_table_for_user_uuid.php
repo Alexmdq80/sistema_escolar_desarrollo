@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::table('usuario_escuela', function (Blueprint $table) {
            // 1. Eliminar la clave foránea existente
-            $table->dropForeign('usuario_escuela_id_usuario_foreign');
+           // $table->dropForeign('usuario_escuela_id_usuario_foreign');
         });
         Schema::table('usuario_escuela', function (Blueprint $table) {
             // 2. Cambiar el tipo de la columna a UUID (y hacerla nullable temporalmente si hay datos nulos)

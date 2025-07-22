@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use Illuminate\Auth\Events\Login;
-use Illuminate\Auth\Events\Logout;
-use Illuminate\Auth\Events\Failed; // <-- ¡Importa este evento también!
-use App\Listeners\LogSuccessfulLogin;
-use App\Listeners\LogSuccessfulLogout;
-use App\Listeners\LogFailedLoginAttempt; // <-- ¡Importa este Listener!
+//use Illuminate\Auth\Events\Login;
+//use Illuminate\Auth\Events\Logout;
+//use Illuminate\Auth\Events\Failed; // <-- ¡Importa este evento también!
+//use App\Listeners\LogSuccessfulLogin;
+//use App\Listeners\LogSuccessfulLogout;
+//use App\Listeners\LogFailedLoginAttempt; // <-- ¡Importa este Listener!
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -32,7 +32,7 @@ class EventServiceProvider extends ServiceProvider
             // Si el modelo User es Auditable, su creación ya se auditará automáticamente
             // en la tabla 'audits' por el paquete Auditing.
         ],
-        Login::class => [
+        /*Login::class => [
             LogSuccessfulLogin::class,
         ],
         Logout::class => [
@@ -40,7 +40,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         Failed::class => [ // Evento para intentos de login fallidos
             LogFailedLoginAttempt::class,
-        ],
+        ],*/
     ];
 
 
