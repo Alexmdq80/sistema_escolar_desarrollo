@@ -160,34 +160,7 @@ return [
         'database' => [
             'table' => 'audits',
             'connection' => null,
-            'model' => OwenIt\Auditing\Models\Audit::class, // <-- Asegúrate de que este modelo exista
-            'enabled' => true,
-            'strict' => false,
-            'events' => null, // Esto es correcto si mapeas los eventos en la sección 'events' global
-            'limits' => true,
-            'excludes' => [],
-            'resolves' => [],
-            'relations' => [
-                'enabled' => false,
-                'audit' => [],
-            ],
         ],
-        /*'authentication' => [
-            'table'      => 'authentication_audits',
-            'connection' => null, // Puedes especificar una conexión si es necesario
-            'model'      => App\Models\AuthenticationAudit::class, // <-- ¡Asegúrate de que este modelo exista!
-            'enabled'    => true,
-            'strict'     => false,
-            'events'     => null, // Esto es correcto si mapeas los eventos en la sección 'events' global
-            'limits'     => true,
-            'excludes'   => [],
-            'resolves'   => [],
-            'relations'  => [
-                'enabled' => false,
-                'audit'   => [],
-            ],
-        ]*/
-
     ],
 
     /*

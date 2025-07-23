@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Artisan; // Importa la fachada Artisan
 
 return new class extends Migration
 {
@@ -14,12 +15,13 @@ return new class extends Migration
     {
         Schema::table('usuario_escuela', function (Blueprint $table) {
            // 1. Eliminar la clave foránea existente
-           // $table->dropForeign('usuario_escuela_id_usuario_foreign');
+            $table->dropForeign('usuario_escuela_id_usuario_foreign');
         });
         Schema::table('usuario_escuela', function (Blueprint $table) {
             // 2. Cambiar el tipo de la columna a UUID (y hacerla nullable temporalmente si hay datos nulos)
             $table->uuid('id_usuario')->change(); // Asegúrate de que sea nullable o no, según tu lógica
         });
+        Artisan::call('usuario:generate-uuids');
         // 3. Actualizar los user_id existentes con los nuevos UUIDs
         // Esto es CRÍTICO si tienes datos existentes
         DB::statement('

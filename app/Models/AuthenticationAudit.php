@@ -1,13 +1,9 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Model;
 
-use OwenIt\Auditing\Models\Audit as BaseAudit; // Importa el modelo base de auditoría
-//use OwenIt\Auditing\Auditable; // Importa el trait
-//use OwenIt\Auditing\Contracts\Auditable as AuditableContract; // Importa el contrato (necesario)
-
-//class AuthenticationAudit extends BaseAudit implements AuditableContract
-class AuthenticationAudit extends BaseAudit
+class AuthenticationAudit extends Model
 {
     /**
      * The table associated with the model.
@@ -15,10 +11,6 @@ class AuthenticationAudit extends BaseAudit
      * @var string
      *
      */
-//    use Auditable;
-
-   // protected $auditDriver = 'authentication';
-
     protected $table = 'authentication_audits'; // ¡Asegúrate que sea el nombre correcto de tu tabla!
 
     /**
@@ -26,9 +18,25 @@ class AuthenticationAudit extends BaseAudit
      *
      * @var array
      */
+
+    protected $fillable = [
+        'auditable_type',
+        'auditable_id',
+        'event',
+        'user_id',
+        'attempted_email',
+        'url',
+        'ip_address',
+        'user_agent',
+        'tags',
+        'details',
+        'audit_driver',
+    ];
+
     protected $casts = [
         'old_values' => 'array', // Castear a array
         'new_values' => 'array', // Castear a array
-        //'tags' => 'array',       // Si 'tags' también es un array, cásatalo
+        'tags' => 'array',       // Si 'tags' también es un array, cásatalo
+        'details' => 'array'
     ];
 }
