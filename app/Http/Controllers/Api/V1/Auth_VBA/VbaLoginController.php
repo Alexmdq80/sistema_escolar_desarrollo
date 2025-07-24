@@ -5,14 +5,13 @@ namespace App\Http\Controllers\Api\V1\Auth_VBA;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Models\RefreshToken;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
-use Illuminate\Auth\Events\Login; 
+use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Failed;
 
 /**
@@ -29,31 +28,15 @@ class VbaLoginController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if ($user instanceof User) {
-            log::info('User found for login attempt.', ['user_id' => $user->id, 'email' => $user->email]);
-        } else {
-            log::warning('User not found for login attempt.', ['email' => $request->email]);
-        }
-           // Si el usuario no existe O la contraseña es incorrecta
         if (!$user || !Hash::check($request->password, $user->password)) {
             // Disparar el evento Failed.
-            // Si $user es null, pasamos null. Si $user es un objeto, lo pasamos.
             // El Listener LogFailedLoginAttempt ya está preparado para manejar 'null' o el objeto User
-            
-            if ($user) {
-                event(new Failed($user, $request->only('email'), 'sanctum'));
-            } else {
-                // Si el usuario no existe, pasamos null
-                event(new Failed(null, $request->only('email'), 'sanctum'));
-            }
-
-            //event(new Failed($user, $request->only('email'), 'sanctum'));
-
+            event(new Failed('sanctum',  $user, $request->only('email')));
             throw ValidationException::withMessages([
                 'email' => ['El usuario y/o la contraseña no son válidas.'],
             ]);
         }
- 
+
         $device    = substr($request->userAgent() ?? '', 0, 255);
         // corregir acá, puse 1 para probar, cambiar a 240
         $expiresAt = $request->remember ? null : now()->addMinutes(240);
@@ -68,7 +51,7 @@ class VbaLoginController extends Controller
 
         $refreshToken = Str::random(80); // Generar un string aleatorio para el refresh token
         $refreshTokenExpiresAt = now()->addMinutes(config('sanctum.refresh_expiration', 20160));
- 
+
         RefreshToken::create([
             'id_usuario' => $user->id,
             'token' => hash('sha256', $refreshToken),
