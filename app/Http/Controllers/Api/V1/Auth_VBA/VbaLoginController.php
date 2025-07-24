@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1\Auth_VBA;
 
-use App\Models\AuthenticationAudit;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-//use App\Models\Usuario_Escuela;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -14,8 +12,8 @@ use App\Models\RefreshToken;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
-use Illuminate\Auth\Events\Login; // <-- ¡Importa este evento!
-use Illuminate\Auth\Events\Failed; // <-- ¡Asegúrate de que esta línea esté!
+use Illuminate\Auth\Events\Login; 
+use Illuminate\Auth\Events\Failed;
 
 /**
  * @group Auth_VBA
@@ -24,76 +22,43 @@ class VbaLoginController extends Controller
 {
     public function __invoke(Request $request)
     {
-     //   Log::info('User-Agent recibido en login: ' . $request->header('User-Agent'));
-
         $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
-         //   'id_escuela' => ['required']
         ]);
 
-      /*  $user = User::where('email', $request->email)
-                      ->with('usuarioEscuelas')
-                      ->with('UsuarioTipo')
-                      ->first()*/
-
         $user = User::where('email', $request->email)->first();
-             //->with(['usuarioEscuelas.usuarioTipo']) // Carga anidada aquí
-             //->first();
 
-        // --- AÑADE ESTAS LÍNEAS TEMPORALMENTE ---
-        Log::info('DEBUG LOGIN: Tipo de $user: ' . gettype($user));
-        if ($user) {
-            Log::info('DEBUG LOGIN: User ID: ' . $user->id ?? 'N/A');
-            Log::info('DEBUG LOGIN: User Email: ' . $user->email ?? 'N/A');
+        if ($user instanceof User) {
+            log::info('User found for login attempt.', ['user_id' => $user->id, 'email' => $user->email]);
         } else {
-            Log::info('DEBUG LOGIN: $user es null.');
+            log::warning('User not found for login attempt.', ['email' => $request->email]);
         }
-        Log::info('DEBUG LOGIN: Credenciales intentadas: ' . json_encode($request->only('email')));
-        //
-
-        /*if (!$user || !Hash::check($request->password, $user->password)) {
-            event(new \Illuminate\Auth\Events\Failed(null, $request->only('email'), 'sanctum'));
-            throw ValidationException::withMessages([
-                'email' => ['El usuario y/o la contraseña no son válidas.'],
-            ]);
-        }*/
-
            // Si el usuario no existe O la contraseña es incorrecta
         if (!$user || !Hash::check($request->password, $user->password)) {
             // Disparar el evento Failed.
             // Si $user es null, pasamos null. Si $user es un objeto, lo pasamos.
             // El Listener LogFailedLoginAttempt ya está preparado para manejar 'null' o el objeto User
-            event(new Failed($user, $request->only('email'), 'sanctum'));
+            
+            if ($user) {
+                event(new Failed($user, $request->only('email'), 'sanctum'));
+            } else {
+                // Si el usuario no existe, pasamos null
+                event(new Failed(null, $request->only('email'), 'sanctum'));
+            }
+
+            //event(new Failed($user, $request->only('email'), 'sanctum'));
 
             throw ValidationException::withMessages([
                 'email' => ['El usuario y/o la contraseña no son válidas.'],
             ]);
         }
-        //$ue = Usuario_Escuela::where('id_usuario', $user->id)
-        //                    ->where('id_escuela', $request->id_escuela)
-        //                    ->with('UsuarioTipo')
-        //                    ->first();
-
-        //if (!$ue) {
-        //    throw ValidationException::withMessages([
-        //        'usuario_escuela' => ['El usuario no tiene permisos para ese colegio.'],
-        //    ]);
-        //}
-
-        //if (!$ue->verificado) {
-        //    throw ValidationException::withMessages([
-        //        'usuario_escuela' => ['El usuario no está verificado.'],
-        //    ]);
-        //}
-
-
+ 
         $device    = substr($request->userAgent() ?? '', 0, 255);
         // corregir acá, puse 1 para probar, cambiar a 240
         $expiresAt = $request->remember ? null : now()->addMinutes(240);
 
         // Eliminar todos los tokens existentes del usuario
-        // $user->tokens()->delete();
         $user->tokens()->where('name', $device)->delete();
 
         // Eliminar cualquier refresh token existente para este usuario y dispositivo
@@ -103,15 +68,10 @@ class VbaLoginController extends Controller
 
         $refreshToken = Str::random(80); // Generar un string aleatorio para el refresh token
         $refreshTokenExpiresAt = now()->addMinutes(config('sanctum.refresh_expiration', 20160));
-      //  $device_id = substr($request->userAgent() ?? '', 0, 255); // Obtener el device_id
-
-      //  Log::info('User-Agent useragent(): ' . $device  );
-      //  Log::info('User-Agent useragent(): ' . $device_id  );
-
+ 
         RefreshToken::create([
             'id_usuario' => $user->id,
             'token' => hash('sha256', $refreshToken),
-          //  'token' =>  $refreshToken,
             'expires_at' => $refreshTokenExpiresAt,
             'device_id' => $device,
         ]);
@@ -122,10 +82,8 @@ class VbaLoginController extends Controller
            'access_token' => $user->createToken($device, expiresAt: $expiresAt)->plainTextToken,
            'refresh_token' => $refreshToken,
            'usuario' => $user
-        //   'usuario_escuela' => $ue
         ], Response::HTTP_CREATED);
 
-     //   return response()->json($user);
     }
 
     public function refreshToken(Request $request)
