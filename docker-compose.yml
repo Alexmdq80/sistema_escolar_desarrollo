@@ -23,6 +23,7 @@ services:
             - sail
         depends_on:
             - mysql
+            - mailpit
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -47,9 +48,25 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+
+    # --- AÑADE ESTO ABAJO DE TUS OTROS SERVICIOS ---
+    mailpit:
+        image: 'axllent/mailpit:latest'
+        ports:
+            - '${FORWARD_MAILPIT_PORT:-1025}:1025' # Puerto SMTP para recibir correos
+            - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025' # Puerto para la interfaz web
+        networks:
+            - sail
+        healthcheck:
+            test: ["CMD-SHELL", "wget -q --spider http://localhost:8025 || exit 1"]
+            retries: 3
+            timeout: 5s
+    # --- FIN DE LA ADICIÓN ---
+
 networks:
     sail:
         driver: bridge
 volumes:
     sail-mysql:
         driver: local
+
