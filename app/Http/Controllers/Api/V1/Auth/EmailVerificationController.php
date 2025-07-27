@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\EmailVerificationMail;
 use Illuminate\Support\Facades\URL; // Si también mueves la lógica de 'verify' aquí
+use App\Events\EmailVerificationLinkSent; // <-- ¡Importa tu evento!
 
 class EmailVerificationController extends Controller
 {
@@ -51,7 +52,7 @@ class EmailVerificationController extends Controller
     }
 
     // Método para manejar el reenvío del correo de verificación
-    public function resend(Request $request)
+   /* public function resend(Request $request)
     {
         $request->validate(['email' => 'required|email|max:255']);
 
@@ -71,13 +72,15 @@ class EmailVerificationController extends Controller
 
         try {
             Mail::to($user->email)->send(new EmailVerificationMail($user));
+            event(new EmailVerificationLinkSent($request->user(), $request->user()->email, 'resend'));
+
         } catch (\Exception $e) {
             \Log::error('Error al reenviar correo de verificación para ' . $user->email . ': ' . $e->getMessage());
             return response()->json(['message' => 'No se pudo reenviar el correo de verificación. Por favor, inténtalo de nuevo más tarde.'], 500);
         }
 
         return response()->json(['message' => 'Se ha enviado un nuevo enlace de verificación a tu correo electrónico.'], 200);
-    }
+    }*/
     // En EmailVerificationController.php
     public function resendAuthenticated(Request $request)
     {
@@ -92,6 +95,8 @@ class EmailVerificationController extends Controller
 
         try {
             Mail::to($user->email)->send(new EmailVerificationMail($user));
+            event(new EmailVerificationLinkSent($request->user(), $request->user()->email, 'resend'));
+
         } catch (\Exception $e) {
             \Log::error('Error al reenviar correo de verificación autenticado para ' . $user->email . ': ' . $e->getMessage());
             return response()->json(['message' => 'No se pudo reenviar el correo de verificación. Por favor, inténtalo de nuevo más tarde.'], 500);

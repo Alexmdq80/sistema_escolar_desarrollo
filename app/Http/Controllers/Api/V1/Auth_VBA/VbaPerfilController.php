@@ -10,11 +10,13 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use App\Mail\EmailVerificationMail; 
-use App\Mail\EmailChangedNotificationMail; 
+use App\Mail\EmailVerificationMail;
+use App\Mail\EmailChangedNotificationMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Events\EmailVerificationLinkSent;
+use App\Events\OldEmailNotificationSent;
 /**
  * @group Auth_VBA
  */
@@ -47,14 +49,14 @@ class VbaPerfilController extends Controller
       //  $oldEmail = $user->email; // Guarda el correo electrónico antiguo antes de actualizarlo
 
       /*  if ($user->email !== $validatedData['email']) {
-            / eliminar los timestamps de verificación del email        
+            / eliminar los timestamps de verificación del email
             $user->email_verified_at = null;
             $user->verification_token = Str::random(60); // Genera un token aleatorio
 
-            / enviar email de verificación al nuevo correo 
+            / enviar email de verificación al nuevo correo
             Mail::to($validatedData['email'])->send(new EmailVerificationMail($user));
 
-            / enviar email de notificación al correo antiguo 
+            / enviar email de notificación al correo antiguo
             Mail::to($oldEmail)->send(new EmailChangedNotificationMail($user)); // Envía al correo antiguo
         } */
 
@@ -65,7 +67,7 @@ class VbaPerfilController extends Controller
       //  $user->email = $validatedData['email'];
         $user->nombre = $validatedData['nombre'];
         $user->apellido = $validatedData['apellido'];
-       
+
 
         $user->save();
 
@@ -149,24 +151,45 @@ class VbaPerfilController extends Controller
         $oldEmail = $user->email; // Guarda el correo electrónico antiguo antes de actualizarlo
 
         if ($user->email !== $validatedData['email']) {
-            /* eliminar los timestamps de verificación del email */        
+            /* eliminar los timestamps de verificación del email */
             $user->email_verified_at = null;
             $user->verification_token = Str::random(60); // Genera un token aleatorio
 
-            /* enviar email de verificación al nuevo correo */
-            Mail::to($validatedData['email'])->send(new EmailVerificationMail($user));
+            $user->email = $validatedData['email'];
+            $user->save();
+
+          /* enviar email de verificación al nuevo correo */
+            try {
+                Mail::to($validatedData['email'])->send(new EmailVerificationMail($user));
+                event(new EmailVerificationLinkSent($user, $validatedData['email'], 'email_change'));
+            } catch (\Exception $e) {
+                \Log::error('Error al enviar correo de verificación al nuevo email ' . $validatedData['email'] . ': ' . $e->getMessage());
+                // Aquí podrías auditar el fallo de envío si lo necesitas
+            }
 
             /* enviar email de notificación al correo antiguo */
-            Mail::to($oldEmail)->send(new EmailChangedNotificationMail($user)); // Envía al correo antiguo
+            try {
+                Mail::to($oldEmail)->send(new EmailChangedNotificationMail($user, $oldEmail, $validatedData['email'])); // Pasa los emails si tu Mailable los necesita
+                event(new OldEmailNotificationSent($user, $oldEmail, $validatedData['email']));
+            } catch (\Exception $e) {
+                \Log::error('Error al enviar notificación a correo antiguo ' . $oldEmail . ': ' . $e->getMessage());
+                // Aquí podrías auditar el fallo de envío si lo necesitas
+            }
+
+            $message = 'Tu dirección de correo electrónico ha sido actualizada. Se ha enviado un enlace de verificación al nuevo correo y un aviso al antiguo.';
+
+
+        } else {
+            // Si el email es el mismo, no hacemos nada con el email ni enviamos correos
+            $message = 'La dirección de correo electrónico proporcionada es la misma que la actual. No se realizaron cambios.';
         }
 
-        $user->email = $validatedData['email'];      
 
-        $user->save();
-
+        // La respuesta siempre incluirá el email actual del usuario
         $responseData = [
-            'email' => $validatedData['email'],
-            'email_verified_at' => $user->email_verified_at
+            'email' => $user->email, // Ahora $user->email ya está actualizado si hubo cambio
+            'email_verified_at' => $user->email_verified_at,
+            'message' => $message // Mensaje dinámico
         ];
 
         return response()->json($responseData, Response::HTTP_ACCEPTED);

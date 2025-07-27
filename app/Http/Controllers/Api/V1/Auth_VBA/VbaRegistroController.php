@@ -13,7 +13,8 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Str; // Para generar el token
 use Illuminate\Support\Facades\Mail; // Para enviar el mail
 use App\Mail\EmailVerificationMail; // Tu nueva Mailable
-use Illuminate\Support\Carbon; 
+use Illuminate\Support\Carbon;
+use App\Events\EmailVerificationLinkSent;
 
 /**
  * @group Auth_VBA
@@ -64,6 +65,8 @@ class VbaRegistroController extends Controller
       //  dd($user->verification_token);
 
         Mail::to($user->email)->send(new EmailVerificationMail($user));
+
+        event(new EmailVerificationLinkSent($user, $user->email, 'registration'));
 
         return response()->json([
             'resultado' => 'usuario creado exitosamente, verfica tu correo electrónico.',

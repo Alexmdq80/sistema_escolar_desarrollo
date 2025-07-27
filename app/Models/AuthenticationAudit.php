@@ -23,8 +23,6 @@ class AuthenticationAudit extends Model
         'auditable_type',
         'auditable_id',
         'event',
-      //  'user_type',
-      //  'user_id',
         'attempted_email',
         'url',
         'ip_address',

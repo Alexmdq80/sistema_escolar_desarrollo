@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Failed;
+use Illuminate\Http\Response;
 
 /**
  * @group Auth_VBA
