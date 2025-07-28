@@ -60,8 +60,8 @@ Route::get('/debug-audit-config', function () {
     Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/user/resend-verification', [EmailVerificationController::class, 'resendAuthenticated'])
-            ->name('verification.resend.authenticated');
-          //  ->middleware('throttle:3,30');
+            ->name('verification.resend.authenticated')
+            ->middleware('throttle:3,30');
 
         Route::group(['prefix' => 'estudiante'], function () {
             Route::get('legajo', [InscripcionController_VBA::class, 'obtenerLegajo']);

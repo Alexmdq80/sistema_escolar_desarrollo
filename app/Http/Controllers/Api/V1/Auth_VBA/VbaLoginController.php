@@ -42,7 +42,7 @@ class VbaLoginController extends Controller
         // corregir acá, puse 1 para probar, cambiar a 240
         $expiresAt = $request->remember ? null : now()->addMinutes(240);
 
-        // Eliminar todos los tokens existentes del usuario
+        // Eliminar todos los tokens existentes del usuario en el dispositivo actual
         $user->tokens()->where('name', $device)->delete();
 
         // Eliminar cualquier refresh token existente para este usuario y dispositivo

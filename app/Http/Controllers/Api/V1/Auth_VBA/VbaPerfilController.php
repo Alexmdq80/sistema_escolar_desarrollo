@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use App\Events\EmailVerificationLinkSent;
 use App\Events\OldEmailNotificationSent;
+use App\Models\RefreshToken;
 /**
  * @group Auth_VBA
  */
@@ -158,7 +159,11 @@ class VbaPerfilController extends Controller
             $user->email = $validatedData['email'];
             $user->save();
 
-          /* enviar email de verificación al nuevo correo */
+            // Eliminar todos los tokens existentes del usuario y los refresh tokens
+            $user->tokens()->delete();
+            RefreshToken::where('id_usuario', $user->id)
+                ->delete();
+            /* enviar email de verificación al nuevo correo */
             try {
                 Mail::to($validatedData['email'])->send(new EmailVerificationMail($user));
                 event(new EmailVerificationLinkSent($user, $validatedData['email'], 'email_change'));
