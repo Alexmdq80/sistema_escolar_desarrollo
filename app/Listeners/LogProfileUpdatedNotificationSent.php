@@ -45,7 +45,7 @@ class LogProfileUpdatedNotificationSent
                 'old_values'      => null,
                 'new_values'      => null,
                 'details'         => $details,
-                'tags'            => ['status' => 'success', 'notice' => 'security_alert', 'warning' => 'profile_update'],
+                'tags'            => ['status' => 'success', 'notice' => 'security_alert', 'category' => 'profile_update'],
                 'audit_driver'    => null,
             ]);
         } catch (\Exception $e) {

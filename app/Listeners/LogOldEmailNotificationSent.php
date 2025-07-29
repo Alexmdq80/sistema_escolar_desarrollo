@@ -23,7 +23,7 @@ class LogOldEmailNotificationSent
                 'user_agent'      => $event->userAgent,
                 'attempted_email' => $event->oldEmail,
                 'url'             => request()->fullUrl(), // Captura la URL actual si es relevante
-                'tags'            => ['status' => 'success', 'source' => 'email_change', 'warning' => 'security_alert'],
+                'tags'            => ['status' => 'success', 'source' => 'email_change', 'notice' => 'security_alert'],
                 'details'         => ['new_email' => $event->newEmail],
             ]);
         } catch (\Exception $e) {

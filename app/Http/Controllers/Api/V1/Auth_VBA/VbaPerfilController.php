@@ -19,8 +19,9 @@ use App\Events\EmailVerificationLinkSent;
 use App\Events\OldEmailNotificationSent;
 use App\Models\RefreshToken;
 use App\Mail\ProfileUpdatedNotificationMail;
+use App\Mail\ProfileUpdatedPasswordNotificationMail;
 use App\Events\ProfileUpdatedNotificationSent;
-
+use App\Events\ProfileUpdatedPasswordNotificationSent;
 /**
  * @group Auth_VBA
  */
@@ -217,6 +218,7 @@ class VbaPerfilController extends Controller
             'current_password' => ['required', 'current_password'],
             'password'         => ['required', 'confirmed', Password::defaults()],
         ]);
+        $message = 'No se realizaron los cambios en tu contraseña.'; // Mensaje por defecto
 
         $user = $request->user(); // El usuario autenticado a través del token
 
@@ -228,11 +230,24 @@ class VbaPerfilController extends Controller
         }
 
         $user->password = Hash::make($validatedData['password']);
-
         $user->save();
+        $message = 'Tu contraseña ha sido actualizada exitosamente. Se ha enviado una notificación a tu correo electrónico.';
+        // Eliminar todos los tokens existentes del usuario y los refresh tokens
+        $user->tokens()->delete();
+        RefreshToken::where('id_usuario', $user->id)
+                    ->delete();
+        /* enviar email de verificación al nuevo correo */
+        try {
+            Mail::to($user->email)->send(new ProfileUpdatedPasswordNotificationMail($user));
+                // 3. Auditar el envío de la notificación
+            event(new ProfileUpdatedPasswordNotificationSent($user, $user->email));
+        } catch (\Exception $e) {
+            \Log::error('Error al enviar notificación de actualización de password a ' . $user->email . ': ' . $e->getMessage());
+                // Aquí podrías auditar el fallo de envío si lo necesitas
+        }
 
         $responseData = [
-            'message' => 'La contraseña ha sido actualizada exitosamente.',
+            'message' => $message,
         ];
 
         return response()->json($responseData, Response::HTTP_ACCEPTED);

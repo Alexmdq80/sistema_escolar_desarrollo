@@ -85,7 +85,10 @@ Route::get('/debug-audit-config', function () {
 
         Route::group(['prefix' => 'auth-VBA'], function () {
             Route::put('vbaPerfil', [VbaPerfilController::class, 'update']);
-            Route::put('vbaPerfilChangeEmail', [VbaPerfilController::class, 'changeEmail']);
+            Route::put('vbaPerfilChangeEmail', [VbaPerfilController::class, 'changeEmail'])
+                    ->middleware('throttle:5,60');
+            Route::put('vbaPerfilChangePassword', [VbaPerfilController::class, 'changePassword'])
+                    ->middleware('throttle:5,60');
             Route::get('usuario_actual/{id_escuela}', [VbaPerfilController::class, 'obtenerUsuario']);
             Route::post('logout', [VbaLogoutController::class, 'logout']);
         });
