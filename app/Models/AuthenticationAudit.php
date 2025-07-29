@@ -27,6 +27,8 @@ class AuthenticationAudit extends Model
         'url',
         'ip_address',
         'user_agent',
+        'old_values',
+        'new_values',
         'tags',
         'details',
         'audit_driver',

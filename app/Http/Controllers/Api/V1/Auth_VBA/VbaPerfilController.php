@@ -18,6 +18,9 @@ use Illuminate\Validation\ValidationException;
 use App\Events\EmailVerificationLinkSent;
 use App\Events\OldEmailNotificationSent;
 use App\Models\RefreshToken;
+use App\Mail\ProfileUpdatedNotificationMail;
+use App\Events\ProfileUpdatedNotificationSent;
+
 /**
  * @group Auth_VBA
  */
@@ -30,59 +33,64 @@ class VbaPerfilController extends Controller
 
     public function update(Request $request)
     {
+        // modifica el perfil del usuario autenticado
+        // se requiere la contraseña actual para confirmar la identidad del usuario
+        // sólo modifica el nombre y el apellido
         $validatedData = $request->validate([
             'nombre' => ['required', 'string'],
             'apellido' => ['required', 'string'],
-           // 'email' => ['required', 'email', Rule::unique('usuario')->ignore(auth()->user()->id, 'id')],
-           // 'email_confirmation' => ['required', 'string', 'email', 'same:email'],
             'current_password' => ['required', 'current_password'],
-            'password'         => ['required', 'confirmed', Password::defaults()],
+           // 'password'         => ['required', 'confirmed', Password::defaults()],
         ]);
 
         $user = $request->user(); // El usuario autenticado a través del token
 
-        // Verificar la contraseña actual
+        // 1. Verificar la contraseña actual
         if (!Hash::check($validatedData['current_password'], $user->password)) {
             throw ValidationException::withMessages([
                 'current_password' => ['La contraseña actual es incorrecta.'],
             ]);
         }
-      //  $oldEmail = $user->email; // Guarda el correo electrónico antiguo antes de actualizarlo
 
-      /*  if ($user->email !== $validatedData['email']) {
-            / eliminar los timestamps de verificación del email
-            $user->email_verified_at = null;
-            $user->verification_token = Str::random(60); // Genera un token aleatorio
+        $oldData = [
+            'nombre' => $user->nombre,
+            'apellido' => $user->apellido,
+        ];
 
-            / enviar email de verificación al nuevo correo
-            Mail::to($validatedData['email'])->send(new EmailVerificationMail($user));
-
-            / enviar email de notificación al correo antiguo
-            Mail::to($oldEmail)->send(new EmailChangedNotificationMail($user)); // Envía al correo antiguo
-        } */
-
-        if (isset($validatedData['password'])) {
-            $user->password = Hash::make($validatedData['password']);
-        }
-
-      //  $user->email = $validatedData['email'];
         $user->nombre = $validatedData['nombre'];
         $user->apellido = $validatedData['apellido'];
 
+        $message = 'No se detectaron cambios en tu nombre o apellido.'; // Mensaje por defecto
 
-        $user->save();
+        if ($user->isDirty('nombre') || $user->isDirty('apellido')) {
+            $user->save();
+
+            $newData = [
+                'nombre' => $user->nombre,
+                'apellido' => $user->apellido,
+            ];
+
+            // 2. Enviar email de notificación al usuario
+            try {
+                Mail::to($user->email)->send(new ProfileUpdatedNotificationMail($user, $oldData['nombre'], $newData['nombre'], $oldData['apellido'], $newData['apellido']));
+                // 3. Auditar el envío de la notificación
+                event(new ProfileUpdatedNotificationSent($user, $user->email, $oldData, $newData));
+            } catch (\Exception $e) {
+                \Log::error('Error al enviar notificación de actualización de perfil a ' . $user->email . ': ' . $e->getMessage());
+                // Aquí podrías auditar el fallo de envío si lo necesitas
+            }
+
+            $message = 'Tu perfil ha sido actualizado exitosamente. Se ha enviado una notificación a tu correo electrónico.';
+        }
 
         $responseData = [
-        //    'email' => $validatedData['email'],
             'nombre' => $validatedData['nombre'],
             'apellido' => $validatedData['apellido'],
-        //    'email_verified_at' => $user->email_verified_at
+            'message' => $message,
         ];
 
         return response()->json($responseData, Response::HTTP_ACCEPTED);
 
-      //  return response()->json($validatedData, Response::HTTP_ACCEPTED);
-      //  return response()->json(['message' => 'Perfil actualizado correctamente'], Response::HTTP_OK);  return response()->json($validatedData, Response::HTTP_ACCEPTED);
     }
 
    /* public function obtenerUsuario(string $email): JsonResponse */
@@ -199,4 +207,36 @@ class VbaPerfilController extends Controller
 
         return response()->json($responseData, Response::HTTP_ACCEPTED);
     }
+
+    public function changePassword(Request $request)
+    {
+        // modifica la password del usuario autenticado
+        // se requiere la contraseña actual
+        // y password nueva con confirmación
+        $validatedData = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password'         => ['required', 'confirmed', Password::defaults()],
+        ]);
+
+        $user = $request->user(); // El usuario autenticado a través del token
+
+        // Verificar la contraseña actual
+        if (!Hash::check($validatedData['current_password'], $user->password)) {
+            throw ValidationException::withMessages([
+                'current_password' => ['La contraseña actual es incorrecta.'],
+            ]);
+        }
+
+        $user->password = Hash::make($validatedData['password']);
+
+        $user->save();
+
+        $responseData = [
+            'message' => 'La contraseña ha sido actualizada exitosamente.',
+        ];
+
+        return response()->json($responseData, Response::HTTP_ACCEPTED);
+
+    }
+
 }

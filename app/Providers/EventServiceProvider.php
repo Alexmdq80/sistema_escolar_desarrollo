@@ -2,16 +2,18 @@
 
 namespace App\Providers;
 
+use App\Events\ProfileUpdatedNotificationSent;
 use App\Events\OldEmailNotificationSent;
 use App\Events\EmailVerificationLinkSent;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
-use Illuminate\Auth\Events\Failed; // <-- ¡Importa este evento también!
+use Illuminate\Auth\Events\Failed;
 use App\Listeners\LogSuccessfulLogin;
 use App\Listeners\LogSuccessfulLogout;
-use App\Listeners\LogFailedLoginAttempt; // <-- ¡Importa este Listener!
+use App\Listeners\LogFailedLoginAttempt;
 use App\Listeners\LogEmailVerificationSent;
 use App\Listeners\LogOldEmailNotificationSent;
+use App\Listeners\LogProfileUpdatedNotificationSent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -50,6 +52,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         OldEmailNotificationSent::class => [
             LogOldEmailNotificationSent::class,
+        ],
+        ProfileUpdatedNotificationSent::class => [
+            LogProfileUpdatedNotificationSent::class,
         ],
     ];
 

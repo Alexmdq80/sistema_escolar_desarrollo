@@ -1,0 +1,30 @@
+@component('mail::message')
+# Hola {{ $userNombre }},
+
+Te informamos que se han realizado cambios en la información de tu perfil.
+
+@if ($oldNombre !== $newNombre)
+- **Nombre anterior:** {{ $oldNombre }}
+- **Nuevo nombre:** {{ $newNombre }}
+@endif
+
+@if ($oldApellido !== $newApellido)
+- **Apellido anterior:** {{ $oldApellido }}
+- **Nuevo apellido:** {{ $newApellido }}
+@endif
+
+Si no fuiste tú quien realizó estos cambios, por favor, contacta a nuestro equipo de soporte inmediatamente.
+@component('mail::button', ['url' => url('/contact-support')])
+Contactar Soporte
+@endcomponent
+
+También te recomendamos cambiar tu contraseña si sospechas de actividad no autorizada.
+
+@component('mail::button', ['url' => url('/password/reset')])
+Cambiar Contraseña
+@endcomponent
+
+Gracias,
+{{ config('app.name') }}
+
+@endcomponent
