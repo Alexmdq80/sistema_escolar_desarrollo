@@ -74,5 +74,16 @@ class RouteServiceProvider extends ServiceProvider
                         });
         });
 
+        RateLimiter::for('forgot-password', function (Request $request) {
+            return Limit::perMinutes(15, 3) // Por ejemplo: 3 intentos cada 15 minutos
+                        ->by($request->ip()) // Generalmente se limita por IP para solicitudes no autenticadas
+                        ->response(function (Request $request, array $headers) {
+                            return response()->json([
+                                'message' => 'Has solicitado restablecer la contraseña demasiadas veces. Por favor, espera 15 minutos antes de intentarlo de nuevo.',
+                                'retry_after' => $headers['Retry-After'] ?? null,
+                            ], Response::HTTP_TOO_MANY_REQUESTS, $headers);
+                        });
+        });
+
     }
 }

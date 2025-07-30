@@ -57,6 +57,17 @@ Route::get('/debug-audit-config', function () {
   // Apunta al método 'verify' del nuevo controlador
     Route::get('/email/verify/{id}/{token}', [EmailVerificationController::class, 'verify'])->name('verification.verify');
 
+    Route::group(['prefix' => 'auth-VBA'], function () {
+        // Ruta para solicitar el enlace de restablecimiento de contraseña
+        Route::post('password/forgot', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+            ->middleware('throttle:forgot-password') // Aplicar throttling para prevenir abusos
+            ->name('password.forgot');
+        // Ruta para restablecer la contraseña
+        // Esta ruta no necesita throttling aquí, ya que el token es de un solo uso y limitado en el tiempo.
+        Route::post('password/reset', [ResetPasswordController::class, 'reset'])
+            ->name('password.reset');
+    });
+
     Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/user/resend-verification', [EmailVerificationController::class, 'resendAuthenticated'])
