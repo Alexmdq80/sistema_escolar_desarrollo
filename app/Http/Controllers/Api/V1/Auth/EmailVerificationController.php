@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use App\Mail\EmailVerificationMail;
 use Illuminate\Support\Facades\URL; // Si también mueves la lógica de 'verify' aquí
 use App\Events\EmailVerificationLinkSent; // <-- ¡Importa tu evento!
+use App\Events\EmailVerifiedAction;
 
 class EmailVerificationController extends Controller
 {
@@ -46,6 +47,8 @@ class EmailVerificationController extends Controller
         $user->email_verified_at = now();
         $user->verification_token = null;
         $user->save();
+
+        event(new EmailVerifiedAction($user, 'verification_link_click'));
 
         // 7. Responder al usuario
         return response()->json(['message' => '¡Felicidades! Tu correo electrónico ha sido verificado con éxito.'], 200);

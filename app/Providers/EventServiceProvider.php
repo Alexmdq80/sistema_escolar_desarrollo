@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\EmailVerifiedAction;
 use App\Events\ProfileUpdatedPasswordNotificationSent;
 use App\Events\ProfileUpdatedNotificationSent;
 use App\Events\OldEmailNotificationSent;
@@ -16,6 +17,7 @@ use App\Listeners\LogEmailVerificationSent;
 use App\Listeners\LogOldEmailNotificationSent;
 use App\Listeners\LogProfileUpdatedNotificationSent;
 use App\Listeners\LogProfileUpdatedPasswordNotificationSent;
+use App\Listeners\LogEmailVerifiedAction;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -60,6 +62,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ProfileUpdatedPasswordNotificationSent::class => [
             LogProfileUpdatedPasswordNotificationSent::class,
+        ],
+        EmailVerifiedAction::class => [
+            LogEmailVerifiedAction::class,
         ],
     ];
 

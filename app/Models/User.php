@@ -67,7 +67,7 @@ class User extends Authenticatable implements AuditableContract
     ];
 
     public function markEmailAsVerified()
-    {
+    {   //es por si necesito usar el método...
         $this->forceFill([
             'email_verified_at' => now(),
             'verification_token' => null, // Limpiar el token después de usarlo

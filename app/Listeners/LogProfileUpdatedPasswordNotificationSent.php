@@ -30,8 +30,6 @@ class LogProfileUpdatedPasswordNotificationSent
                 'user_agent'      => $event->userAgent,
                 'attempted_email' => $event->notifiedEmail, // El email al que se envió la notificación
                 'url'             => request()->fullUrl(),
-                'old_values'      => null,
-                'new_values'      => null,
                 'details'         => 'profile_settings',
                 'tags'            => ['status' => 'success', 'notice' => 'security_alert', 'category' => 'password_change', 'source' => 'profile_update'],
                 'audit_driver'    => null,

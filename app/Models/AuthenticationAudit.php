@@ -27,16 +27,16 @@ class AuthenticationAudit extends Model
         'url',
         'ip_address',
         'user_agent',
-        'old_values',
-        'new_values',
+       // 'old_values',
+       // 'new_values',
         'tags',
         'details',
         'audit_driver',
     ];
 
     protected $casts = [
-        'old_values' => 'array', // Castear a array
-        'new_values' => 'array', // Castear a array
+        //'old_values' => 'array', // Castear a array
+        //'new_values' => 'array', // Castear a array
         'tags' => 'array',       // Si 'tags' también es un array, cásatalo
         'details' => 'array'
     ];
