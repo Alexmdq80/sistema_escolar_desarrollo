@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\Events\PasswordReset;
 use App\Events\PasswordResetRequested;
 use App\Events\EmailVerifiedAction;
 use App\Events\ProfileUpdatedPasswordNotificationSent;
@@ -20,13 +21,11 @@ use App\Listeners\LogProfileUpdatedNotificationSent;
 use App\Listeners\LogProfileUpdatedPasswordNotificationSent;
 use App\Listeners\LogEmailVerifiedAction;
 use App\Listeners\LogPasswordResetRequested;
+use App\Listeners\LogPasswordResetSuccess;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
-
-
-//use Illuminate\Notifications\Events\NotificationSent;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -72,7 +71,9 @@ class EventServiceProvider extends ServiceProvider
         PasswordResetRequested::class => [
             LogPasswordResetRequested::class,
         ],
-
+        PasswordReset::class => [
+            LogPasswordResetSuccess::class,
+        ],
     ];
 
 
