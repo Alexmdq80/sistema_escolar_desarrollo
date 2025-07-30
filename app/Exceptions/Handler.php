@@ -38,8 +38,13 @@ class Handler extends ExceptionHandler
                         'errors' => $e->errors(),
                     ], Response::HTTP_UNPROCESSABLE_ENTITY); // Código de estado 422
                 }
-
-                // Puedes agregar más condiciones para manejar otras excepciones de API aquí
+                if ($e instanceof ThrottleRequestsException) {
+                    return response()->json([
+                        'message' => 'Has realizado demasiadas solicitudes. Por favor, espera un momento antes de intentarlo de nuevo.',
+                        'retry_after' => $exception->getHeaders()['Retry-After'] ?? null,
+                    ], 429, $exception->getHeaders());
+                  }
+                    // Puedes agregar más condiciones para manejar otras excepciones de API aquí
             }
         });
     }
@@ -58,4 +63,7 @@ class Handler extends ExceptionHandler
             'errors' => $exception->errors(),
         ], $exception->status);
     }
+
+
+
 }

@@ -61,7 +61,8 @@ Route::get('/debug-audit-config', function () {
 
         Route::post('/user/resend-verification', [EmailVerificationController::class, 'resendAuthenticated'])
             ->name('verification.resend.authenticated')
-            ->middleware('throttle:3,30');
+            ->middleware('throttle:resend-verification'); // Limita el reenvío de verificación
+            //->middleware('throttle:3,30');
 
         Route::group(['prefix' => 'estudiante'], function () {
             Route::get('legajo', [InscripcionController_VBA::class, 'obtenerLegajo']);
@@ -86,9 +87,11 @@ Route::get('/debug-audit-config', function () {
         Route::group(['prefix' => 'auth-VBA'], function () {
             Route::put('vbaPerfil', [VbaPerfilController::class, 'update']);
             Route::put('vbaPerfilChangeEmail', [VbaPerfilController::class, 'changeEmail'])
-                    ->middleware('throttle:5,60');
+                    ->middleware('throttle:change-email'); // Limita el cambio de email
+            //  ->middleware('throttle:5,60');
             Route::put('vbaPerfilChangePassword', [VbaPerfilController::class, 'changePassword'])
-                    ->middleware('throttle:5,60');
+                    ->middleware('throttle:change-password'); // Limita el cambio de contraseña
+
             Route::get('usuario_actual/{id_escuela}', [VbaPerfilController::class, 'obtenerUsuario']);
             Route::post('logout', [VbaLogoutController::class, 'logout']);
         });

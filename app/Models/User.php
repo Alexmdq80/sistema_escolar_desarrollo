@@ -55,6 +55,17 @@ class User extends Authenticatable implements AuditableContract
        'password' => 'hashed',
     ];
 
+     /**
+     * Attributes to exclude from the audit.
+     *
+     * @var array
+     */
+    protected $auditExclude = [
+        'password', // <-- ¡Esto es lo que necesitas añadir!
+        'remember_token', // También es buena práctica excluirlo
+        'verification_token', // Y este también, ya que es sensible
+    ];
+
     public function markEmailAsVerified()
     {
         $this->forceFill([
