@@ -10,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Response;
 use Illuminate\Auth\Events\PasswordReset;
 use App\Models\User;
+use Illuminate\Validation\Rules\Password as PasswordRule;
 
 class ResetPasswordController extends Controller
 {
@@ -27,7 +28,7 @@ class ResetPasswordController extends Controller
             'password' => [
                 'required',
                 'confirmed',
-                Password::defaults(),
+                PasswordRule::defaults(),
             ],
         ]);
 
