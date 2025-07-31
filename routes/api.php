@@ -16,6 +16,8 @@ use App\Http\Controllers\Api\V1\Auth_VBA\VbaLoginController;
 use App\Http\Controllers\Api\V1\Auth_VBA\VbaLogoutController;
 use App\Http\Controllers\Api\V1\Auth_VBA\VbaRegistroController;
 use App\Http\Controllers\Api\V1\Auth_VBA\VbaPerfilController;
+use App\Http\Controllers\Api\V1\Auth_VBA\ForgotPasswordController;
+use App\Http\Controllers\Api\V1\Auth_VBA\ResetPasswordController;
 
 use App\Http\Controllers\Api\V1\Auth\EmailVerificationController;
 

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
+
 class RouteServiceProvider extends ServiceProvider
 {
     /**
@@ -75,7 +76,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('forgot-password', function (Request $request) {
-            return Limit::perMinutes(15, 3) // Por ejemplo: 3 intentos cada 15 minutos
+            return Limit::perMinutes(15, 60) // Por ejemplo: 3 intentos cada 15 minutos
                         ->by($request->ip()) // Generalmente se limita por IP para solicitudes no autenticadas
                         ->response(function (Request $request, array $headers) {
                             return response()->json([
