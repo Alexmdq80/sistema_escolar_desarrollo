@@ -28,13 +28,13 @@ trait AuditableTrait
 
     // You might also add relationships here if your audit fields
     // reference users directly, e.g.,
-    // public function creator()
-    // {
-    //     return $this->belongsTo(User::class, 'created_by');
-    // }
+    public function creator()
+    {
+         return $this->belongsTo(User::class, 'created_by');
+    }
 
-    // public function updater()
-    // {
-    //     return $this->belongsTo(User::class, 'updated_by');
-    // }
+    public function updater()
+    {
+         return $this->belongsTo(User::class, 'updated_by');
+    }
 }

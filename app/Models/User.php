@@ -11,12 +11,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Auditable; // Importa el trait
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract; // Importa el contrato (necesario)
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class User extends Authenticatable implements AuditableContract
 //class User extends Authenticatable
 
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, Auditable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, Auditable, HasUuids;
 
     /**
      * The attributes that are mass assignable.
@@ -84,36 +85,36 @@ class User extends Authenticatable implements AuditableContract
         return $this->hasMany(Inscripcion_Historial_Info::class,"id_usuario","id");
     }
     public function usuarioEscuelas(){
-        return $this->hasMany(Usuario_Escuela::class,"id_usuario","id");
+        return $this->hasMany(UsuarioEscuela::class,"id_usuario","id");
     }
     public function refreshTokens() {
         return $this->hasMany(RefreshToken::class, 'id_usuario', 'id');
     }
 
-    protected static function boot()
+    /*protected static function boot()
     {
         parent::boot();
 
         static::creating(function ($model) {
             $model->{$model->getKeyName()} = (string) Str::uuid();
         });
-    }
+    }*/
 
     /**
      * Get the primary key for the model.
      *
      * @return string
      */
-    public function getKeyType()
+    /*public function getKeyType()
     {
         return 'string';
-    }
+    }*/
 
     /**
      * Indicates if the IDs are auto-incrementing.
      *
      * @var bool
      */
-    public $incrementing = false;
+    /*public $incrementing = false;*/
 
 }

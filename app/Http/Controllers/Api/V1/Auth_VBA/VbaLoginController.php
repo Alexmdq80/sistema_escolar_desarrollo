@@ -27,7 +27,12 @@ class VbaLoginController extends Controller
             'password' => ['required'],
         ]);
 
-        $user = User::where('email', $request->email)->first();
+     //   $user = User::where('email', $request->email)->first();
+        // la consulta ya devuelve todos los colegios que tenga el usuario
+        // y qué tipo de usuario es en cada uno de ellos
+        $user = User::where('email', $request->email)
+            ->with(['usuarioEscuelas.usuarioTipo'])
+            ->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             // Disparar el evento Failed.
