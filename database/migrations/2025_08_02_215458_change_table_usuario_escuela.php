@@ -11,7 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // esta migración demoró bastante...
+        // Paso 1: Vaciar la tabla completamente.
+        // ojo, esto vacía la tabla por completo!!!
+        DB::table('usuario_escuela')->truncate();
+
         DB::statement('ALTER TABLE usuario_escuela MODIFY id MEDIUMINT UNSIGNED;');
 
         Schema::table('usuario_escuela', function (Blueprint $table) {
@@ -20,8 +23,6 @@ return new class extends Migration
             // Si el 'id' es auto_increment, debes quitar el atributo primero.
             $table->dropPrimary();
         });
-
-
 
         Schema::table('usuario_escuela', function (Blueprint $table) {
             // Paso 2: Renombrar temporalmente la columna 'id' para evitar conflictos.

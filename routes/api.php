@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\PersonaController;
 use App\Http\Controllers\Api\V1\InscripcionController;
 use App\Http\Controllers\Api\V1\InscripcionController_VBA;
 use App\Http\Controllers\Api\V1\HealthCheckController;
+use App\Http\Controllers\Api\V1\ObtenerEscuela;
 
 use App\Http\Controllers\Api\V1\Auth_VBA\VbaLoginController;
 use App\Http\Controllers\Api\V1\Auth_VBA\VbaLogoutController;
@@ -76,6 +77,10 @@ Route::get('/debug-audit-config', function () {
             ->name('verification.resend.authenticated')
             ->middleware('throttle:resend-verification'); // Limita el reenvío de verificación
             //->middleware('throttle:3,30');
+        
+        Route::group(['prefix' => 'escuelas'], function () {
+            Route::get('escuela-por-cue/{cueAnexo}', [ObtenerEscuela::class, 'escuelaPorCue']);
+        });
 
         Route::group(['prefix' => 'estudiante'], function () {
             Route::get('legajo', [InscripcionController_VBA::class, 'obtenerLegajo']);
