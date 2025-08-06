@@ -106,17 +106,18 @@ class VbaPerfilController extends Controller
             return response()->json(['mensaje' => 'Usuario no encontrado'], 404);
         } */
 
-   public function obtenerUsuario(Request $request): JsonResponse
+   /*public function obtenerUsuario(Request $request): JsonResponse
    {
 
         $user = $request->user(); // El usuario autenticado a través del token
-
+        */
+        
        /* $usuario = User::where(['email', $user->email],
                                ['usuarioEscuela.id_escuela', $request->id_escuela])
         ->with('usuarioEscuelas')
         ->with('usuarioEscuelas.usuarioTipo')
         ->first();*/
-        $usuario = User::where('email', $user->email)
+       /* $usuario = User::where('email', $user->email)
                         ->whereHas('usuarioEscuelas', function ($query) use ($request) {
                             $query->where('id_escuela', $request->id_escuela);
                         })
@@ -129,7 +130,7 @@ class VbaPerfilController extends Controller
         } else {
             return response()->json(['mensaje' => 'Usuario no encontrado'], 404);
         }
-    }
+    }*/
 
     public function checkUser(string $email): JsonResponse
     {

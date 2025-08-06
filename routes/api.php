@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\V1\Auth_VBA\VbaRegistroController;
 use App\Http\Controllers\Api\V1\Auth_VBA\VbaPerfilController;
 use App\Http\Controllers\Api\V1\Auth_VBA\ForgotPasswordController;
 use App\Http\Controllers\Api\V1\Auth_VBA\ResetPasswordController;
+use App\Http\Controllers\Api\V1\Auth_VBA\SolicitarColegio;
 
 use App\Http\Controllers\Api\V1\Auth\EmailVerificationController;
 
@@ -26,10 +27,10 @@ use App\Models\User; // Asegúrate de importar tu modelo User
 use Illuminate\Support\Facades\URL; // Para la firma de URL
 
 
-Route::get('/debug-audit-config', function () {
+/*Route::get('/debug-audit-config', function () {
     $auditConfig = Config::get('audit');
     dd($auditConfig);
-});
+});*/
 
 // use Illuminate\Validation\ValidationException;
 /*
@@ -110,8 +111,9 @@ Route::get('/debug-audit-config', function () {
             Route::put('vbaPerfilChangePassword', [VbaPerfilController::class, 'changePassword'])
                     ->middleware('throttle:change-password'); // Limita el cambio de contraseña
 
-            Route::get('usuario_actual/{id_escuela}', [VbaPerfilController::class, 'obtenerUsuario']);
+           // Route::get('usuario_actual/{id_escuela}', [VbaPerfilController::class, 'obtenerUsuario']);
             Route::post('logout', [VbaLogoutController::class, 'logout']);
+            Route::post('solicitar-colegio', [SolicitarColegio::class, 'solicitarColegio']);
         });
     });
 

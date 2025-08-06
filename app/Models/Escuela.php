@@ -51,7 +51,7 @@ class Escuela extends Model
         return $this->belongsToMany(Otras_Ofertas::class, "escuela_otras_ofertas","id_escuela", "id_otras_ofertas");
     }
     public function usuarios() {
-        return $this->belongsToMany(User::class, "usuario_escuela","id_escuela", "id_usuario");
+        return $this->belongsToMany(UsuarioEscuela::class, "usuario_escuela","id_escuela", "id_usuario");
     }
     public function propuestas_institucionales() {
         return $this->belongsToMany(Propuesta_Institucional::class,"escuela_PI","id_escuela","id_propuesta_institucional");

@@ -31,7 +31,9 @@ class VbaLoginController extends Controller
         // la consulta ya devuelve todos los colegios que tenga el usuario
         // y qué tipo de usuario es en cada uno de ellos
         $user = User::where('email', $request->email)
-            ->with(['usuarioEscuelas.usuarioTipo'])
+            ->with([
+                    'usuarioEscuelas.escuela',
+                    'usuarioEscuelas.usuarioTipo'])
             ->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
