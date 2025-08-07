@@ -42,4 +42,25 @@ class SolicitarColegio extends Controller
         return response()->json($user, Response::HTTP_CREATED);  
         
     }
+
+    public function refreshColegios(Request $request) {
+
+    // Obtener el usuario autenticado directamente desde la solicitud.
+        $user = $request->user();
+
+        // Si el usuario no existe (aunque es improbable en una ruta protegida),
+        // puedes retornar un error.
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no autenticado.'], 401);
+        }
+
+        // Cargar las relaciones directamente sobre el objeto de usuario.
+        $user->load([
+            'usuarioEscuelas.escuela',
+            'usuarioEscuelas.usuarioTipo'
+        ]);
+
+        // Retornar la respuesta JSON.
+        return response()->json($user, Response::HTTP_OK);
+    }
 }
