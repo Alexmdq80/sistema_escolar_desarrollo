@@ -29,7 +29,7 @@ class VbaPerfilController extends Controller
 {
     public function show(Request $request)
     {
-        return response()->json($request->user()->only('name', 'email'));
+        return response()->json($request->user()->only('nombre', 'email'));
     }
 
     public function update(Request $request)
@@ -253,6 +253,27 @@ class VbaPerfilController extends Controller
 
         return response()->json($responseData, Response::HTTP_ACCEPTED);
 
+    }
+    public function userRefresh(Request $request) {
+    // Función para refrescar la sesión del usuario auteticado.
+    // devuelve el usuario, con la escuelas, y el tipo de acceso
+    // Obtener el usuario autenticado directamente desde la solicitud.
+        $user = $request->user();
+
+        // Si el usuario no existe (aunque es improbable en una ruta protegida),
+        // puedes retornar un error.
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no autenticado.'], 401);
+        }
+
+        // Cargar las relaciones directamente sobre el objeto de usuario.
+        $user->load([
+            'usuarioEscuelas.escuela',
+            'usuarioEscuelas.usuarioTipo'
+        ]);
+
+        // Retornar la respuesta JSON.
+        return response()->json($user, Response::HTTP_OK);
     }
 
 }

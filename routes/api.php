@@ -114,7 +114,7 @@ use Illuminate\Support\Facades\URL; // Para la firma de URL
            // Route::get('usuario_actual/{id_escuela}', [VbaPerfilController::class, 'obtenerUsuario']);
             Route::post('logout', [VbaLogoutController::class, 'logout']);
             Route::post('solicitar-colegio', [SolicitarColegio::class, 'solicitarColegio']);
-            Route::get('user-actualizar-colegios', [SolicitarColegio::class, 'refreshColegios']);
+            Route::get('user-refresh', [VbaPerfilController::class, 'userRefresh']);
         });
     });
 
