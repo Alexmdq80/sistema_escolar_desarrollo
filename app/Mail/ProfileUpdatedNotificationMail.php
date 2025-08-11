@@ -8,13 +8,13 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User;
+use App\Models\Usuario;
 
 class ProfileUpdatedNotificationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
+    public $usuario;
     public $oldNombre;
     public $newNombre;
     public $oldApellido;
@@ -23,16 +23,16 @@ class ProfileUpdatedNotificationMail extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Usuario  $usuario
      * @param  string  $oldNombre
      * @param  string  $newNombre
      * @param  string  $oldApellido
      * @param  string  $newApellido
      * @return void
      */
-    public function __construct(User $user, string $oldNombre, string $newNombre, string $oldApellido, string $newApellido)
+    public function __construct(Usuario $usuario, string $oldNombre, string $newNombre, string $oldApellido, string $newApellido)
     {
-        $this->user = $user;
+        $this->usuario = $usuario;
         $this->oldNombre = $oldNombre;
         $this->newNombre = $newNombre;
         $this->oldApellido = $oldApellido;
@@ -57,7 +57,7 @@ class ProfileUpdatedNotificationMail extends Mailable
         return new Content(
             markdown: 'emails.profile-updated-notification', // Crea esta vista Markdown
             with: [
-                'userNombre' => $this->user->nombre, // Nombre actual del usuario
+                'userNombre' => $this->usuario->nombre, // Nombre actual del usuario
                 'oldNombre' => $this->oldNombre,
                 'newNombre' => $this->newNombre,
                 'oldApellido' => $this->oldApellido,

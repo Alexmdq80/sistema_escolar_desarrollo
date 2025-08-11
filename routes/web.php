@@ -6,7 +6,7 @@ use App\Models\Sexo;
 use App\Models\Documento_Tipo;
 use App\Models\Escuela;
 use App\Models\Nivel;
-use App\Models\User;
+use App\Models\Usuario;
 use App\Models\Localidad_Censal;
 use App\Models\Calle;
 use App\Models\Adulto_Vinculo;

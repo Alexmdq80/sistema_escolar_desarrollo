@@ -26,8 +26,8 @@ class LogEmailVerificationSent
         //\Log::error("Pasó por LogEmailVerificationSent...");
         try {
             AuthenticationAudit::create([
-                'auditable_type'  => 'App\Models\User',
-                'auditable_id'    => $event->user->id,
+                'auditable_type'  => 'App\Models\Usuario',
+                'auditable_id'    => $event->usuario->id,
                 'event'           => 'email_verification_sent',
                 'ip_address'      => $event->ipAddress,
                 'user_agent'      => $event->userAgent,
@@ -39,7 +39,7 @@ class LogEmailVerificationSent
             // Es crucial que la auditoría no rompa el flujo principal de la aplicación.
             // Registra el error pero permite que la aplicación continúe.
             \Log::error("Error al auditar el envío de email de verificación (Evento Personalizado): " . $e->getMessage(), [
-                'user_id' => $event->user->id,
+                'user_id' => $event->usuario->id,
                 'email' => $event->email,
                 'ip_address' => $event->ipAddress,
             ]);

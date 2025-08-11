@@ -35,8 +35,8 @@ class LogProfileUpdatedNotificationSent
 
         try {
             AuthenticationAudit::create([
-                'auditable_type'  => 'App\Models\User',
-                'auditable_id'    => $event->user->id,
+                'auditable_type'  => 'App\Models\Usuario',
+                'auditable_id'    => $event->usuario->id,
                 'event'           => 'profile_update_notification_sent', // Tipo de evento para tu auditoría
                 'ip_address'      => $event->ipAddress,
                 'user_agent'      => $event->userAgent,
@@ -48,7 +48,7 @@ class LogProfileUpdatedNotificationSent
             ]);
         } catch (\Exception $e) {
             Log::error("Error al auditar el envío de notificación de actualización de perfil: " . $e->getMessage(), [
-                'user_id' => $event->user->id,
+                'usuario_id' => $event->usuario->id,
                 'email' => $event->notifiedEmail,
                 'ip_address' => $event->ipAddress,
             ]);

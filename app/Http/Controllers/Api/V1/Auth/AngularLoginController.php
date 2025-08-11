@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Usuario_Escuela;
+use App\Models\Usuario;
+use App\Models\UsuarioEscuela;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -17,21 +17,23 @@ class AngularLoginController extends Controller
 {
     public function __invoke(Request $request)
     {
+        // HAY QUE REVISARLO, SEGURRAMENTE NO ESTÉ FUNCIONANDO
+
         $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
             'id_escuela' => ['required']
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $usuario = Usuario::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (!$usuario || !Hash::check($request->password, $usuario->password)) {
             throw ValidationException::withMessages([
                 'email' => ['El usuario y/o la contraseña no son válidas.'],
             ]);
         }
 
-        $ue = Usuario_Escuela::where('id_usuario', $user->id)
+        $ue = UsuarioEscuela::where('id_usuario', $usuario->id)
                             ->where('id_escuela', $request->id_escuela)
                             ->with('UsuarioTipo')
                             ->first();
@@ -54,7 +56,7 @@ class AngularLoginController extends Controller
 
         return response()->json([
            'access_token' => $user->createToken($device, expiresAt: $expiresAt)->plainTextToken,
-           'usuario' => $user,
+           'usuario' => $usuario,
            'usuario_escuela' => $ue
         ], Response::HTTP_CREATED);
 

@@ -8,25 +8,25 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User;
+use App\Models\Usuario;
 
 class PasswordResetMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
+    public $usuario;
     public $token; // El token es lo único que necesitamos aquí
 
     /**
      * Create a new message instance.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Usuario  $usuario
      * @param  string  $token  El token de restablecimiento de contraseña
      * @return void
      */
-    public function __construct(User $user, string $token)
+    public function __construct(Usuario $usuario, string $token)
     {
-        $this->user = $user;
+        $this->usuario = $usuario;
         $this->token = $token;
         // La URL de restablecimiento ya no se genera aquí, solo el token.
     }
@@ -49,7 +49,7 @@ class PasswordResetMail extends Mailable
         return new Content(
             markdown: 'emails.password-reset-token-only', // Nueva vista Markdown
             with: [
-                'userName' => $this->user->name,
+                'userName' => $this->usuario->name,
                 'token' => $this->token, // Pasar el token a la vista
             ],
         );

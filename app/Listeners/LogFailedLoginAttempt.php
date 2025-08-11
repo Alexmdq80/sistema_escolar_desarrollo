@@ -6,7 +6,7 @@ use App\Models\AuthenticationAudit;
 
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Support\Facades\Log;
-use App\Models\User;
+use App\Models\Usuario;
 
 class LogFailedLoginAttempt
 {
@@ -18,16 +18,16 @@ class LogFailedLoginAttempt
      */
     public function handle(Failed $event)
     {
-        $user_id = null;
+        $usuario_id = null;
         $auditable_type = null;
         $auditable_id = null;
         $emailAttempt = null;
 
         $emailAttempt =  $event->credentials['email'];
 
-        if ($event->user instanceof User) {
+        if ($event->user instanceof Usuario) {
             // si es un usuario, entonces obtenemos sus datos
-            $user_id = $event->user->id;
+            $usuario_id = $event->user->id;
             $auditable_type = get_class($event->user);
             $auditable_id = $event->user->id;
         }

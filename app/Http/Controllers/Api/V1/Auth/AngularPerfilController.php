@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
-use App\Models\User;
+use App\Models\Usuario;
 use Illuminate\Http\JsonResponse;
 
 /**

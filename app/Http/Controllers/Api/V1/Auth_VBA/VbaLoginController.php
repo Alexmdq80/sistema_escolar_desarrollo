@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Auth_VBA;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -30,16 +30,16 @@ class VbaLoginController extends Controller
      //   $user = User::where('email', $request->email)->first();
         // la consulta ya devuelve todos los colegios que tenga el usuario
         // y qué tipo de usuario es en cada uno de ellos
-        $user = User::where('email', $request->email)
+        $usuario = Usuario::where('email', $request->email)
             ->with([
                     'usuarioEscuelas.escuela',
                     'usuarioEscuelas.usuarioTipo'])
             ->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (!$usuario || !Hash::check($request->password, $usuario->password)) {
             // Disparar el evento Failed.
             // El Listener LogFailedLoginAttempt ya está preparado para manejar 'null' o el objeto User
-            event(new Failed('sanctum',  $user, $request->only('email')));
+            event(new Failed('sanctum',  $usuario, $request->only('email')));
             throw ValidationException::withMessages([
                 'email' => ['El usuario y/o la contraseña no son válidas.'],
             ]);
@@ -50,10 +50,10 @@ class VbaLoginController extends Controller
         $expiresAt = $request->remember ? null : now()->addMinutes(240);
 
         // Eliminar todos los tokens existentes del usuario en el dispositivo actual
-        $user->tokens()->where('name', $device)->delete();
+        $usuario->tokens()->where('name', $device)->delete();
 
         // Eliminar cualquier refresh token existente para este usuario y dispositivo
-        RefreshToken::where('id_usuario', $user->id)
+        RefreshToken::where('id_usuario', $usuario->id)
             ->where('device_id', $device)
             ->delete();
 
@@ -61,18 +61,18 @@ class VbaLoginController extends Controller
         $refreshTokenExpiresAt = now()->addMinutes(config('sanctum.refresh_expiration', 20160));
 
         RefreshToken::create([
-            'id_usuario' => $user->id,
+            'id_usuario' => $usuario->id,
             'token' => hash('sha256', $refreshToken),
             'expires_at' => $refreshTokenExpiresAt,
             'device_id' => $device,
         ]);
 
-        event(new Login('sanctum', $user, false));
+        event(new Login('sanctum', $usuario, false));
 
         return response()->json([
-           'access_token' => $user->createToken($device, expiresAt: $expiresAt)->plainTextToken,
+           'access_token' => $usuario->createToken($device, expiresAt: $expiresAt)->plainTextToken,
            'refresh_token' => $refreshToken,
-           'usuario' => $user
+           'usuario' => $usuario
         ], Response::HTTP_CREATED);
 
     }
@@ -111,9 +111,9 @@ class VbaLoginController extends Controller
         }
 
          // Obtener el usuario asociado al token de refresco
-        $user = User::find($refreshTokenRecord->id_usuario); // Busca el usuario por id_usuario
+        $usuario = Usuario::find($refreshTokenRecord->id_usuario); // Busca el usuario por id_usuario
 
-        if (!$user) {
+        if (!$usuario) {
              return response()->json(['message' => 'Usuario no encontrado para el refresh token.'], 401);
         }
 
@@ -127,7 +127,7 @@ class VbaLoginController extends Controller
 
         // Generar un **nuevo Access Token** usando Sanctum
         // El 'name' aquí podría ser el device_id o cualquier identificador único que tengas
-        $newAccessToken = $user->createToken(
+        $newAccessToken = $usuario->createToken(
             $refreshTokenRecord->device_id ?? 'default_device', // Usa el device_id guardado o un default
             ['*'],
             now()->addMinutes($newAccessTokenExpiration)
@@ -139,7 +139,7 @@ class VbaLoginController extends Controller
 
         // Guardar el nuevo refresh token hasheado en tu tabla personalizada
         RefreshToken::create([
-            'id_usuario' => $user->id,
+            'id_usuario' => $usuario->id,
             'token' => $hashedNewRefreshToken,
             'expires_at' => now()->addMinutes($newRefreshTokenExpiration),
             'device_id' => $refreshTokenRecord->device_id ?? 'default_device',

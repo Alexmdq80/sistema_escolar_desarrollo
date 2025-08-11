@@ -5,14 +5,14 @@ namespace App\Events;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 
 class PasswordResetRequested
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user;
+    public $usuario;
     public $email;
     public $ipAddress;
     public $userAgent;
@@ -20,13 +20,13 @@ class PasswordResetRequested
     /**
      * Create a new event instance.
      *
-     * @param  \App\Models\User  $user  El usuario que solicitó el restablecimiento.
+     * @param  \App\Models\Usuario  $usuario  El usuario que solicitó el restablecimiento.
      * @param  string  $email  El email al que se envió el enlace.
      * @return void
      */
-    public function __construct(User $user, string $email)
+    public function __construct(Usuario $usuario, string $email)
     {
-        $this->user = $user;
+        $this->usuario = $usuario;
         $this->email = $email;
 
         $request = app(Request::class);

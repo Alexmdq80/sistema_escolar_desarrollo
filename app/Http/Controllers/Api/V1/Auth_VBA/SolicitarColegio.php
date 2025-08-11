@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1\Auth_VBA;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Usuario;
 use App\Models\UsuarioEscuela;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
@@ -12,16 +12,16 @@ use Illuminate\Http\JsonResponse;
 class SolicitarColegio extends Controller
 {
     public function solicitarColegio(Request $request): JsonResponse {
-    
+
         $request->validate([
             'id_escuela' => ['required', 'exists:escuela,id'] // Se agregó 'exists' para mayor seguridad
         ]);
 
-        $user = $request->user();
+        $usuario = $request->user();
 
         $ue = UsuarioEscuela::firstOrCreate(
             [
-                'id_usuario' => $user->id,
+                'id_usuario' => $usuario->id,
                 'id_escuela' => $request->id_escuela
             ],
             [
@@ -37,13 +37,13 @@ class SolicitarColegio extends Controller
         }
 
         // Cargamos las relaciones en la instancia de usuario existente.
-        $user->load([
+        $usuario->load([
             'usuarioEscuelas.escuela',
             'usuarioEscuelas.usuarioTipo'
         ]);
 
-        return response()->json($user, Response::HTTP_CREATED);  
-        
+        return response()->json($usuario, Response::HTTP_CREATED);
+
     }
 
 }

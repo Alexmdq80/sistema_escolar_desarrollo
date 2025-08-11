@@ -1,5 +1,5 @@
 <x-mail::message>
-# ¡Hola {{ $user->name }}!
+# ¡Hola {{ $usuario->name }}!
 
 Gracias por registrarte. Por favor, haz clic en el botón de abajo para verificar tu dirección de correo electrónico.
 

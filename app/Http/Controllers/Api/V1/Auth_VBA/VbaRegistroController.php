@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\V1\Auth_VBA;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Usuario_Escuela;
+use App\Models\Usuario;
+use App\Models\UsuarioEscuela;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -38,11 +38,11 @@ class VbaRegistroController extends Controller
             'id_escuela' => ['integer']
         ]);
 
-        if (User::where('email', $request->email)->exists()) {
+        if (Usuario::where('email', $request->email)->exists()) {
             return response()->json(['message' => 'El correo electrónico ya está registrado.'], Response::HTTP_CONFLICT);
         }
 
-        $user = User::create([
+        $usuario = Usuario::create([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
             'email' => $request->email,
@@ -64,9 +64,9 @@ class VbaRegistroController extends Controller
 
       //  dd($user->verification_token);
 
-        Mail::to($user->email)->send(new EmailVerificationMail($user));
+        Mail::to($usuario->email)->send(new EmailVerificationMail($usuario));
 
-        event(new EmailVerificationLinkSent($user, $user->email, 'registration'));
+        event(new EmailVerificationLinkSent($usuario, $usuario->email, 'registration'));
 
         return response()->json([
             'resultado' => 'usuario creado exitosamente, verfica tu correo electrónico.',

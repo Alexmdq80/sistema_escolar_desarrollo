@@ -13,7 +13,7 @@ use OwenIt\Auditing\Auditable; // Importa el trait
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract; // Importa el contrato (necesario)
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class User extends Authenticatable implements AuditableContract
+class Usuario extends Authenticatable implements AuditableContract
 //class User extends Authenticatable
 
 {

@@ -8,23 +8,23 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User;
+use App\Models\Usuario;
 
 class ProfileUpdatedPasswordNotificationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
+    public $usuario;
 
     /**
      * Create a new message instance.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Usuario  $usuario
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(Usuario $usuario)
     {
-        $this->user = $user;
+        $this->usuario = $usuario;
     }
 
     /**
@@ -45,7 +45,7 @@ class ProfileUpdatedPasswordNotificationMail extends Mailable
         return new Content(
             markdown: 'emails.profile-updated-password-notification', // Crea esta vista Markdown
             with: [
-                'userNombre' => $this->user->nombre // Nombre actual del usuario
+                'userNombre' => $this->usuario->nombre // Nombre actual del usuario
             ]
         );
     }

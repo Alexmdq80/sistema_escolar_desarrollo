@@ -8,42 +8,42 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User;
+use App\Models\Usuario;
 use Illuminate\Support\Facades\URL;
 
 class EmailVerificationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
+    public $usuario;
     public $verificationUrl;
 
 
     /**
      * Create a new message instance.
      */
-    public function __construct(User $user)
+    public function __construct(Usuario $usuario)
     {
-        $this->user = $user;
+        $this->usuario = $usuario;
         // Genera una URL firmada para la verificación
         // Aquí usamos una URL con el token que guardaste en el usuario
         // Asegúrate de que 'verification.verify' sea el nombre de tu ruta de API para verificar
-       if (empty($user->verification_token)) {
+       if (empty($usuario->verification_token)) {
             // Esto no debería ocurrir si lo asignaste en RegisterController
             // Considera lanzar una excepción o loggear un error
-            // \Log::error('User has no verification token when trying to send email!', ['user_id' => $user->id]);
+            // \Log::error('Usuario has no verification token when trying to send email!', ['usuario_id' => $usuario->id]);
             // Si el token es null, esto causará el error.
             // Podrías generar uno aquí temporalmente para probar,
             // pero lo ideal es que venga del RegisterController.
-            $user->verification_token = Str::random(60); // ¡Solo para depuración si no se genera antes!
+            $usuario->verification_token = Str::random(60); // ¡Solo para depuración si no se genera antes!
         }
 
         $this->verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
             now()->addMinutes(60),
             [
-                'id' => $this->user->id, // Usa $this->user->id para referirte al ID del usuario
-                'token' => $this->user->verification_token // Usa $this->user->verification_token para el token
+                'id' => $this->usuario->id, // Usa $this->usuario->id para referirte al ID del usuario
+                'token' => $this->usuario->verification_token // Usa $this->usuario->verification_token para el token
             ]
         );
     }

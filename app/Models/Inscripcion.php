@@ -34,7 +34,7 @@ class Inscripcion extends Model
         return $this->belongsTo(Estudiante_Adulto_Vinculo::class, "restringida", "id");
     }
     public function usuario() {
-        return $this->belongsTo(User::class, "id_usuario", "id");
+        return $this->belongsTo(Usuario::class, "id_usuario", "id");
     }
     public function ciclo_lectivo() {
         return $this->belongsTo(Ciclo_Lectivo::class, "id_ciclo_lectivo", "id");

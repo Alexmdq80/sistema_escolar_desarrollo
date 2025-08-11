@@ -23,7 +23,7 @@ use App\Http\Controllers\Api\V1\Auth_VBA\SolicitarColegio;
 
 use App\Http\Controllers\Api\V1\Auth\EmailVerificationController;
 
-use App\Models\User; // Asegúrate de importar tu modelo User
+use App\Models\Usuario; // Asegúrate de importar tu modelo Usuario
 use Illuminate\Support\Facades\URL; // Para la firma de URL
 
 
@@ -43,7 +43,7 @@ use Illuminate\Support\Facades\URL; // Para la firma de URL
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+// Route::middleware('auth:sanctum')->get('/usuario', function (Request $request) {
 //     return $request->user();
 // });
 // Route::get('inscripciones/show-by-espacio', [InscripcionController::class,'showByEspacio']);
@@ -78,7 +78,7 @@ use Illuminate\Support\Facades\URL; // Para la firma de URL
             ->name('verification.resend.authenticated')
             ->middleware('throttle:resend-verification'); // Limita el reenvío de verificación
             //->middleware('throttle:3,30');
-        
+
         Route::group(['prefix' => 'escuelas'], function () {
             Route::get('escuela-por-cue/{cueAnexo}', [ObtenerEscuela::class, 'escuelaPorCue']);
         });

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Response;
 use Illuminate\Auth\Events\PasswordReset;
-use App\Models\User;
+use App\Models\Usuario;
 use Illuminate\Validation\Rules\Password as PasswordRule;
 
 class ResetPasswordController extends Controller
@@ -34,16 +34,16 @@ class ResetPasswordController extends Controller
 
         $status = Password::broker()->reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user) use ($request) {
-                $user->forceFill([
+            function ($usuario) use ($request) {
+                $usuario->forceFill([
                     'password' => Hash::make($request->password),
                     'remember_token' => null,
                 ])->save();
 
-                event(new PasswordReset($user));
+                event(new PasswordReset($usuario));
 
-                if (method_exists($user, 'tokens')) {
-                    $user->tokens()->delete();
+                if (method_exists($usuario, 'tokens')) {
+                    $usuario->tokens()->delete();
                 }
             }
         );

@@ -16,8 +16,8 @@ class LogOldEmailNotificationSent
     {
         try {
             AuthenticationAudit::create([
-                'auditable_type'  => 'App\Models\User',
-                'auditable_id'    => $event->user->id,
+                'auditable_type'  => 'App\Models\Usuario',
+                'auditable_id'    => $event->usuario->id,
                 'event'           => 'email_change_notification_sent_old_email',
                 'ip_address'      => $event->ipAddress,
                 'user_agent'      => $event->userAgent,
@@ -30,7 +30,7 @@ class LogOldEmailNotificationSent
             // Es crucial que la auditoría no rompa el flujo principal de la aplicación.
             // Registra el error pero permite que la aplicación continúe.
             \Log::error("Error al auditar el envío de aviso a email viejo: " . $e->getMessage(), [
-                'user_id' => $event->user->id,
+                'user_id' => $event->usuario->id,
                 'old_email' => $event->oldEmail,
                 'new_email' => $event->newEmail,
             ]);

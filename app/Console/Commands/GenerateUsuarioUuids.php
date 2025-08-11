@@ -3,10 +3,10 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\User;
+use App\Models\Usuario;
 use Illuminate\Support\Str;
 
-class GenerateUserUuids extends Command
+class GenerateUsuarioUuids extends Command
 {
     /**
      * The name and signature of the console command.
@@ -20,7 +20,7 @@ class GenerateUserUuids extends Command
      *
      * @var string
      */
-    protected $description = 'Generates UUIDs for existing users.';
+    protected $description = 'Generates UUIDs for existing Usuarios.';
 
     /**
      * Create a new command instance.
@@ -39,16 +39,16 @@ class GenerateUserUuids extends Command
      */
     public function handle()
     {
-        $this->info('Generating UUIDs for existing users...');
+        $this->info('Generating UUIDs for existing Usuarios...');
 
-        User::all()->each(function ($user) {
-            if (empty($user->uuid)) { // Verifica si el UUID ya existe antes de generarlo
-                $user->uuid = (string) Str::uuid();
-                $user->save();
+        Usuario::all()->each(function ($usuario) {
+            if (empty($usuario->uuid)) { // Verifica si el UUID ya existe antes de generarlo
+                $usuario->uuid = (string) Str::uuid();
+                $usuario->save();
             }
         });
 
-        $this->info('UUIDs generated for all users.');
+        $this->info('UUIDs generated for all usuarios.');
 
         return 0;
     }

@@ -30,11 +30,11 @@ trait AuditableTrait
     // reference users directly, e.g.,
     public function creator()
     {
-         return $this->belongsTo(User::class, 'created_by');
+         return $this->belongsTo(Usuario::class, 'created_by');
     }
 
     public function updater()
     {
-         return $this->belongsTo(User::class, 'updated_by');
+         return $this->belongsTo(Usuario::class, 'updated_by');
     }
 }

@@ -8,20 +8,20 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User; // Si necesitas pasar el usuario
+use App\Models\Usuario; // Si necesitas pasar el usuario
 
 class EmailChangedNotificationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user; // O cualquier dato que necesites pasar
+    public $usuario; // O cualquier dato que necesites pasar
 
     /**
      * Create a new message instance.
      */
-    public function __construct(User $user) // O el tipo de dato que pases
+    public function __construct(Usuario $usuario) // O el tipo de dato que pases
     {
-        $this->user = $user;
+        $this->usuario = $usuario;
     }
 
     /**
@@ -42,8 +42,8 @@ class EmailChangedNotificationMail extends Mailable
         return new Content(
             markdown: 'emails.email_changed_notification', // Crea esta vista Markdown
             with: [
-                'userName' => $this->user->nombre . ' ' . $this->user->apellido,
-                'newEmail' => $this->user->email,
+                'userName' => $this->usuario->nombre . ' ' . $this->usuario->apellido,
+                'newEmail' => $this->usuario->email,
             ],
         );
     }

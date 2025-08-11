@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use Illuminate\Auth\Events\PasswordReset; 
+use Illuminate\Auth\Events\PasswordReset;
 use App\Models\AuthenticationAudit;
 use Illuminate\Http\Request; // Para obtener la IP y User-Agent
 use Illuminate\Support\Facades\Log;
@@ -26,7 +26,7 @@ class LogPasswordResetSuccess
     {
         try {
             AuthenticationAudit::create([
-                'auditable_type'  => 'App\Models\User',
+                'auditable_type'  => 'App\Models\Usuario',
                 'auditable_id'    => $event->user->id,
                 'event'           => 'password_reset_success', // Tipo de evento para tu auditoría
                 'ip_address'      => $this->request->ip(),
@@ -43,7 +43,7 @@ class LogPasswordResetSuccess
             ]);
         } catch (\Exception $e) {
             Log::error("Error al auditar restablecimiento de contraseña: " . $e->getMessage(), [
-                'user_id' => $event->user->id,
+                'usuario_id' => $event->user->id,
                 'email' => $event->user->email,
                 'ip_address' => $this->request->ip(),
             ]);

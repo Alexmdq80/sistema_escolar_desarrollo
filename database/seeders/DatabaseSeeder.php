@@ -51,12 +51,12 @@ class DatabaseSeeder extends Seeder
         $this->call(Vinculo_TipoSeeder::class);
 
         $this->call(Adulto_VinculoSeeder::class);
-      
+
         // $this->call(PersonaSeeder::class);
 
         $this->call(UsuarioSeeder::class);
 
-        $this->call(Usuario_EscuelaSeeder::class);
+        $this->call(UsuarioEscuelaSeeder::class);
 
         // $this->call(Categoria_GeorefSeeder::class);
 

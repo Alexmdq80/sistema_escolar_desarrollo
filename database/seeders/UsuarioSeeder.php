@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 // use App\Models\Persona;
-use App\Models\User;
+use App\Models\Usuario;
 use Illuminate\Database\Seeder;
 
 class UsuarioSeeder extends Seeder
@@ -13,8 +13,8 @@ class UsuarioSeeder extends Seeder
      */
     public function run(): void
     {
-
-        $usuario = new User();
+        /* lo deshabilito porque no coincide con mis modelos
+      /*  $usuario = new Usuario();
 
        // $persona = new Persona();
 
@@ -39,6 +39,6 @@ class UsuarioSeeder extends Seeder
             $usuario->save();
         }
 
-        //
+    */    //
     }
 }

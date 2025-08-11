@@ -14,7 +14,7 @@ return new class extends Migration
 
         Schema::create('authentication_audits', function (Blueprint $table) {
 
-            $morphPrefix = config('audit.user.morph_prefix', 'user');
+            $morphPrefix = config('audit.user.morph_prefix', 'usuario');
 
             $table->bigIncrements('id');
             $table->string($morphPrefix . '_type')->nullable();

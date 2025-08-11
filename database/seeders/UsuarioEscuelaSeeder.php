@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Usuario_Escuela;
-use App\Models\User;
+use App\Models\UsuarioEscuela;
+use App\Models\Usuario;
 // use App\Models\Persona;
 
 use Illuminate\Database\Seeder;
@@ -14,8 +14,8 @@ class Usuario_EscuelaSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
-        $ue = new Usuario_Escuela();
+    {   /* lo deshabilito porque no coincide con los modelos
+       /* $ue = new Usuario_Escuela();
 
         // $persona = Persona::where('documento_numero', 32126643)
         //                    ->where('id_documento_tipo', 1)
@@ -35,6 +35,6 @@ class Usuario_EscuelaSeeder extends Seeder
             $ue->es_admin = true;
             $ue->verificado = true;
             $ue->save();
-         }
+         }*/
     }
 }

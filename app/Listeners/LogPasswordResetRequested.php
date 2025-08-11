@@ -23,8 +23,8 @@ class LogPasswordResetRequested
     {
         try {
             AuthenticationAudit::create([
-                'auditable_type'  => 'App\Models\User',
-                'auditable_id'    => $event->user->id,
+                'auditable_type'  => 'App\Models\Usuario',
+                'auditable_id'    => $event->usuario->id,
                 'event'           => 'password_reset_requested', // Tipo de evento
                 'ip_address'      => $event->ipAddress,
                 'user_agent'      => $event->userAgent,
@@ -36,7 +36,7 @@ class LogPasswordResetRequested
             ]);
         } catch (\Exception $e) {
             Log::error("Error al auditar solicitud de restablecimiento de contraseña: " . $e->getMessage(), [
-                'user_id' => $event->user->id,
+                'user_id' => $event->usuario->id,
                 'email' => $event->email,
                 'ip_address' => $event->ipAddress,
             ]);

@@ -23,8 +23,8 @@ class LogProfileUpdatedPasswordNotificationSent
     {
         try {
             AuthenticationAudit::create([
-                'auditable_type'  => 'App\Models\User',
-                'auditable_id'    => $event->user->id,
+                'auditable_type'  => 'App\Models\Usuario',
+                'auditable_id'    => $event->usuario->id,
                 'event'           => 'password_change_notification_sent', // Tipo de evento para tu auditoría
                 'ip_address'      => $event->ipAddress,
                 'user_agent'      => $event->userAgent,
@@ -36,7 +36,7 @@ class LogProfileUpdatedPasswordNotificationSent
             ]);
         } catch (\Exception $e) {
             Log::error("Error al auditar el envío de notificación de actualización de password de perfil: " . $e->getMessage(), [
-                'user_id' => $event->user->id,
+                'usuario_id' => $event->usuario->id,
                 'email' => $event->notifiedEmail,
                 'ip_address' => $event->ipAddress,
             ]);

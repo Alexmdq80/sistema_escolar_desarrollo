@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+// Deshabilita temporalmente las restricciones de claves foráneas
+        //Schema::disableForeignKeyConstraints();
+
+        // Renombra la tabla 'usuario' a 'usuarios'
+        Schema::rename('usuario', 'usuarios');
+
+        // Vuelve a habilitar las restricciones de claves foráneas
+        //Schema::enableForeignKeyConstraints();
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        // Deshabilita temporalmente las restricciones de claves foráneas
+        //Schema::disableForeignKeyConstraints();
+
+        // Reviertes el cambio renombrando la tabla a su nombre original
+        Schema::rename('usuarios', 'usuario');
+
+        // Vuelve a habilitar las restricciones de claves foráneas
+        //Schema::enableForeignKeyConstraints();
+    }
+};
