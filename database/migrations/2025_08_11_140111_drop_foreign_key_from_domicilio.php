@@ -43,7 +43,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('domicilio', function (Blueprint $table) {
-            $table->unique('id_persona');
+            $table->unique(['id_persona']);
+            $table->foreign(['id_persona'])->references('id')->on('persona');
             $table->foreign(['id_calle'])->references('id')->on('calle');
             $table->foreign(['id_calle_entre1'])->references('id')->on('calle');
             $table->foreign(['id_calle_entre2'])->references('id')->on('calle');

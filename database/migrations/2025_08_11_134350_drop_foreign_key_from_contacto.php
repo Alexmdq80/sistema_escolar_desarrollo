@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::table('contacto', function (Blueprint $table) {
             $table->dropForeign('contacto_id_persona_foreign');
         });
+
         Schema::table('contacto', function (Blueprint $table) {
-            $table->dropUnique('id_persona');
+            $table->dropUnique(['id_persona']);
         });
     }
 
