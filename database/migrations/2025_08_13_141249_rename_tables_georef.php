@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::rename('categoria_georef', 'georef_categorias');
         Schema::rename('fuente_georef', 'georef_fuentes');
-        Schema::rename('funcion_georef', 'georef_funciones');
+        Schema::rename('funcion_georef', 'georef_funcions');
         // estas las nombro como georef, porque no las uso para realizar consultas, 
         // quedaron al generar la BD, quizá pueda elimnarlas luego.
         Schema::rename('localidad', 'georef_localidads');
@@ -25,11 +25,10 @@ return new class extends Migration
         Schema::rename('departamento', 'departamentos');
         Schema::rename('municipio', 'municipios');    
         Schema::rename('localidad_asentamiento', 'localidads'); 
-        Schema::rename('localidad_censal', 'censals'); 
+        Schema::rename('localidad_censal', 'localidad_censals'); 
         //
         Schema::rename('region_educativa', 'regions'); 
 
-        Schema::rename('domicilio', 'domicilios');
         Schema::rename('calle', 'calles');
 
     }
@@ -41,7 +40,7 @@ return new class extends Migration
     {
         Schema::rename('georef_categorias', 'categoria_georef');
         Schema::rename('georef_fuentes','fuente_georef');
-        Schema::rename('georef_funciones','funcion_georef');
+        Schema::rename('georef_funcions','funcion_georef');
         // estas las nombro como georef, porque no las uso para realizar consultas, 
         // quedaron al generar la BD, quizá pueda elimnarlas luego.
         Schema::rename('georef_localidads','localidad',);
@@ -53,11 +52,10 @@ return new class extends Migration
         Schema::rename('departamentos','departamento');
         Schema::rename('municipios','municipio');    
         Schema::rename('localidads','localidad_asentamiento'); 
-        Schema::rename('censals','localidad_censal'); 
+        Schema::rename('localidad_censals','localidad_censal'); 
         //
         Schema::rename('regions','region_educativa'); 
 
-        Schema::rename('domicilios','domicilio');
         Schema::rename('calles','calle');
     }
 };

@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::rename('adulto_vinculo', 'vinculos');
+        Schema::table('ambitos', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -19,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-       Schema::rename('vinculos', 'adulto_vinculo');
+        Schema::table('ambitos', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };
