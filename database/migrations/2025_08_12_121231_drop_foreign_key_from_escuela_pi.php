@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('escuela_pi', function (Blueprint $table) {
+        Schema::table('escuela_PI', function (Blueprint $table) {
             $table->dropForeign('escuela_pi_id_escuela_foreign');
             $table->dropForeign('escuela_pi_id_propuesta_institucional_foreign');
         });
-        Schema::table('escuela_pi', function (Blueprint $table) {
+        Schema::table('escuela_PI', function (Blueprint $table) {
             $table->dropIndex('escuela_pi_id_escuela_foreign');
             $table->dropIndex('escuela_pi_id_propuesta_institucional_foreign');
         });
@@ -26,9 +26,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('escuela_pi', function (Blueprint $table) {
-            $table->foreign(['id_escuela'])->references('id')->on('escuela'); 
-            $table->foreign(['id_propuesta_institucional'])->references('id')->on('propuesta_institucional');             
+        Schema::table('escuela_PI', function (Blueprint $table) {
+            $table->foreign(['id_escuela'])->references('id')->on('escuela');
+            $table->foreign(['id_propuesta_institucional'])->references('id')->on('propuesta_institucional');
         });
     }
 };

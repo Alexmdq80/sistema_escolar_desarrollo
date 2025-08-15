@@ -37,7 +37,8 @@ return new class extends Migration
             $table->dropIndex('inscripcion_historial_id_nivel_procedencia_foreign');
             $table->dropIndex('inscripcion_historial_id_modalidad_procedencia_foreign');
             $table->dropIndex('inscripcion_historial_id_condicion_foreign');
-            $table->dropIndex('inscripcion_historial_id_usuario_index');
+         //   $table->dropIndex('inscripcion_historial_id_usuario_index');
+            $table->dropIndex('inscripcion_historial_id_usuario_foreign');
             $table->dropIndex('inscripcion_historial_id_ciclo_lectivo_foreign');
             $table->dropIndex('inscripcion_historial_id_persona_adulto_1_foreign');
             $table->dropIndex('inscripcion_historial_id_adulto_vinculo_1_foreign');

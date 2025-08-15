@@ -39,7 +39,8 @@ return new class extends Migration
             $table->dropIndex('inscripcion_restringida_foreign');
             $table->dropIndex('inscripcion_id_ciclo_lectivo_foreign');
             $table->dropIndex('inscripcion_id_persona_firma_foreign');
-            $table->dropIndex('inscripcion_id_usuario_index');
+//            $table->dropIndex('inscripcion_id_usuario_index');
+            $table->dropIndex('inscripcion_id_usuario_foreign');
 
 
         });

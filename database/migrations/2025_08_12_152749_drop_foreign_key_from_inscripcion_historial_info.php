@@ -20,7 +20,9 @@ return new class extends Migration
 
             $table->dropIndex('inscripcion_historial_info_id_inscripcion_cierre_foreign');
           //  $table->dropIndex('inscripcion_historial_info_id_inscripcion_historial_foreign');
-            $table->dropIndex('inscripcion_historial_info_id_usuario_index');
+          //  $table->dropIndex('inscripcion_historial_info_id_usuario_index');
+            $table->dropIndex('inscripcion_historial_info_id_usuario_foreign');
+
         });
     }
 
@@ -36,7 +38,7 @@ return new class extends Migration
 
             $table->foreign('id_inscripcion_cierre')->references('id')->on('inscripcion_cierre');
             $table->foreign('id_inscripcion_historial')->references('id')->on('inscripcion_historial');
-        
+
         });
     }
 };

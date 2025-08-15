@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pais', function (Blueprint $table) {
+            // agregar sólo si viene de un rollback
             $table->dropForeign('pais_id_continente_foreign');
         });
         Schema::table('pais', function (Blueprint $table) {
