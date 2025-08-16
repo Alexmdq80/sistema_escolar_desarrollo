@@ -33,7 +33,7 @@ return new class extends Migration
             /*$table->dropForeign(['plan_ciclo_id']);
             $table->dropIndex('anios_plan_ciclo_id_foreign');
             $table->renameColumn('plan_ciclo_id', 'id_ciclo_plan_estudio');*/
-            $table->tinyInteger('id_ciclo_plan_estudio')->unsigned();
+            $table->tinyInteger('id_ciclo_plan_estudio')->after('id')->unsigned();
             $table->dropSoftDeletes();
         });
     }

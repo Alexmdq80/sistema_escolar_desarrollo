@@ -54,8 +54,8 @@ return new class extends Migration
             $table->renameColumn('georef_fuente_id', 'id_fuente_georef');
             $table->renameColumn('georef_categoria_id', 'id_categoria_georef');
 
-            $table->tinyInteger('id_pais')->unsigned();
-            $table->tinyInteger('id_continente')->unsigned();
+            $table->tinyInteger('id_pais')->after('id')->unsigned();
+            $table->tinyInteger('id_continente')->after('id')->unsigned();
 
             $table->dropSoftDeletes();
             $table->dropTimestamps();
