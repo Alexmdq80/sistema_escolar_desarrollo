@@ -43,7 +43,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // ELIMNARLO MANUALMENTE
         // Revert the data migration by truncating the new table
-        DB::table('escuela_modalidad_nivel')->truncate();
+       //  DB::table('escuela_modalidad_nivel')->truncate();
     }
 };

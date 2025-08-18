@@ -45,6 +45,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('modalidad_nivel');
+
+        // NO CONVIENE ELIMINARLO, HACERLO DE FORMA MANUAL.
+       // Schema::dropIfExists('modalidad_nivel');
     }
 };
