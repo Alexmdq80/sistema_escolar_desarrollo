@@ -11,7 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('contactos', function (Blueprint $table) {
+        Schema::table('georef_funcions', function (Blueprint $table) {
+            $table->timestamps();
             $table->softDeletes();
         });
     }
@@ -21,7 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('contactos', function (Blueprint $table) {
+        Schema::table('georef_funcions', function (Blueprint $table) {
+            $table->dropTimestamps();
             $table->dropSoftDeletes();
         });
     }

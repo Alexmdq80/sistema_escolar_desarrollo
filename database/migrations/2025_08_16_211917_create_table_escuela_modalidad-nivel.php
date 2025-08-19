@@ -11,27 +11,30 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('escuela_modalidad_nivel', function (Blueprint $table) {
-            $table->increments('id');
 
-            $table->mediumInteger('escuela_id')->unsigned();
-            $table->smallInteger('modalidad_nivel_id')->unsigned();
+        if (!Schema::hasTable('escuela_modalidad_nivel')) {
+            Schema::create('escuela_modalidad_nivel', function (Blueprint $table) {
+                $table->increments('id');
 
-            $table->foreign('escuela_id')
-                ->references('id')
-                ->on('escuelas')
-                ->onDelete('restrict');
+                $table->mediumInteger('escuela_id')->unsigned();
+                $table->smallInteger('modalidad_nivel_id')->unsigned();
 
-            $table->foreign('modalidad_nivel_id')
-                ->references('id')
-                ->on('modalidad_nivel')
-                ->onDelete('restrict');
+                $table->foreign('escuela_id')
+                    ->references('id')
+                    ->on('escuelas')
+                    ->onDelete('restrict');
 
-            $table->unique(['escuela_id', 'modalidad_nivel_id']);
+                $table->foreign('modalidad_nivel_id')
+                    ->references('id')
+                    ->on('modalidad_nivel')
+                    ->onDelete('restrict');
 
-            $table->timestamps();
-            $table->softDeletes();
-        });
+                $table->unique(['escuela_id', 'modalidad_nivel_id']);
+
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        };
     }
 
     /**

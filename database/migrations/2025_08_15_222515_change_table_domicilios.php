@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('domicilios', function (Blueprint $table) {
             $table->softDeletes();
 
-            $table->uuid('uuid')->after('id')->nullable(); // Columna temporal
+            //$table->uuid('uuid')->after('id')->nullable(); // Columna temporal
 
             $table->renameColumn('id_pais', 'nacion_id');
             $table->renameColumn('id_provincia', 'provincia_id');
@@ -69,7 +69,7 @@ return new class extends Migration
     {
         Schema::table('domicilios', function (Blueprint $table) {
             $table->dropSoftDeletes();
-            $table->dropColumn('uuid');
+            //$table->dropColumn('uuid');
 
             $table->dropForeign(['nacion_id']);
             $table->dropForeign(['provincia_id']);

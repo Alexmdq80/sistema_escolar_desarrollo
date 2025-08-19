@@ -11,33 +11,36 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('modalidad_nivel', function (Blueprint $table) {
-            $table->smallIncrements('id')->unsigned();
+    
+        if (!Schema::hasTable('modalidad_nivel')) {
+            Schema::create('modalidad_nivel', function (Blueprint $table) {
+                $table->smallIncrements('id')->unsigned();
 
-            $table->tinyInteger('modalidad_id')->unsigned();
-            $table->tinyInteger('nivel_id')->unsigned();
-            $table->tinyInteger('tipo_escuela_id')->unsigned()->nullable();
+                $table->tinyInteger('modalidad_id')->unsigned();
+                $table->tinyInteger('nivel_id')->unsigned();
+                $table->tinyInteger('tipo_escuela_id')->unsigned()->nullable();
 
-            $table->foreign('modalidad_id')
-                ->references('id')
-                ->on('modalidads')
-                ->onDelete('restrict');
+                $table->foreign('modalidad_id')
+                    ->references('id')
+                    ->on('modalidads')
+                    ->onDelete('restrict');
 
-            $table->foreign('nivel_id')
-                ->references('id')
-                ->on('nivels')
-                ->onDelete('restrict');
+                $table->foreign('nivel_id')
+                    ->references('id')
+                    ->on('nivels')
+                    ->onDelete('restrict');
 
-            $table->foreign('tipo_escuela_id')
-                ->references('id')
-                ->on('tipo_escuelas')
-                ->onDelete('restrict');
+                $table->foreign('tipo_escuela_id')
+                    ->references('id')
+                    ->on('tipo_escuelas')
+                    ->onDelete('restrict');
 
-            // Esta clave única evita duplicados de la misma combinación
-            $table->unique(['modalidad_id', 'nivel_id']);
-            $table->timestamps();
-            $table->softDeletes();
-        });
+                // Esta clave única evita duplicados de la misma combinación
+                $table->unique(['modalidad_id', 'nivel_id']);
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        };
     }
 
     /**
