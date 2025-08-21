@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::table('contactos', function (Blueprint $table) {
             $table->softDeletes();
+
+            $table->renameColumn('id_persona', 'persona_id');
+
+            $table->foreign('persona_id')
+                ->references('id')
+                ->on('personas')
+                ->onDelete('restrict');           
         });
     }
 
@@ -23,6 +30,13 @@ return new class extends Migration
     {
         Schema::table('contactos', function (Blueprint $table) {
             $table->dropSoftDeletes();
+
+            $table->dropForeign(['persona_id']);
+
+            $table->dropIndex('contactos_persona_id_foreign');
+
+            $table->renameColumn('persona_id', 'id_persona');
+
         });
     }
 };
