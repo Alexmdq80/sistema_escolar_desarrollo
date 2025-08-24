@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('persona_id')
                 ->references('id')
                 ->on('personas')
-                ->onDelete('restrict');           
+                ->onDelete('restrict');
         });
     }
 

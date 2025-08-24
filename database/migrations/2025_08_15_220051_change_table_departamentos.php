@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::table('departamentos', function (Blueprint $table) {
             $table->timestamps();
-
             $table->softDeletes();
+
             // * ojo que se borran los datos!!!
             $table->dropColumn('id_pais');
             $table->dropColumn('id_continente');

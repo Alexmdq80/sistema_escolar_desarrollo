@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::table('localidads', function (Blueprint $table) {
             $table->timestamps();
             $table->softDeletes();
-            
+
             // * ojo que se borran los datos!!!
+            // php artisan db:seed --class=CorregirLocalidadsSeeder
             $table->dropColumn('id_continente');
             $table->dropColumn('id_pais');
             $table->dropColumn('id_provincia');
@@ -61,7 +62,7 @@ return new class extends Migration
         Schema::table('localidads', function (Blueprint $table) {
             $table->dropTimestamps();
             $table->dropSoftDeletes();
-            
+
             $table->dropForeign(['departamento_id']);
             $table->dropForeign(['municipio_id']);
             $table->dropForeign(['localidad_censal_id']);
@@ -74,9 +75,9 @@ return new class extends Migration
             $table->dropIndex('localidads_georef_fuente_id_foreign');
             $table->dropIndex('localidads_georef_categoria_id_foreign');
 
-            $table->tinyInteger('id_provincia')->after('id')->unsigned()->nullable();
             $table->tinyInteger('id_pais')->after('id')->unsigned();
             $table->tinyInteger('id_continente')->after('id')->unsigned();
+            $table->tinyInteger('id_provincia')->after('id')->unsigned()->nullable();
 
             $table->renameColumn('departamento_id', 'id_departamento');
             $table->renameColumn('municipio_id', 'id_municipio');

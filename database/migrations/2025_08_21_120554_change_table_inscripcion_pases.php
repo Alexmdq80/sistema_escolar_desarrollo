@@ -21,12 +21,12 @@ return new class extends Migration
             $table->dropColumn('id_pais_escuela');
             $table->dropColumn('id_tipo_escuela');
             $table->dropColumn('id_sector');
-       
+
             $table->renameColumn('id_escuela', 'escuela_id');
-            $table->renameColumn('id_inscripcion_historial', 'historial_inscripcion_id');            
+            $table->renameColumn('id_inscripcion_historial', 'historial_inscripcion_id');
             $table->renameColumn('id_salida_motivo', 'salida_motivo_id');
-            $table->renameColumn('id_ubicacion_escuela', 'escuela_ubicacion_id');            
-            
+            $table->renameColumn('id_ubicacion_escuela', 'escuela_ubicacion_id');
+
             $table->foreign('escuela_id')
                   ->references('id')
                   ->on('escuelas')
@@ -35,17 +35,17 @@ return new class extends Migration
             $table->foreign('historial_inscripcion_id')
                   ->references('id')
                   ->on('historial_inscripcions')
-                  ->onDelete('restrict');     
+                  ->onDelete('restrict');
 
             $table->foreign('salida_motivo_id')
                   ->references('id')
                   ->on('salida_motivos')
-                  ->onDelete('restrict'); 
+                  ->onDelete('restrict');
 
             $table->foreign('escuela_ubicacion_id')
                   ->references('id')
                   ->on('escuela_ubicacions')
-                  ->onDelete('restrict');   
+                  ->onDelete('restrict');
 
 
         });
@@ -75,13 +75,13 @@ return new class extends Migration
             $table->renameColumn('salida_motivo_id', 'id_salida_motivo');
             $table->renameColumn('escuela_ubicacion_id', 'id_ubicacion_escuela');
 
-            $table->tinyInteger('id_region_educativa')->unsigned()->nullable();
-            $table->smallInteger('id_departamento_escuela')->unsigned()->nullable();
-            $table->tinyInteger('id_provincia_escuela')->unsigned()->nullable();
-            $table->tinyInteger('id_pais_escuela')->unsigned()->nullable();;
-            $table->unsignedTinyInteger('id_tipo_escuela')->nullable();;
-            $table->tinyInteger('id_sector')->unsigned()->nullable();
-            
+            $table->tinyInteger('id_region_educativa')->unsigned()->nullable()->after('id');
+            $table->smallInteger('id_departamento_escuela')->unsigned()->nullable()->after('id');
+            $table->tinyInteger('id_provincia_escuela')->unsigned()->nullable()->after('id');
+            $table->tinyInteger('id_pais_escuela')->unsigned()->nullable()->after('id');
+            $table->unsignedTinyInteger('id_tipo_escuela')->nullable()->after('id');
+            $table->tinyInteger('id_sector')->unsigned()->nullable()->after('id');
+
         });
     }
 };
