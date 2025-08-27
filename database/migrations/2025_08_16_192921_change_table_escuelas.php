@@ -55,6 +55,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('escuelas', function (Blueprint $table) {
+
+            // REVISAR ESTA MIGRACIÓN!!!
             $table->dropSoftDeletes();
             $table->dropTimestamps();
 

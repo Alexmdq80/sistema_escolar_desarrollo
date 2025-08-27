@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::table('pais', function (Blueprint $table) {
             // agregar sólo si viene de un rollback
-            $table->dropForeign('pais_id_continente_foreign');
+            if (Schema::hasColumn('pais', 'pais_id_continente_foreign')) {
+                $table->dropForeign('pais_id_continente_foreign');
+            }
+            //$table->dropForeign('pais_id_continente_foreign');
         });
         Schema::table('pais', function (Blueprint $table) {
             $table->dropIndex('pais_id_continente_foreign');
