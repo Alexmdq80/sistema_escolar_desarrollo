@@ -56,14 +56,8 @@ return new class extends Migration
     {
         Schema::table('escuelas', function (Blueprint $table) {
 
-            // REVISAR ESTA MIGRACIÓN!!!
             $table->dropSoftDeletes();
             $table->dropTimestamps();
-
-            $table->smallInteger('id_departamento')->after('id')->unsigned()->nullable();
-            $table->tinyInteger('id_provincia')->after('id')->unsigned()->nullable();
-            $table->tinyInteger('id_pais')->after('id')->unsigned();
-            $table->tinyInteger('id_continente')->after('id')->unsigned();
 
             $table->dropForeign(['localidad_id']);
             $table->dropForeign(['ambito_id']);
@@ -79,6 +73,11 @@ return new class extends Migration
             $table->renameColumn('ambito_id', 'id_ambito');
             $table->renameColumn('dependencia_id', 'id_dependencia');
             $table->renameColumn('sector_id', 'id_sector');
+            
+            $table->smallInteger('id_departamento')->after('id')->unsigned()->nullable();
+            $table->tinyInteger('id_provincia')->after('id')->unsigned()->nullable();
+            $table->tinyInteger('id_pais')->after('id')->unsigned();
+            $table->tinyInteger('id_continente')->after('id')->unsigned();
         });
     }
 };

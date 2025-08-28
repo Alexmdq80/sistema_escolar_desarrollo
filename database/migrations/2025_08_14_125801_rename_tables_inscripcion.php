@@ -21,7 +21,7 @@ return new class extends Migration
         Schema::rename('inscripcion_cierre', 'cierre_causas');
         Schema::rename('salida_motivo', 'salida_motivos');
         Schema::rename('ubicacion_escuela', 'escuela_ubicacions');
-        Schema::rename('tipo_escuela', 'tipo_escuelas');
+        Schema::rename('tipo_escuela', 'escuela_tipos');
         Schema::rename('condicion', 'condicions');
 
     }
@@ -40,7 +40,7 @@ return new class extends Migration
         Schema::rename('cierre_causas', 'inscripcion_cierre');
         Schema::rename('salida_motivos', 'salida_motivo');
         Schema::rename('escuela_ubicacions', 'ubicacion_escuela');
-        Schema::rename('tipo_escuelas', 'tipo_escuela');
+        Schema::rename('escuela_tipos', 'tipo_escuela');
         Schema::rename('condicions', 'condicion');
 
     }

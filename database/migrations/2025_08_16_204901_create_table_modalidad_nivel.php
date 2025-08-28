@@ -18,7 +18,7 @@ return new class extends Migration
 
                 $table->tinyInteger('modalidad_id')->unsigned();
                 $table->tinyInteger('nivel_id')->unsigned();
-                $table->tinyInteger('tipo_escuela_id')->unsigned()->nullable();
+                $table->tinyInteger('escuela_tipo_id')->unsigned()->nullable();
 
                 $table->foreign('modalidad_id')
                     ->references('id')
@@ -30,9 +30,9 @@ return new class extends Migration
                     ->on('nivels')
                     ->onDelete('restrict');
 
-                $table->foreign('tipo_escuela_id')
+                $table->foreign('escuela_tipo_id')
                     ->references('id')
-                    ->on('tipo_escuelas')
+                    ->on('escuela_tipos')
                     ->onDelete('restrict');
 
                 // Esta clave única evita duplicados de la misma combinación
