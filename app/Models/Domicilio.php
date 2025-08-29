@@ -4,19 +4,31 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Domicilio extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $table = 'domicilio';
+    //protected $table = 'domicilio';
 
-    protected $fillable = ["numero","piso","torre","departamento",
-                           "otros","codigo_postal"];
+    protected $fillable = ["persona_id","calle_id","calle_entre_1_id",
+                            "calle_entre_2_id","numero","piso","torre",
+                            "departamento","otros","codigo_postal"];
 
     public function persona() {
-        return $this->belongsTo(Persona::class,"id_persona");
+        return $this->belongsTo(Persona::class);
     }
+    public function calle() {
+        return $this->belongsTo(Calle::class);
+    }
+    public function entreCalle1() {
+        return $this->belongsTo(Calle::class,"calle_entre_1_id");
+    }
+    public function entreCalle2() {
+        return $this->belongsTo(Calle::class,"calle_entre_2_id");
+    }
+    /*
     public function calle() {
         return $this->belongsTo(Calle::class,"id_calle");
     }
@@ -37,7 +49,6 @@ class Domicilio extends Model
     }
     public function pais() {
         return $this->belongsTo(Pais::class,"id_pais");
-    }
-
+    }*/
 
 }

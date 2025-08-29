@@ -4,19 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Departamento extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $table = "departamento";
+    //protected $table = "departamento";
 
-    protected $fillable = ["nombre","nombre_completo",
+    protected $fillable = ["id_georef","provincia_id", "georef_fuente",
+                            "georef_categoria","nombre","nombre_completo",
                            "centroide_lat","centroide_lon",
-                           "provincia_interseccion"
-    ];   
+                           "provincia_interseccion", "region_id",
+                           "distrito_numero"
+                        ];   
 
-    public function calles() {
+    /*public function calles() {
         return $this->hasMany(Calle::class, "id_departamento", "id" );
     }
     public function asentamientos() {
@@ -31,31 +34,35 @@ class Departamento extends Model
     public function localidades_censales() {
         return $this->hasMany(Localidad_Censal::class, "id_departamento", "id" );
     }
-    
-    public function provincia(){
-        return $this->belongsTo(Provincia::class, "id_provincia");
-    }
     public function pais(){
         return $this->belongsTo(Pais::class, "id_pais");
     }
     public function continente(){
         return $this->belongsTo(Continente::class, "id_continente");
     }
-
-    public function categoria_georef() {
-        return $this->belongsTo(Categoria_Georef::class, "id_categoria_georef");
-    }
-    public function fuente() {
-        return $this->belongsTo(Fuente::class, "id_fuente_georef");
-    }
-
-    public function personas() {
-        return $this->hasMany(Persona::class, "nacimiento_lugar_id_departamento", "id" );
-    }   
-
     public function domicilios() {
         return $this->hasMany(Domicilio::class, "id_departamento", "id" );
+    }*/
+    public function provincia(){
+        return $this->belongsTo(Provincia::class);
     }
+    public function localidades() {
+        return $this->hasMany(Localidad::class);
+    }
+    public function georefLocalidades() {
+        return $this->hasMany(Georef_Localidad::class);
+    }
+    public function georefAsentamientos() {
+        return $this->hasMany(Georef_Asentamiento::class);
+    }
+    public function georef_categoria() {
+        return $this->belongsTo(Georef_Categoria::class);
+    }
+    public function georef_fuente() {
+        return $this->belongsTo(Georef_Fuente::class);
+    }
+    public function personas() {
+        return $this->hasMany(Persona::class);
+    }   
 
-    public $timestamps = false;
 }

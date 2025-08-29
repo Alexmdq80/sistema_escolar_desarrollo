@@ -4,20 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Condicion extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $table = "condicion";
-    protected $fillable = ["nombre","vigente"];
+    //protected $table = "condicion";
+    protected $fillable = ["nombre","orden","vigente"];
 
     public function inscripciones(){
-        return $this->hasMany(Inscripcion::class,"id_condicion","id");
+        return $this->hasMany(Inscripcion::class);
     }
-
-    public function inscripcionesFinalizadas() {
-        return $this->hasMany(Inscripcion_Finalizado::class, 'id_condicion');
+    public function inscripcionFinalizados() {
+        return $this->hasMany(Inscripcion_Finalizado::class);
     }
-
+    public function historialInscripciones(){
+        return $this->hasMany(Historial_Inscripcion::class);
+    }
 }

@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Adulto_Vinculo extends Model
+class Vinculo extends Model
 {
     use HasFactory;
 
-    protected $table = "adulto_vinculo";
+    //protected $table = "adulto_vinculo";
 
     protected $fillable = ["nombre","orden","vigente"];
 

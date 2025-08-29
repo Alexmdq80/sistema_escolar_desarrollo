@@ -4,19 +4,44 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Escuela extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $table = "escuela";
+    //protected $table = "escuela";
 
-    protected $fillable = ["cue_anexo","clave_provincial",
+    protected $fillable = ["localidad_id", "ambito_id", "dependencia_id",
+                            "sector_id", "cue_anexo","clave_provincial",
                            "nombre","numero","codigo_localidad",
                            "domicilio","telefono","email","codigo_postal"
                         ];
-    public $timestamps = false;
-
+    //public $timestamps = false;
+    public function localidad() {
+        return $this->belongsTo(Localidad::class);
+    }
+    public function ambito() {
+        return $this->belongsTo(Ambito::class);
+    }
+    public function dependencia() {
+        return $this->belongsTo(Dependencia::class);
+    }
+    public function sector() {
+        return $this->belongsTo(Sector::class);
+    }
+    ///// REVISAR!!!
+    public function propuestas_institucionales() {
+        return $this->belongsToMany(Propuesta_Institucional::class,"escuela_PI","id_escuela","id_propuesta_institucional");
+    }
+    public function inscripciones_escuela_procedencia(){
+        return $this->hasMany(Inscripcion::class);
+    }
+     public function usuarios() {
+        return $this->belongsToMany(Usuario::class, "usuario_escuela", "escuela_id", "usuario_id")
+                    ->withPivot(['id_usuario_tipo', 'verified_at']);
+    }
+    /*
     public function localidad_asentamiento() {
         return $this->belongsTo(Localidad_Asentamiento::class, "id_localidad_asentamiento");
     }
@@ -52,7 +77,7 @@ class Escuela extends Model
     }
     /*public function usuarios() {
         return $this->belongsToMany(UsuarioEscuela::class, "usuario_escuela","id_escuela", "id_usuario");
-    }*/
+    }
      public function usuarios() {
         return $this->belongsToMany(Usuario::class, "usuario_escuela", "id_escuela", "id_usuario")
                     ->withPivot(['id_usuario_tipo', 'verified_at']);
@@ -66,6 +91,6 @@ class Escuela extends Model
     }
     public function inscripciones_escuela_procedencia(){
         return $this->hasMany(Inscripcion::class,"id_escuela_procedencia","id");
-    }
+    }*/
 
 }

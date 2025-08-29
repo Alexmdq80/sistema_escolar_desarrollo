@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Categoria_Georef extends Model
+class Georef_Categoria extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $table = "categoria_georef";
+    //protected $table = "categoria_georef";
     protected $fillable = ["nombre","orden","vigente"];   
 
 
@@ -35,7 +36,7 @@ class Categoria_Georef extends Model
         return $this->hasMany(Provincia::class, "id_categoria_georef", "id" );
     }
 
-    public $timestamps = false;
+    //public $timestamps = false;
 
 
 }

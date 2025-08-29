@@ -4,18 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Continente extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $table = "continente";
+    //protected $table = "continente";
 
     protected $fillable = ["nombre",
                            "orden"
-    ];
+                        ];
 
-    public function calles() {
+    /*public function calles() {
         return $this->hasMany(Calle::class, "id_continente", "id" );
     }
     public function asentamientos() {
@@ -38,10 +39,10 @@ class Continente extends Model
     }
     public function provincias() {
         return $this->hasMany(Provincia::class, "id_continente", "id" );
-    }
-    public function paises() {
-        return $this->hasMany(Pais::class, "id_continente", "id" );
+    }*/
+    public function naciones() {
+        return $this->hasMany(Nacion::class);
     }
                             
-    public $timestamps = false;
+    //public $timestamps = false;
 }

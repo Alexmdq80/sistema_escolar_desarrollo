@@ -4,20 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Calle extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $table = "calle";
+    //protected $table = "calle";
 
     protected $fillable = ["nombre",
                            "altura_fin_derecha","altura_fin_izquierda",
-                           "altura_inicio_derecha","altura_inicio_izquierda"
+                           "altura_inicio_derecha","altura_inicio_izquierda",
+                           "localidad_censal_id", "georef_fuente_id",
+                           "georef_categoria_id"
     ];   
 
-    public function departamento(){
-        return $this->belongsTo(Departamento::class, "id_departamento");
+   /* public function departamento(){
+    //    return $this->belongsTo(Departamento::class, "id_departamento");
+        return $this->belongsTo(Departamento::class);
     }
     public function provincia(){
         return $this->belongsTo(Provincia::class, "id_provincia");
@@ -28,27 +32,26 @@ class Calle extends Model
     public function continente(){
         return $this->belongsTo(Continente::class, "id_continente");
     }
-    public function localidad_censal(){
-        return $this->belongsTo(Localidad_Censal::class, "id_localidad_censal");
+    */
+    public function localidadCensal(){
+    //    return $this->belongsTo(Localidad_Censal::class, "id_localidad_censal");
+        return $this->belongsTo(Localidad_Censal::class);
+    }
+    public function georefCategoria() {
+        return $this->belongsTo(Georef_Categoria::class);
+    }
+    public function georefFuente() {
+        return $this->belongsTo(Georef_Fuente::class);
+    }
+    public function domicilioCalles() {
+        return $this->hasMany(Domicilio::class);
+    }
+    public function domicilioEntreCalles1() {
+        return $this->hasMany(Domicilio::class, "calle_entre_1_id", "id" );
+    }
+    public function domicilioEntreCalles2() {
+        return $this->hasMany(Domicilio::class, "calle_entre_2_id", "id" );
     }
 
-    public function categoria_georef() {
-        return $this->belongsTo(Categoria_Georef::class, "id_categoria_georef");
-    }
-    public function fuente() {
-        return $this->belongsTo(Fuente::class, "id_fuente_georef");
-    }
-
-    public function domicilios_calles() {
-        return $this->hasMany(Domicilio::class, "id_calle", "id" );
-    }
-    public function domicilios_calles_entre1() {
-        return $this->hasMany(Domicilio::class, "id_calle_entre1", "id" );
-    }
-    public function domicilios_calles_entre2() {
-        return $this->hasMany(Domicilio::class, "id_calle_entre2", "id" );
-    }
-
-
-    public $timestamps = false;
+//    public $timestamps = false;
 }
