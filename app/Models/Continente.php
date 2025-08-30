@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Continente extends Model
 {
@@ -40,9 +41,10 @@ class Continente extends Model
     public function provincias() {
         return $this->hasMany(Provincia::class, "id_continente", "id" );
     }*/
-    public function naciones() {
+    public function naciones(): HasMany
+    {
         return $this->hasMany(Nacion::class);
     }
-                            
+
     //public $timestamps = false;
 }

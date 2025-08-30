@@ -9,6 +9,10 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    // luego de correr esta migración, ejecutar el seeder
+    // php artisan db:seed --class=ModalidadNivelSeeder
+    // y luego correr la migración de la carpeta refactorizacion2
+    // php artisan migrate --path=database/migrations/after_create_escuela_modalidad_nivel
     public function up(): void
     {
 

@@ -11,6 +11,9 @@ return new class extends Migration
      */
     public function up(): void
      {
+        //ASEGURARSE DE HABER CORRIDO LA MIGRACIÓN
+        // DE MODALIDAD_NIVEL
+        // php artisan db:seed --class=ModalidadNivelSeeder
         if (DB::table('escuela_modalidad_nivel')->count() === 0) {
             DB::table('escuela_nivel')
                 ->select('id','id_escuela', 'id_nivel', 'id_modalidad')

@@ -17,6 +17,10 @@ return new class extends Migration
             $table->dropColumn('id_usuario');
             $table->dropColumn('id_escuela_destino');
             $table->dropColumn('id_ciclo_lectivo');
+// REUBICAR COLUMNAS
+            $table->unsignedBigInteger('restringida')->nullable()->after('id_condicion')->change();
+            $table->unsignedBigInteger('responsable_2')->nullable()->after('id_condicion')->change();
+            $table->unsignedBigInteger('responsable_1')->nullable()->after('id_condicion')->change();
 
 // RENOMBRAR COLUMNAS
             $table->renameColumn('id_persona', 'persona_id');
@@ -103,14 +107,14 @@ return new class extends Migration
             $table->dropForeign(['persona_vinculo_persona_1_id']);
             $table->dropForeign(['persona_vinculo_persona_2_id']);
             $table->dropForeign(['persona_vinculo_persona_3_id']);
-            
+
             $table->dropIndex('inscripcions_persona_id_foreign');
             $table->dropIndex('inscripcions_persona_firma_id_foreign');
             $table->dropIndex('inscripcions_espacio_id_foreign');
             $table->dropIndex('inscripcions_condicion_id_foreign');
             $table->dropIndex('inscripcions_escuela_id_foreign');
             $table->dropIndex('inscripcions_modalidad_id_foreign');
-            $table->dropIndex('inscripcions_nivel_id_foreign');                        
+            $table->dropIndex('inscripcions_nivel_id_foreign');
             $table->dropIndex('inscripcions_persona_vinculo_persona_1_id_foreign');
             $table->dropIndex('inscripcions_persona_vinculo_persona_2_id_foreign');
             $table->dropIndex('inscripcions_persona_vinculo_persona_3_id_foreign');

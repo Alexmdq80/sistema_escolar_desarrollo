@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::table('localidad_censals', function (Blueprint $table) {
             $table->timestamps();
             $table->softDeletes();
-            // NO OLVIDARSE DE CORRER EL SEEDER PARA CORREGIR LA BD
-            // php artisan db:seed --class=CorregirLocalidadsSeeder
             // * ojo que se borran los datos!!!
             $table->dropColumn('id_continente');
             $table->dropColumn('id_pais');

@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Departamento extends Model
 {
@@ -17,7 +19,7 @@ class Departamento extends Model
                            "centroide_lat","centroide_lon",
                            "provincia_interseccion", "region_id",
                            "distrito_numero"
-                        ];   
+                        ];
 
     /*public function calles() {
         return $this->hasMany(Calle::class, "id_departamento", "id" );
@@ -46,23 +48,30 @@ class Departamento extends Model
     public function provincia(){
         return $this->belongsTo(Provincia::class);
     }
-    public function localidades() {
-        return $this->hasMany(Localidad::class);
-    }
-    public function georefLocalidades() {
-        return $this->hasMany(Georef_Localidad::class);
-    }
-    public function georefAsentamientos() {
-        return $this->hasMany(Georef_Asentamiento::class);
-    }
-    public function georef_categoria() {
+    public function georef_categoria(): BelongsTo
+    {
         return $this->belongsTo(Georef_Categoria::class);
     }
-    public function georef_fuente() {
+    public function georef_fuente(): BelongsTo
+    {
         return $this->belongsTo(Georef_Fuente::class);
     }
-    public function personas() {
+
+    public function localidades(): HasMany
+    {
+        return $this->hasMany(Localidad::class);
+    }
+    public function georefLocalidades(): HasMany
+    {
+        return $this->hasMany(Georef_Localidad::class);
+    }
+    public function georefAsentamientos(): HasMany
+    {
+        return $this->hasMany(Georef_Asentamiento::class);
+    }
+    public function personas(): HasMany
+    {
         return $this->hasMany(Persona::class);
-    }   
+    }
 
 }

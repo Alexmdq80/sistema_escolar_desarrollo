@@ -7,17 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Cierre_Causa extends Model
+class EscuelaTipo extends Model
 {
-    //protected $table = "inscripcion_cierre";
-
     use HasFactory, SoftDeletes;
 
     protected $fillable = ["nombre","orden","vigente"];
 
-    public function historialInfoInscripciones(): HasMany
+    public function modalidadesNiveles(): HasMany
     {
-        return $this->hasMany(Historial_Info_Inscripcion::class);
+        return $this->hasMany(ModalidadNivel::class);
     }
+
 
 }

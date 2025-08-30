@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('usuario_escuela', function (Blueprint $table) {
-             $table->foreign('usuario_id')->references('id')->on('usuarios');
+        Schema::table('escuela_ubicacions', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -21,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('usuario_escuela', function (Blueprint $table) {
-            // Elimina la clave foránea. Laravel infiere el nombre.
-            $table->dropForeign(['usuario_id']);
+        Schema::table('escuela_ubicacions', function (Blueprint $table) {
+            $table->dropSoftDeletes();
         });
     }
 };

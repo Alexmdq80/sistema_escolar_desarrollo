@@ -16,13 +16,13 @@ return new class extends Migration
         // SCRIPT PARA RESTAURAR ESOS DATOS, AUNQUE NO VA A SER NECESARIO
         Schema::table('historial_inscripcions', function (Blueprint $table) {
             // 1. Agrega las nuevas columnas para los IDs de la tabla pivot.
-            $table->foreignId('persona_vinculo_persona_3_id')->nullable()->after('id_persona')->constrained('persona_vinculo_persona')->onDelete('restrict');
-            $table->foreignId('persona_vinculo_persona_2_id')->nullable()->after('id_persona')->constrained('persona_vinculo_persona')->onDelete('restrict');
-            $table->foreignId('persona_vinculo_persona_1_id')->nullable()->after('id_persona')->constrained('persona_vinculo_persona')->onDelete('restrict');
+            $table->foreignId('persona_vinculo_persona_3_id')->nullable()->after('id_condicion')->constrained('persona_vinculo_persona')->onDelete('restrict');
+            $table->foreignId('persona_vinculo_persona_2_id')->nullable()->after('id_condicion')->constrained('persona_vinculo_persona')->onDelete('restrict');
+            $table->foreignId('persona_vinculo_persona_1_id')->nullable()->after('id_condicion')->constrained('persona_vinculo_persona')->onDelete('restrict');
         });
 
         Schema::table('historial_inscripcions', function (Blueprint $table) {
-        
+
         // 1. Migra los datos de las columnas viejas a las nuevas.
             DB::table('historial_inscripcions')->orderBy('id')->chunk(1000, function ($inscripciones) {
                 foreach ($inscripciones as $inscripcion) {
@@ -48,7 +48,7 @@ return new class extends Migration
                             ->where('persona_adulto_id', $inscripcion->id_persona_adulto_2)
                             ->where('vinculo_id', $inscripcion->id_adulto_vinculo_2)
                             ->first();
-                            
+
                         if ($pivotRecord2) {
                             DB::table('historial_inscripcions')
                                 ->where('id', $inscripcion->id)
@@ -130,7 +130,7 @@ return new class extends Migration
                   ->references('id')
                   ->on('nivels')
                   ->onDelete('restrict');
-                  
+
         });
 
     }
@@ -200,14 +200,14 @@ return new class extends Migration
             $table->dropForeign(['persona_vinculo_persona_1_id']);
             $table->dropForeign(['persona_vinculo_persona_2_id']);
             $table->dropForeign(['persona_vinculo_persona_3_id']);
-            
+
             $table->dropIndex('historial_inscripcions_persona_id_foreign');
             $table->dropIndex('historial_inscripcions_persona_firma_id_foreign');
             $table->dropIndex('historial_inscripcions_espacio_id_foreign');
             $table->dropIndex('historial_inscripcions_condicion_id_foreign');
             $table->dropIndex('historial_inscripcions_escuela_id_foreign');
             $table->dropIndex('historial_inscripcions_modalidad_id_foreign');
-            $table->dropIndex('historial_inscripcions_nivel_id_foreign');                        
+            $table->dropIndex('historial_inscripcions_nivel_id_foreign');
             $table->dropIndex('historial_inscripcions_persona_vinculo_persona_1_id_foreign');
             $table->dropIndex('historial_inscripcions_persona_vinculo_persona_2_id_foreign');
             $table->dropIndex('historial_inscripcions_persona_vinculo_persona_3_id_foreign');

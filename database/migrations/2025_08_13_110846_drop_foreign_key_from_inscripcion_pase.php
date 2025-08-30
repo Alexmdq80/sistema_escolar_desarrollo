@@ -28,7 +28,7 @@ return new class extends Migration
 
             $table->dropIndex('inscripcion_pase_id_departamento_escuela_foreign');
             $table->dropIndex('inscripcion_pase_id_escuela_foreign');
-            //$table->dropIndex('inscripcion_pase_id_inscripcion_historial_foreign');
+            $table->dropIndex('inscripcion_pase_id_inscripcion_historial_foreign');
             $table->dropIndex('inscripcion_pase_id_pais_escuela_foreign');
             $table->dropIndex('inscripcion_pase_id_provincia_escuela_foreign');
             $table->dropIndex('inscripcion_pase_id_region_educativa_foreign');

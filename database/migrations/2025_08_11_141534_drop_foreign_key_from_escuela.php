@@ -22,8 +22,8 @@ return new class extends Migration
         });
         Schema::table('escuela', function (Blueprint $table) {
             $table->dropUnique('escuela_cue_anexo_unique');
-            //$table->dropIndex('escuela_id_localidad_asentamiento_index');
-
+            $table->dropIndex('escuela_id_localidad_asentamiento_foreign');
+          //  $table->dropIndex('escuela_id_localidad_asentamiento_index');
           //  $table->dropIndex('escuela_id_departamento_index');
           //  $table->dropIndex('escuela_id_provincia_index');
             $table->dropIndex('escuela_id_departamento_foreign');

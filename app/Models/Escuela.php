@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Escuela extends Model
 {
@@ -18,29 +21,59 @@ class Escuela extends Model
                            "domicilio","telefono","email","codigo_postal"
                         ];
     //public $timestamps = false;
-    public function localidad() {
+    //*******belongsTo */
+    public function localidad(): BelongsTo
+    {
         return $this->belongsTo(Localidad::class);
     }
-    public function ambito() {
+    public function ambito(): BelongsTo
+    {
         return $this->belongsTo(Ambito::class);
     }
-    public function dependencia() {
+    public function dependencia(): BelongsTo
+    {
         return $this->belongsTo(Dependencia::class);
     }
-    public function sector() {
+    public function sector(): BelongsTo
+    {
         return $this->belongsTo(Sector::class);
     }
-    ///// REVISAR!!!
-    public function propuestas_institucionales() {
-        return $this->belongsToMany(Propuesta_Institucional::class,"escuela_PI","id_escuela","id_propuesta_institucional");
-    }
-    public function inscripciones_escuela_procedencia(){
+
+    //********hasMany */
+    public function inscripcionProcedencias(): HasMany
+    {
         return $this->hasMany(Inscripcion::class);
     }
-     public function usuarios() {
-        return $this->belongsToMany(Usuario::class, "usuario_escuela", "escuela_id", "usuario_id")
-                    ->withPivot(['id_usuario_tipo', 'verified_at']);
+    public function inscripcionPases(): HasMany
+    {
+        return $this->hasMany(InscripcionPase::class);
     }
+
+    //********belongsToMany/
+    public function propuestas(): BelongsToMany
+    {
+        return $this->belongsToMany(Propuesta::class);
+    }
+//        return $this->belongsToMany(Usuario::class, "usuario_escuela", "escuela_id", "usuario_id")
+    public function usuarios(): BelongsToMany
+    {
+        return $this->belongsToMany(Usuario::class)
+                    ->withPivot(['usuario_tipo_id', 'verified_at']);
+    }
+    public function modalidadesNiveles(): BelongsToMany
+    {
+        // Laravel infiere el nombre de la tabla pivote y las claves foráneas.
+        // Si no siguen la convención, se pueden especificar:
+        // return $this->belongsToMany(ModalidadNivel::class, 'nombre_de_la_tabla', 'escuela_id', 'modalidad_nivel_id');
+        return $this->belongsToMany(ModalidadNivel::class);
+    }
+    public function ofertas(): BelongsToMany
+    {
+        return $this->belongsToMany(Oferta::class);
+    }
+
+
+
     /*
     public function localidad_asentamiento() {
         return $this->belongsTo(Localidad_Asentamiento::class, "id_localidad_asentamiento");

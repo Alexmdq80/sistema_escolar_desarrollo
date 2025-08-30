@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Domicilio extends Model
 {
@@ -16,16 +17,20 @@ class Domicilio extends Model
                             "calle_entre_2_id","numero","piso","torre",
                             "departamento","otros","codigo_postal"];
 
-    public function persona() {
+    public function persona(): BelongsTo
+    {
         return $this->belongsTo(Persona::class);
     }
-    public function calle() {
+    public function calle(): BelongsTo
+    {
         return $this->belongsTo(Calle::class);
     }
-    public function entreCalle1() {
+    public function entreCalle1(): BelongsTo
+    {
         return $this->belongsTo(Calle::class,"calle_entre_1_id");
     }
-    public function entreCalle2() {
+    public function entreCalle2(): BelongsTo
+    {
         return $this->belongsTo(Calle::class,"calle_entre_2_id");
     }
     /*

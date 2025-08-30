@@ -7,28 +7,34 @@ use OwenIt\Auditing\Auditable; // Importa el trait
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract; // Importa el contrato (necesario)
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-class EscuelaUsuario  extends Model implements AuditableContract
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+//class EscuelaUsuario  extends Model implements AuditableContract
+class EscuelaUsuario extends \Illuminate\Database\Eloquent\Relations\Pivot implements AuditableContract
 {
     use SoftDeletes, Auditable, HasUuids;
 
-    protected $table = "usuario_escuela";
+  //  protected $table = "usuario_escuela";
 
-    protected $fillable = ["id_escuela","usuario_id","verified_at","id_usuario_tipo"];
+    protected $fillable = ["escuela_id","usuario_id","verified_at","usuario_tipo_id"];
 
-    public $timestamps = true;
+ //   public $timestamps = true;
 
     protected $casts = [
        'verified_at' => 'datetime'
     ];
 
-    public function escuela(){
-        return $this->belongsTo(Escuela::class, "id_escuela");
+    public function escuela(): BelongsTo
+    {
+        return $this->belongsTo(Escuela::class);
     }
-    public function usuario(){
-        return $this->belongsTo(Usuario::class, "usuario_id");
+    public function usuario(): BelongsTo
+    {
+        return $this->belongsTo(Usuario::class);
     }
-    public function usuarioTipo(){
-        return $this->belongsTo(UsuarioTipo::class, "id_usuario_tipo");
+    public function usuarioTipo(): BelongsTo
+    {
+        return $this->belongsTo(UsuarioTipo::class);
     }
 
 }
