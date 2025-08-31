@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::table('inscripcion_bajas', function (Blueprint $table) {
             $table->timestamps();
             $table->softDeletes();
+// REUBICAR COLUMNAS / MODIFICAR
+            $table->unsignedBigInteger('id')->change();
 
             $table->renameColumn('id_inscripcion_historial', 'historial_inscripcion_id');
             $table->renameColumn('id_salida_motivo', 'salida_motivo_id');
@@ -48,7 +50,10 @@ return new class extends Migration
 
             $table->renameColumn('historial_inscripcion_id', 'id_inscripcion_historial');
             $table->renameColumn('salida_motivo_id', 'id_salida_motivo');
-
+        });
+        Schema::table('inscripcion_bajas', function (Blueprint $table) {
+            // REUBICAR COLUMNAS / MODIFICAR
+            $table->integer('id')->unsigned()->change();
         });
     }
 };

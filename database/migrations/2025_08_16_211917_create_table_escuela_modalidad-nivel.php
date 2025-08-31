@@ -18,8 +18,7 @@ return new class extends Migration
 
         if (!Schema::hasTable('escuela_modalidad_nivel')) {
             Schema::create('escuela_modalidad_nivel', function (Blueprint $table) {
-                $table->increments('id');
-
+                $table->id();
                 $table->mediumInteger('escuela_id')->unsigned();
                 $table->smallInteger('modalidad_nivel_id')->unsigned();
 

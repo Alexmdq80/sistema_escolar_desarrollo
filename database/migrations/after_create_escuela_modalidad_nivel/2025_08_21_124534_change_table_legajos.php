@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::table('legajos', function (Blueprint $table) {
             $table->softDeletes();
+// REUBICAR COLUMNAS / MODIFICAR
+            $table->unsignedBigInteger('id')->change();
+            $table->unsignedBigInteger('id_persona')->change();
 
             $table->renameColumn('id_persona', 'persona_id');
             $table->renameColumn('id_escuela', 'escuela_id');
@@ -20,7 +23,7 @@ return new class extends Migration
             $table->foreign('persona_id')
                   ->references('id')
                   ->on('personas')
-                  ->onDelete('restrict');     
+                  ->onDelete('restrict');
 
             $table->foreign('escuela_id')
                   ->references('id')
@@ -39,7 +42,7 @@ return new class extends Migration
     {
         Schema::table('legajos', function (Blueprint $table) {
             $table->dropSoftDeletes();
-      
+
             $table->dropForeign(['escuela_id']);
             $table->dropForeign(['persona_id']);
 
@@ -47,6 +50,11 @@ return new class extends Migration
 
             $table->dropIndex('legajos_escuela_id_foreign');
             //$table->dropIndex('legajos_persona_id_foreign');
+        });
+        Schema::table('legajos', function (Blueprint $table) {
+// REUBICAR COLUMNAS / MODIFICAR
+            $table->integer('id')->unsigned()->change();
+            $table->integer('persona_id')->unsigned()->change();
 
             $table->renameColumn('persona_id', 'id_persona');
             $table->renameColumn('escuela_id', 'id_escuela');

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('personas', function (Blueprint $table) {
             $table->softDeletes();
+// REUBICAR COLUMNAS / MODIFICAR
+            $table->unsignedBigInteger('id')->change();
 
             $table->renameColumn('id_documento_tipo', 'documento_tipo_id');
             $table->renameColumn('id_documento_situacion', 'documento_situacion_id');
@@ -99,6 +101,11 @@ return new class extends Migration
             $table->dropIndex('personas_provincia_id_foreign');
             $table->dropIndex('personas_departamento_id_foreign');
             $table->dropIndex('personas_localidad_id_foreign');
+        });
+
+        Schema::table('personas', function (Blueprint $table) {
+            // REUBICAR COLUMNAS / MODIFICAR
+            $table->integer('id')->unsigned()->change();
 
             $table->renameColumn('documento_tipo_id', 'id_documento_tipo');
             $table->renameColumn('documento_situacion_id', 'id_documento_situacion');
@@ -109,7 +116,6 @@ return new class extends Migration
             $table->renameColumn('provincia_id', 'nacimiento_lugar_id_provincia');
             $table->renameColumn('departamento_id', 'nacimiento_lugar_id_departamento');
             $table->renameColumn('localidad_id', 'nacimiento_lugar_id_localidad_asentamiento');
-
         });
     }
 };

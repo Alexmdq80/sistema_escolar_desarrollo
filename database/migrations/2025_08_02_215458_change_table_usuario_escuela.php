@@ -49,7 +49,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('usuario_escuela', function (Blueprint $table) {
-          //  throw new \RuntimeException('Cannot revert this migration without data loss.');
+            throw new \RuntimeException('Cannot revert this migration without data loss.');
         });
     }
 };

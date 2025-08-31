@@ -86,6 +86,10 @@ return new class extends Migration
             $table->dropColumn('id_adulto_vinculo_3');
             $table->dropColumn('id_persona_adulto_3');
 
+            // REUBICAR COLUMNAS / MODIFICAR
+            $table->unsignedBigInteger('id_persona')->change();
+            $table->unsignedBigInteger('id_persona_firma')->nullable()->change();
+
             // RENOMBRAR COLUMNAS
             $table->renameColumn('id_persona', 'persona_id');
             $table->renameColumn('id_persona_firma', 'persona_firma_id');
@@ -215,6 +219,12 @@ return new class extends Migration
             $table->unsignedBigInteger('id_usuario')->comment('Usuario que realizó el movimiento')->after('id');
             $table->unsignedMediumInteger('id_escuela_destino');
             $table->unsignedTinyInteger('id_ciclo_lectivo');
+        });
+
+        Schema::table('historial_inscripcions', function (Blueprint $table) {
+            // REUBICAR COLUMNAS / MODIFICAR
+            $table->integer('persona_id')->unsigned()->change();
+            $table->integer('persona_firma_id')->unsigned()->nullable()->change();
 
             $table->renameColumn('persona_id', 'id_persona');
             $table->renameColumn('persona_firma_id', 'id_persona_firma');
@@ -228,7 +238,6 @@ return new class extends Migration
             $table->dropColumn('persona_vinculo_persona_1_id');
             $table->dropColumn('persona_vinculo_persona_2_id');
             $table->dropColumn('persona_vinculo_persona_3_id');
-
         });
     }
 };

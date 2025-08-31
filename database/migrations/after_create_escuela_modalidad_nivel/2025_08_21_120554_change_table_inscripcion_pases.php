@@ -15,6 +15,9 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            // REUBICAR COLUMNAS / MODIFICAR
+            $table->unsignedBigInteger('id')->change();
+
             $table->dropColumn('id_region_educativa');
             $table->dropColumn('id_departamento_escuela');
             $table->dropColumn('id_provincia_escuela');
@@ -81,7 +84,11 @@ return new class extends Migration
             $table->tinyInteger('id_pais_escuela')->unsigned()->nullable()->after('id');
             $table->unsignedTinyInteger('id_tipo_escuela')->nullable()->after('id');
             $table->tinyInteger('id_sector')->unsigned()->nullable()->after('id');
+        });
 
+        Schema::table('inscripcion_pases', function (Blueprint $table) {
+        // REUBICAR COLUMNAS / MODIFICAR
+            $table->integer('id')->unsigned()->change();
         });
     }
 };

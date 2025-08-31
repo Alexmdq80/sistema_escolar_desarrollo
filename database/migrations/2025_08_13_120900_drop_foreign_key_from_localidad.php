@@ -41,13 +41,13 @@ return new class extends Migration
     {
         Schema::table('localidad', function (Blueprint $table) {
             $table->foreign('id_categoria_georef')->references('id')->on('categoria_georef');
-            $table->foreign('id_continente')->references('id')->on('continente');
+            //$table->foreign('id_continente')->references('id')->on('continente');
             $table->foreign('id_departamento')->references('id')->on('departamento');
             $table->foreign('id_fuente_georef')->references('id')->on('fuente_georef');
             $table->foreign('id_localidad_censal')->references('id')->on('localidad_censal');
             $table->foreign('id_municipio')->references('id')->on('municipio');
-            $table->foreign('id_pais')->references('id')->on('pais');
-            $table->foreign('id_provincia')->references('id')->on('provincia');
+            //$table->foreign('id_pais')->references('id')->on('pais');
+            //$table->foreign('id_provincia')->references('id')->on('provincia');
         });
     }
 };

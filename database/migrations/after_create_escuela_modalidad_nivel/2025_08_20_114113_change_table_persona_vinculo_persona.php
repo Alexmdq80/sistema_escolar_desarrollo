@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::table('persona_vinculo_persona', function (Blueprint $table) {
             $table->softDeletes();
+            // REUBICAR COLUMNAS / MODIFICAR
+            $table->unsignedBigInteger('id_persona_estudiante')->change();
+            $table->unsignedBigInteger('id_persona_adulto')->change();
 
             $table->renameColumn('id_persona_estudiante', 'persona_estudiante_id');
             $table->renameColumn('id_persona_adulto', 'persona_adulto_id');
@@ -22,7 +25,7 @@ return new class extends Migration
                   ->references('id')
                   ->on('personas')
                   ->onDelete('restrict');
-                  
+
             $table->foreign('persona_adulto_id')
                   ->references('id')
                   ->on('personas')
@@ -50,7 +53,14 @@ return new class extends Migration
 
             $table->dropIndex('persona_vinculo_persona_persona_adulto_id_foreign');
             $table->dropIndex('persona_vinculo_persona_persona_estudiante_id_foreign');
-            $table->dropIndex('persona_vinculo_persona_vinculo_id_foreign');            
+            $table->dropIndex('persona_vinculo_persona_vinculo_id_foreign');
+        });
+
+
+        Schema::table('persona_vinculo_persona', function (Blueprint $table) {
+            // REUBICAR COLUMNAS / MODIFICAR
+            $table->integer('persona_estudiante_id')->unsigned()->change();
+            $table->integer('persona_adulto_id')->unsigned()->change();
 
             $table->renameColumn('persona_estudiante_id', 'id_persona_estudiante');
             $table->renameColumn('persona_adulto_id', 'id_persona_adulto');

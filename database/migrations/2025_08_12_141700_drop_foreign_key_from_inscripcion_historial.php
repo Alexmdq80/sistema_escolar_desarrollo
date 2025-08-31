@@ -55,16 +55,17 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('inscripcion_historial', function (Blueprint $table) {
+            // hay que crear manualmente algunas claves
             $table->foreign('id_persona')->references('id')->on('persona');
             $table->foreign('id_persona_firma')->references('id')->on('persona');
             $table->foreign('id_espacio_academico')->references('id')->on('espacio_academico');
             $table->foreign('id_escuela_procedencia')->references('id')->on('escuela');
-            $table->foreign('id_escuela_destino')->references('id')->on('escuela');
+            //$table->foreign('id_escuela_destino')->references('id')->on('escuela');
             $table->foreign('id_nivel_procedencia')->references('id')->on('nivel');
             $table->foreign('id_modalidad_procedencia')->references('id')->on('modalidad');
             $table->foreign('id_condicion')->references('id')->on('condicion');
             $table->index('id_usuario');
-            $table->foreign('id_ciclo_lectivo')->references('id')->on('ciclo_lectivo');
+            //$table->foreign('id_ciclo_lectivo')->references('id')->on('ciclo_lectivo');
             $table->foreign('id_persona_adulto_1')->references('id')->on('persona');
             $table->foreign('id_adulto_vinculo_1')->references('id')->on('adulto_vinculo');
             $table->foreign('id_persona_adulto_2')->references('id')->on('persona');

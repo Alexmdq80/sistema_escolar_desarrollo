@@ -53,10 +53,10 @@ return new class extends Migration
     {
         Schema::table('inscripcion', function (Blueprint $table) {
             $table->unique(['id_persona']);
-
-            $table->foreign('id_ciclo_lectivo')->references('id')->on('ciclo_lectivo');
+            // hay que agregar algunas claves manualmente
+          //  $table->foreign('id_ciclo_lectivo')->references('id')->on('ciclo_lectivo');
             $table->foreign('id_condicion')->references('id')->on('condicion');
-            $table->foreign('id_escuela_destino')->references('id')->on('escuela');
+           // $table->foreign('id_escuela_destino')->references('id')->on('escuela');
             $table->foreign('id_escuela_procedencia')->references('id')->on('escuela');
             $table->foreign('id_espacio_academico')->references('id')->on('espacio_academico');
             $table->foreign('id_modalidad_procedencia')->references('id')->on('modalidad');

@@ -17,7 +17,10 @@ return new class extends Migration
             $table->dropColumn('id_usuario');
             $table->dropColumn('id_escuela_destino');
             $table->dropColumn('id_ciclo_lectivo');
-// REUBICAR COLUMNAS
+// REUBICAR COLUMNAS / MODIFICAR
+            $table->unsignedBigInteger('id')->change();
+            $table->unsignedBigInteger('id_persona')->change();
+            $table->unsignedBigInteger('id_persona_firma')->nullable()->change();
             $table->unsignedBigInteger('restringida')->nullable()->after('id_condicion')->change();
             $table->unsignedBigInteger('responsable_2')->nullable()->after('id_condicion')->change();
             $table->unsignedBigInteger('responsable_1')->nullable()->after('id_condicion')->change();
@@ -122,6 +125,13 @@ return new class extends Migration
             $table->unsignedBigInteger('id_usuario')->comment('Usuario que realizó el movimiento')->after('id');
             $table->unsignedMediumInteger('id_escuela_destino');
             $table->unsignedTinyInteger('id_ciclo_lectivo');
+        });
+
+        Schema::table('inscripcions', function (Blueprint $table) {
+            // REUBICAR COLUMNAS / MODIFICAR
+            $table->smallInteger('id')->unsigned()->change();
+            $table->integer('persona_id')->unsigned()->change();
+            $table->integer('persona_firma_id')->unsigned()->nullable()->change();
 
             $table->renameColumn('persona_id', 'id_persona');
             $table->renameColumn('persona_firma_id', 'id_persona_firma');
@@ -135,8 +145,6 @@ return new class extends Migration
             $table->renameColumn('modalidad_id', 'id_modalidad_procedencia');
             $table->renameColumn('escuela_id', 'id_escuela_procedencia');
             $table->renameColumn('condicion_id', 'id_condicion');
-
-
         });
     }
 };

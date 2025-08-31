@@ -29,8 +29,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('anio_plan', function (Blueprint $table) {
+            // algunas claves hay que crearlas manualmente
             $table->foreign(['id_anio'])->references('id')->on('anio');
-            $table->foreign(['id_ciclo_plan_estudio'])->references('id')->on('ciclo_plan_estudio');
+            //$table->foreign(['id_ciclo_plan_estudio'])->references('id')->on('ciclo_plan_estudio');
             $table->foreign(['id_plan_estudio'])->references('id')->on('plan_estudio');
         });
     }

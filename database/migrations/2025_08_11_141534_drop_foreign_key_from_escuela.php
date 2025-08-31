@@ -48,11 +48,11 @@ return new class extends Migration
             $table->index(['id_localidad_asentamiento']);
             $table->index(['id_departamento']);
             $table->index(['id_provincia']);
-
+            // algunas claves hay que agregarlas manualmente
             $table->foreign(['id_ambito'])->references('id')->on('ambito');
-            $table->foreign(['id_continente'])->references('id')->on('continente');
+            //$table->foreign(['id_continente'])->references('id')->on('continente');
             $table->foreign(['id_dependencia'])->references('id')->on('dependencia');
-            $table->foreign(['id_pais'])->references('id')->on('pais');
+            //$table->foreign(['id_pais'])->references('id')->on('pais');
             $table->foreign(['id_sector'])->references('id')->on('sector');
 
 

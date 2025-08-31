@@ -16,6 +16,9 @@ return new class extends Migration
             // sólo guardo la calle. Ahí ye quedaría la localidad.
             // si no se sabe la calle, o la localidad, se deberá poner en otros datos
             // la información que sea necesaria.
+// REUBICAR COLUMNAS / MODIFICAR
+            $table->unsignedBigInteger('id')->change();
+            $table->unsignedBigInteger('id_persona')->change();
 
             $table->dropColumn('id_pais');
             $table->dropColumn('id_provincia');
@@ -66,6 +69,12 @@ return new class extends Migration
             $table->dropIndex('domicilios_calle_id_foreign');
             $table->dropIndex('domicilios_calle_entre_1_id_foreign');
             $table->dropIndex('domicilios_calle_entre_2_id_foreign');
+        });
+
+        Schema::table('domicilios', function (Blueprint $table) {
+            // REUBICAR COLUMNAS / MODIFICAR
+            $table->integer('id')->unsigned()->change();
+            $table->integer('persona_id')->unsigned()->change();
 
             $table->renameColumn('persona_id', 'id_persona');
             $table->renameColumn('calle_id', 'id_calle');
@@ -76,7 +85,6 @@ return new class extends Migration
             $table->tinyInteger('id_provincia')->unsigned()->nullable()->after('id_pais');
             $table->smallInteger('id_departamento')->unsigned()->nullable()->after('id_provincia');
             $table->smallInteger('id_localidad_asentamiento')->unsigned()->nullable()->after('id_departamento');
-
         });
     }
 };
