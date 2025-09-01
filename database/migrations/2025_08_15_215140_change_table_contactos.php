@@ -12,9 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('contactos', function (Blueprint $table) {
+            // Eliminar la propiedad AUTO_INCREMENT de la columna 'id'
+            // Esto se debe hacer con una sentencia SQL cruda en este caso
+            DB::statement('ALTER TABLE contactos MODIFY id INT');
+            $table->dropPrimary('id');
+        });
+        Schema::table('contactos', function (Blueprint $table) {
             $table->softDeletes();
-// REUBICAR COLUMNAS / MODIFICAR
-            $table->unsignedBigInteger('id')->change();
+            // REUBICAR COLUMNAS / MODIFICAR
+            $table->bigIncrements('id')->change();
+            
+            //$table->unsignedBigInteger('id')->autoIncrement()->change();
             $table->unsignedBigInteger('id_persona')->change();
 
             $table->renameColumn('id_persona', 'persona_id');
@@ -32,6 +40,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('contactos', function (Blueprint $table) {
+            // Eliminar la propiedad AUTO_INCREMENT de la columna 'id'
+            // Esto se debe hacer con una sentencia SQL cruda en este caso
+            DB::statement('ALTER TABLE contactos MODIFY id BIGINT');
+            $table->dropPrimary('id');
+        });
+        Schema::table('contactos', function (Blueprint $table) {
             $table->dropSoftDeletes();
 
             $table->dropForeign(['persona_id']);
@@ -41,7 +55,7 @@ return new class extends Migration
 
         Schema::table('contactos', function (Blueprint $table) {
             // REUBICAR COLUMNAS / MODIFICAR
-            $table->integer('id')->unsigned()->change();
+            $table->increments('id')->change();
             $table->integer('persona_id')->unsigned()->change();
 
             $table->renameColumn('persona_id', 'id_persona');

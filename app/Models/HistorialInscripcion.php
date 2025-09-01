@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class HistorialInscripcion extends Model
 {
@@ -56,6 +57,18 @@ class HistorialInscripcion extends Model
     }
     public function vinculoPersona_3(): BelongsTo {
         return $this->belongsTo(PersonaVinculoPersona::class,"persona_vinculo_persona_3_id","id");
+    }
+    public function finalizado(): HasOne {
+        return $this->hasOne(InscripcionFinalizado::class);
+    }
+    public function pase(): HasOne {
+        return $this->hasOne(InscripcionPase::class);
+    }
+    public function baja(): HasOne {
+        return $this->hasOne(InscripcionBaja::class);
+    }
+    public function info(): HasOne {
+        return $this->hasOne(HistorialInfoInscripcion::class);
     }
 
 }

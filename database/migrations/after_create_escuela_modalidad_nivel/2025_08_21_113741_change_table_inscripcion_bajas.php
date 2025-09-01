@@ -12,10 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('inscripcion_bajas', function (Blueprint $table) {
+            // Eliminar la propiedad AUTO_INCREMENT de la columna 'id'
+            // Esto se debe hacer con una sentencia SQL cruda en este caso
+            DB::statement('ALTER TABLE inscripcion_bajas MODIFY id INT');
+            $table->dropPrimary('id');
+        });
+        Schema::table('inscripcion_bajas', function (Blueprint $table) {
             $table->timestamps();
             $table->softDeletes();
 // REUBICAR COLUMNAS / MODIFICAR
-            $table->unsignedBigInteger('id')->change();
+            $table->bigIncrements('id')->change();
 
             $table->renameColumn('id_inscripcion_historial', 'historial_inscripcion_id');
             $table->renameColumn('id_salida_motivo', 'salida_motivo_id');
@@ -39,6 +45,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('inscripcion_bajas', function (Blueprint $table) {
+            // Eliminar la propiedad AUTO_INCREMENT de la columna 'id'
+            // Esto se debe hacer con una sentencia SQL cruda en este caso
+            DB::statement('ALTER TABLE inscripcion_bajas MODIFY id BIGINT');
+            $table->dropPrimary('id');
+        });
+        Schema::table('inscripcion_bajas', function (Blueprint $table) {
             $table->dropTimestamps();
             $table->dropSoftDeletes();
 
@@ -53,7 +65,7 @@ return new class extends Migration
         });
         Schema::table('inscripcion_bajas', function (Blueprint $table) {
             // REUBICAR COLUMNAS / MODIFICAR
-            $table->integer('id')->unsigned()->change();
+            $table->increments('id')->change();
         });
     }
 };
