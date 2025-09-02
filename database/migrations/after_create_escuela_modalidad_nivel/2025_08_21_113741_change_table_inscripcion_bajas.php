@@ -26,15 +26,6 @@ return new class extends Migration
             $table->renameColumn('id_inscripcion_historial', 'historial_inscripcion_id');
             $table->renameColumn('id_salida_motivo', 'salida_motivo_id');
 
-            $table->foreign('historial_inscripcion_id')
-                  ->references('id')
-                  ->on('historial_inscripcions')
-                  ->onDelete('restrict');
-
-            $table->foreign('salida_motivo_id')
-                  ->references('id')
-                  ->on('salida_motivos')
-                  ->onDelete('restrict');
 
         });
     }
@@ -53,12 +44,6 @@ return new class extends Migration
         Schema::table('inscripcion_bajas', function (Blueprint $table) {
             $table->dropTimestamps();
             $table->dropSoftDeletes();
-
-            $table->dropForeign(['historial_inscripcion_id']);
-            $table->dropForeign(['salida_motivo_id']);
-
-            $table->dropIndex('inscripcion_bajas_historial_inscripcion_id_foreign');
-            $table->dropIndex('inscripcion_bajas_salida_motivo_id_foreign');
 
             $table->renameColumn('historial_inscripcion_id', 'id_inscripcion_historial');
             $table->renameColumn('salida_motivo_id', 'id_salida_motivo');

@@ -12,7 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('seccion_tipos', function (Blueprint $table) {
-            $table->softDeletes(); 
+            DB::statement('ALTER TABLE seccion_tipos MODIFY id TINYINT');
+            $table->dropPrimary('id');
+        });
+        Schema::table('seccion_tipos', function (Blueprint $table) {
+            $table->softDeletes();
+            $table->tinyIncrements('id')->change(); // este no lo voy a revertir
         });
     }
 

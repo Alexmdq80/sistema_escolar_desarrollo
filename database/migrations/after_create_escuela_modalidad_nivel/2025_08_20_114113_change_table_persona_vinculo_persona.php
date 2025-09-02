@@ -21,20 +21,7 @@ return new class extends Migration
             $table->renameColumn('id_persona_adulto', 'persona_adulto_id');
             $table->renameColumn('id_adulto_vinculo', 'vinculo_id');
 
-            $table->foreign('persona_estudiante_id')
-                  ->references('id')
-                  ->on('personas')
-                  ->onDelete('restrict');
 
-            $table->foreign('persona_adulto_id')
-                  ->references('id')
-                  ->on('personas')
-                  ->onDelete('restrict');
-
-            $table->foreign('vinculo_id')
-                  ->references('id')
-                  ->on('vinculos')
-                  ->onDelete('restrict');
 
         });
     }
@@ -47,13 +34,6 @@ return new class extends Migration
         Schema::table('persona_vinculo_persona', function (Blueprint $table) {
             $table->dropSoftDeletes();
 
-            $table->dropForeign(['persona_estudiante_id']);
-            $table->dropForeign(['persona_adulto_id']);
-            $table->dropForeign(['vinculo_id']);
-
-            $table->dropIndex('persona_vinculo_persona_persona_adulto_id_foreign');
-            $table->dropIndex('persona_vinculo_persona_persona_estudiante_id_foreign');
-            $table->dropIndex('persona_vinculo_persona_vinculo_id_foreign');
         });
 
 

@@ -26,15 +26,6 @@ return new class extends Migration
             $table->renameColumn('id_inscripcion_historial', 'historial_inscripcion_id');
             $table->renameColumn('id_condicion', 'condicion_id');
 
-            $table->foreign('historial_inscripcion_id')
-                  ->references('id')
-                  ->on('historial_inscripcions')
-                  ->onDelete('restrict');
-
-            $table->foreign('condicion_id')
-                  ->references('id')
-                  ->on('condicions')
-                  ->onDelete('restrict');
 
         });
     }
@@ -54,11 +45,7 @@ return new class extends Migration
             $table->dropTimestamps();
             $table->dropSoftDeletes();
 
-            $table->dropForeign(['historial_inscripcion_id']);
-            $table->dropForeign(['condicion_id']);
 
-            $table->dropIndex('inscripcion_finalizados_historial_inscripcion_id_foreign');
-            $table->dropIndex('inscripcion_finalizados_condicion_id_foreign');
 
             $table->renameColumn('historial_inscripcion_id', 'id_inscripcion_historial');
             $table->renameColumn('condicion_id', 'id_condicion');

@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('georef_categorias', function (Blueprint $table) {
+            DB::statement('ALTER TABLE georef_categorias MODIFY id TINYINT');
+            $table->dropPrimary('id');
+        });
+        Schema::table('georef_categorias', function (Blueprint $table) {
             $table->timestamps();
             $table->softDeletes();
+            $table->tinyIncrements('id')->change(); // este no lo voy a revertir
         });
     }
 

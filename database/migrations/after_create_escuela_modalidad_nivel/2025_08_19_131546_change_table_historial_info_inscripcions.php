@@ -21,15 +21,6 @@ return new class extends Migration
             $table->renameColumn('id_inscripcion_historial', 'historial_inscripcion_id');
             $table->renameColumn('id_inscripcion_cierre', 'cierre_causa_id');
 
-            $table->foreign('historial_inscripcion_id')
-                  ->references('id')
-                  ->on('historial_inscripcions')
-                  ->onDelete('restrict');
-
-            $table->foreign('cierre_causa_id')
-                  ->references('id')
-                  ->on('cierre_causas')
-                  ->onDelete('restrict');
 
         });
     }
@@ -42,11 +33,6 @@ return new class extends Migration
         Schema::table('historial_info_inscripcions', function (Blueprint $table) {
             $table->dropSoftDeletes();
 
-            $table->dropForeign(['historial_inscripcion_id']);
-            $table->dropForeign(['cierre_causa_id']);
-
-            $table->dropIndex('historial_info_inscripcions_historial_inscripcion_id_foreign');
-            $table->dropIndex('historial_info_inscripcions_cierre_causa_id_foreign');
 
             $table->unsignedBigInteger('id_usuario')->comment('Usuario que realizó el movimiento');
           

@@ -12,8 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('regions', function (Blueprint $table) {
-            $table->softDeletes();
+            DB::statement('ALTER TABLE regions MODIFY id TINYINT');
+            $table->dropPrimary('id');
         });
+        Schema::table('regions', function (Blueprint $table) {
+            $table->unsignedTinyInteger('numero')->after('id');
+        });
+        
+        DB::statement('UPDATE regions SET numero = id');
+
+        Schema::table('regions', function (Blueprint $table) {
+            $table->softDeletes();
+            $table->tinyIncrements('id')->change();
+            $table->unique(['numero']); 
+        });
+
     }
 
     /**
@@ -23,6 +36,9 @@ return new class extends Migration
     {
         Schema::table('regions', function (Blueprint $table) {
             $table->dropSoftDeletes();
+            $table->dropUnique(['numero']);
+
+            $table->dropColumn('numero');
         });
     }
 };

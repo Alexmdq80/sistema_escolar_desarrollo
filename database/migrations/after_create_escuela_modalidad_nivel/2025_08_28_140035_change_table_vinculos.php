@@ -12,14 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('vinculos', function (Blueprint $table) {
+            DB::statement('ALTER TABLE vinculos MODIFY id TINYINT');
+            $table->dropPrimary('id');
+        });
+        Schema::table('vinculos', function (Blueprint $table) {
             $table->softDeletes();
+            
+            $table->tinyIncrements('id')->change(); // este no lo voy a revertir
             
             $table->renameColumn('id_vinculo_tipo', 'vinculo_tipo_id');
 
-            $table->foreign('vinculo_tipo_id')
-                  ->references('id')
-                  ->on('vinculo_tipos')
-                  ->onDelete('restrict');
         });
     }
 
@@ -31,9 +33,6 @@ return new class extends Migration
         Schema::table('vinculos', function (Blueprint $table) {
             $table->dropSoftDeletes();
 
-            $table->dropForeign(['vinculo_tipo_id']);
-
-            $table->dropIndex('vinculos_vinculo_tipo_id_foreign');
 
             $table->renameColumn('vinculo_tipo_id', 'id_vinculo_tipo');
 

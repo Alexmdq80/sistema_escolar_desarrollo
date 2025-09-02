@@ -11,7 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-    
         if (!Schema::hasTable('modalidad_nivel')) {
             Schema::create('modalidad_nivel', function (Blueprint $table) {
                 $table->smallIncrements('id')->unsigned();

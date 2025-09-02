@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('georef_localidads', function (Blueprint $table) {
+            DB::statement('ALTER TABLE georef_localidads MODIFY id SMALLINT');
+            $table->dropPrimary('id');
+        });
+        Schema::table('georef_localidads', function (Blueprint $table) {
             $table->timestamps();
             $table->softDeletes();
+            $table->smallIncrements('id')->change(); // este no lo voy a revertir
             
             // * ojo que se borran los datos!!!
             $table->dropColumn('id_continente');
@@ -26,30 +31,6 @@ return new class extends Migration
             $table->renameColumn('id_fuente_georef', 'georef_fuente_id');
             $table->renameColumn('id_categoria_georef', 'georef_categoria_id');
 
-            $table->foreign('departamento_id')
-                  ->references('id')
-                  ->on('departamentos')
-                  ->onDelete('restrict');
-
-            $table->foreign('municipio_id')
-                  ->references('id')
-                  ->on('municipios')
-                  ->onDelete('restrict');
-
-            $table->foreign('localidad_censal_id')
-                  ->references('id')
-                  ->on('localidad_censals')
-                  ->onDelete('restrict');
-
-            $table->foreign('georef_fuente_id')
-                  ->references('id')
-                  ->on('georef_fuentes')
-                  ->onDelete('restrict');
-
-            $table->foreign('georef_categoria_id')
-                  ->references('id')
-                  ->on('georef_categorias')
-                  ->onDelete('restrict');
         });
     }
 
@@ -61,18 +42,7 @@ return new class extends Migration
         Schema::table('georef_localidads', function (Blueprint $table) {
             $table->dropTimestamps();
             $table->dropSoftDeletes();
-            
-            $table->dropForeign(['departamento_id']);
-            $table->dropForeign(['municipio_id']);
-            $table->dropForeign(['localidad_censal_id']);
-            $table->dropForeign(['georef_fuente_id']);
-            $table->dropForeign(['georef_categoria_id']);
 
-            $table->dropIndex('georef_localidads_departamento_id_foreign');
-            $table->dropIndex('georef_localidads_municipio_id_foreign');
-            $table->dropIndex('georef_localidads_localidad_censal_id_foreign');
-            $table->dropIndex('georef_localidads_georef_fuente_id_foreign');
-            $table->dropIndex('georef_localidads_georef_categoria_id_foreign');
 
             $table->tinyInteger('id_provincia')->after('id')->unsigned()->nullable();
             $table->tinyInteger('id_pais')->after('id')->unsigned();

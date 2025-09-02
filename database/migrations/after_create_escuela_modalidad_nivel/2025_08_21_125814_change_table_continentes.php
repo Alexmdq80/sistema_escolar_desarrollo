@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('continentes', function (Blueprint $table) {
+            DB::statement('ALTER TABLE continentes MODIFY id TINYINT');
+            $table->dropPrimary('id');
+        });
+        Schema::table('continentes', function (Blueprint $table) {
             $table->timestamps();
             $table->softDeletes();
+            $table->tinyIncrements('id')->change(); // este no lo voy a revertir
         });
     }
 

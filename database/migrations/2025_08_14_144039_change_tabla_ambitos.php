@@ -12,7 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('ambitos', function (Blueprint $table) {
+            // Eliminar la propiedad AUTO_INCREMENT de la columna 'id'
+            // Esto se debe hacer con una sentencia SQL cruda en este caso
+            DB::statement('ALTER TABLE ambitos MODIFY id TINYINT');
+            $table->dropPrimary('id');
+        });
+        Schema::table('ambitos', function (Blueprint $table) {
             $table->softDeletes();
+            $table->tinyIncrements('id')->change(); // este no lo voy a revertir
         });
     }
 

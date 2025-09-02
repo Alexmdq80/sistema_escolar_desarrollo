@@ -35,25 +35,6 @@ return new class extends Migration
             $table->renameColumn('id_salida_motivo', 'salida_motivo_id');
             $table->renameColumn('id_ubicacion_escuela', 'escuela_ubicacion_id');
 
-            $table->foreign('escuela_id')
-                  ->references('id')
-                  ->on('escuelas')
-                  ->onDelete('restrict');
-
-            $table->foreign('historial_inscripcion_id')
-                  ->references('id')
-                  ->on('historial_inscripcions')
-                  ->onDelete('restrict');
-
-            $table->foreign('salida_motivo_id')
-                  ->references('id')
-                  ->on('salida_motivos')
-                  ->onDelete('restrict');
-
-            $table->foreign('escuela_ubicacion_id')
-                  ->references('id')
-                  ->on('escuela_ubicacions')
-                  ->onDelete('restrict');
 
 
         });
@@ -74,15 +55,6 @@ return new class extends Migration
             $table->dropTimestamps();
             $table->dropSoftDeletes();
 
-            $table->dropForeign(['escuela_id']);
-            $table->dropForeign(['historial_inscripcion_id']);
-            $table->dropForeign(['salida_motivo_id']);
-            $table->dropForeign(['escuela_ubicacion_id']);
-
-            $table->dropIndex('inscripcion_pases_escuela_id_foreign');
-            $table->dropIndex('inscripcion_pases_historial_inscripcion_id_foreign');
-            $table->dropIndex('inscripcion_pases_salida_motivo_id_foreign');
-            $table->dropIndex('inscripcion_pases_escuela_ubicacion_id_foreign');
 
             $table->renameColumn('escuela_id', 'id_escuela');
             $table->renameColumn('historial_inscripcion_id', 'id_inscripcion_historial');

@@ -12,8 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('municipios', function (Blueprint $table) {
+            DB::statement('ALTER TABLE municipios MODIFY id SMALLINT');
+            $table->dropPrimary('id');
+        });
+        Schema::table('municipios', function (Blueprint $table) {
             $table->timestamps();
             $table->softDeletes();
+
+            $table->smallIncrements('id')->change(); // este no lo voy a revertir
 
             $table->dropColumn('id_continente');
             $table->dropColumn('id_pais');
@@ -22,20 +28,7 @@ return new class extends Migration
             $table->renameColumn('id_fuente_georef', 'georef_fuente_id');
             $table->renameColumn('id_categoria_georef', 'georef_categoria_id');
 
-            $table->foreign('provincia_id')
-                  ->references('id')
-                  ->on('provincias')
-                  ->onDelete('restrict');
 
-            $table->foreign('georef_fuente_id')
-                  ->references('id')
-                  ->on('georef_fuentes')
-                  ->onDelete('restrict');
-
-            $table->foreign('georef_categoria_id')
-                  ->references('id')
-                  ->on('georef_categorias')
-                  ->onDelete('restrict');
 
         });
     }
@@ -49,13 +42,6 @@ return new class extends Migration
             $table->dropTimestamps();
             $table->dropSoftDeletes();
 
-            $table->dropForeign(['provincia_id']);
-            $table->dropForeign(['georef_fuente_id']);
-            $table->dropForeign(['georef_categoria_id']);
-
-            $table->dropIndex('municipios_provincia_id_foreign');
-            $table->dropIndex('municipios_georef_fuente_id_foreign');
-            $table->dropIndex('municipios_georef_categoria_id_foreign');
     
             $table->tinyInteger('id_continente')->after('id')->unsigned();
             $table->tinyInteger('id_pais')->after('id')->unsigned();

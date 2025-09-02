@@ -12,9 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('departamentos', function (Blueprint $table) {
+            DB::statement('ALTER TABLE departamentos MODIFY id SMALLINT');
+            $table->dropPrimary('id');
+        });
+        Schema::table('departamentos', function (Blueprint $table) {
             $table->timestamps();
             $table->softDeletes();
-
+            $table->smallIncrements('id')->change(); // este no lo voy a revertir
             // * ojo que se borran los datos!!!
             $table->dropColumn('id_pais');
             $table->dropColumn('id_continente');
@@ -23,26 +27,6 @@ return new class extends Migration
             $table->renameColumn('id_fuente_georef', 'georef_fuente_id');
             $table->renameColumn('id_categoria_georef', 'georef_categoria_id');
             $table->renameColumn('id_region_educativa', 'region_id');
-
-            $table->foreign('provincia_id')
-                  ->references('id')
-                  ->on('provincias')
-                  ->onDelete('restrict');
-
-            $table->foreign('region_id')
-                  ->references('id')
-                  ->on('regions')
-                  ->onDelete('restrict');
-
-            $table->foreign('georef_fuente_id')
-                  ->references('id')
-                  ->on('georef_fuentes')
-                  ->onDelete('restrict');
-
-            $table->foreign('georef_categoria_id')
-                  ->references('id')
-                  ->on('georef_categorias')
-                  ->onDelete('restrict');
 
         });
     }
@@ -53,15 +37,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('departamentos', function (Blueprint $table) {
-            $table->dropForeign(['provincia_id']);
-            $table->dropForeign(['region_id']);
-            $table->dropForeign(['georef_fuente_id']);
-            $table->dropForeign(['georef_categoria_id']);
-
-            $table->dropIndex('departamentos_provincia_id_foreign');
-            $table->dropIndex('departamentos_region_id_foreign');
-            $table->dropIndex('departamentos_georef_fuente_id_foreign');
-            $table->dropIndex('departamentos_georef_categoria_id_foreign');
 
             $table->renameColumn('provincia_id', 'id_provincia');
             $table->renameColumn('region_id', 'id_region_educativa');

@@ -26,15 +26,7 @@ return new class extends Migration
             $table->renameColumn('id_propuesta_institucional', 'propuesta_id');
             $table->renameColumn('id_seccion_tipo','seccion_tipo_id');
             
-            $table->foreign('propuesta_id')
-                  ->references('id')
-                  ->on('propuestas')
-                  ->onDelete('restrict');
 
-            $table->foreign('seccion_tipo_id')
-                  ->references('id')
-                  ->on('seccion_tipos')
-                  ->onDelete('restrict');
 
 
         });
@@ -48,11 +40,7 @@ return new class extends Migration
         Schema::table('espacios', function (Blueprint $table) {
             $table->dropSoftDeletes();
 
-            $table->dropForeign(['propuesta_id']);
-            $table->dropForeign(['seccion_tipo_id']);
 
-            $table->dropIndex('espacios_propuesta_id_foreign');
-            $table->dropIndex('espacios_seccion_tipo_id_foreign');
 
             $table->smallInteger('id_plan_estudio')->unsigned()->after('id');
             $table->tinyInteger('id_ciclo_plan_estudio')->unsigned()->after('id');

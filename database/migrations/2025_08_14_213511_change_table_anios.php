@@ -12,9 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('anios', function (Blueprint $table) {
+            DB::statement('ALTER TABLE anios MODIFY id TINYINT');
+            $table->dropPrimary('id');
+        });
+        Schema::table('anios', function (Blueprint $table) {
             $table->softDeletes();
             // * ojo que se borran los datos!!!
             $table->dropColumn('id_ciclo_plan_estudio');
+            $table->tinyIncrements('id')->change(); // este no lo voy a revertir
             /*$table->renameColumn('id_ciclo_plan_estudio', 'plan_ciclo_id');
             $table->foreign('plan_ciclo_id')
                   ->references('id')
@@ -30,6 +35,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('anios', function (Blueprint $table) {
+            // NO REVIERTO EL AUTOINCREMENT, NO ES NECESARIO.
             /*$table->dropForeign(['plan_ciclo_id']);
             $table->dropIndex('anios_plan_ciclo_id_foreign');
             $table->renameColumn('plan_ciclo_id', 'id_ciclo_plan_estudio');*/

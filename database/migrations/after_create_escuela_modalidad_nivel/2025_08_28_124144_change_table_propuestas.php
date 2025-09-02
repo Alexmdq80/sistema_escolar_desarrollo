@@ -24,30 +24,6 @@ return new class extends Migration
             $table->renameColumn('id_jornada', 'jornada_id');
             $table->renameColumn('id_ciclo_lectivo', 'lectivo_id');
 
-            $table->foreign('plan_anio_id')
-                  ->references('id')
-                  ->on('plan_anios')
-                  ->onDelete('restrict');
-
-            $table->foreign('turno_inicio_id')
-                  ->references('id')
-                  ->on('turnos')
-                  ->onDelete('restrict');
-
-            $table->foreign('turno_fin_id')
-                  ->references('id')
-                  ->on('turnos')
-                  ->onDelete('restrict');
-
-            $table->foreign('jornada_id')
-                  ->references('id')
-                  ->on('jornadas')
-                  ->onDelete('restrict');
-
-            $table->foreign('lectivo_id')
-                  ->references('id')
-                  ->on('lectivos')
-                  ->onDelete('restrict');
 
         });
     }
@@ -60,17 +36,6 @@ return new class extends Migration
         Schema::table('propuestas', function (Blueprint $table) {
             $table->dropSoftDeletes();
 
-            $table->dropForeign(['plan_anio_id']);
-            $table->dropForeign(['turno_inicio_id']);
-            $table->dropForeign(['turno_fin_id']);
-            $table->dropForeign(['jornada_id']);
-            $table->dropForeign(['lectivo_id']);
-
-            $table->dropIndex('propuestas_plan_anio_id_foreign');
-            $table->dropIndex('propuestas_turno_inicio_id_foreign');
-            $table->dropIndex('propuestas_turno_fin_id_foreign');
-            $table->dropIndex('propuestas_jornada_id_foreign');
-            $table->dropIndex('propuestas_lectivo_id_foreign');
 
             $table->renameColumn('plan_anio_id', 'id_anio_plan');
             $table->renameColumn('turno_inicio_id', 'id_turno_inicio');
