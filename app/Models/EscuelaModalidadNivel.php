@@ -16,7 +16,7 @@ class EscuelaModalidadNivel extends \Illuminate\Database\Eloquent\Relations\Pivo
     {
         return $this->belongsTo(Escuela::class);
     }
-    public function modalidadesNiveles(): BelongsTo
+    public function modalidadNivel(): BelongsTo
     {
         return $this->belongsTo(ModalidadNivel::class);
     }

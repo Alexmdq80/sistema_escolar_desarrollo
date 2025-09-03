@@ -19,7 +19,7 @@ return new class extends Migration
                   ->onDelete('restrict');
 
             $table->foreign('region_id')
-                  ->references('numero')
+                  ->references('id')
                   ->on('regions')
                   ->onDelete('restrict');
 

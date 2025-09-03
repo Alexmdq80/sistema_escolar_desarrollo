@@ -12,21 +12,13 @@ class Modalidad extends Model
 {
     use HasFactory, SoftDeletes;
 
-    //protected $table = 'modalidad';
-
     protected $fillable = ["nombre","orden","vigente"];
 
-    // public function escuela_nivel_modalidad() {
-    //     return $this->hasMany(Escuela_Nivel_Modalidad::class, "id_modalidad", "id" );
-    // }
-
-//    public function escuelas() {
-//        return $this->belongsToMany(Escuela::class, "escuela_nivel_modalidad","id_modalidad", "id_escuela");
-//   }
     public function niveles(): BelongsToMany
     {
-        return $this->belongsToMany(Nivel::class);
-//        return $this->belongsToMany(Nivel::class, 'modalidad_nivel');
+        return $this->belongsToMany(Nivel::class)
+                    ->using(ModalidadNivel::class);
+
     }
     public function inscripciones(): HasMany
     {

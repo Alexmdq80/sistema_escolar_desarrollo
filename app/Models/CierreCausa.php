@@ -7,15 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Ambito extends Model
+class CierreCausa extends Model
 {
+
     use HasFactory, SoftDeletes;
 
     protected $fillable = ["nombre","orden","vigente"];
 
-    public function escuelas(): HasMany
+    public function historialInfoInscripciones(): HasMany
     {
-        return $this->hasMany(Escuela::class);
+        return $this->hasMany(Historial_Info_Inscripcion::class);
     }
 
 }

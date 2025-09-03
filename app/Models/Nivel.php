@@ -24,8 +24,8 @@ class Nivel extends Model
 //    }
     public function modalidades(): BelongsToMany
     {
-        return $this->belongsToMany(Modalidad::class);
-        //        return $this->belongsToMany(Modalidad::class, 'modalidad_nivel');
+        return $this->belongsToMany(Modalidad::class)
+                    ->using(ModalidadNivel::class);
     }
     public function inscripciones(): HasMany
     {

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GeorefAsentamiento extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = ["id_georef","departamento_id",
                             "municipio_id", "localidad_censal_id",

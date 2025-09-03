@@ -4,20 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Inscripcion_Finalizado extends Model
+class InscripcionFinalizado extends Model
 {
-    protected $table = "inscripcion_finalizado";
-    protected $fillable = ["id_inscripcion_historial","id_condicion"];
+    use HasFactory, SoftDeletes;
 
-   // use HasFactory;
-    public $timestamps = false;
+    protected $fillable = ["historial_inscripcion_id", "condicion_id"
+                        ];
 
-    public function inscripcion_historial(){
-        return $this->belongsTo(Inscripcion_Historial::class, "id_inscripcion_historial");
+    public function historialInscripcion(): BelongsTo {
+        return $this->belongsTo(HistorialInscripcion::class);
     }
 
-    public function condicion(){
-        return $this->belongsTo(Condicion::class, "id_condicion");
+    public function condicionFinalizacion(){
+        return $this->belongsTo(Condicion::class);
     }
 }

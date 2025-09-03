@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Localidad extends Model
+class GeorefLocalidad extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -43,13 +42,5 @@ class Localidad extends Model
     {
         return $this->belongsTo(GeorefCategoria::class);
     }
-    public function personasNacidas(): HasMany
-    {
-        return $this->hasMany(Persona::class);
-    }   
-    public function domicilios(): HasMany
-    {
-        return $this->hasMany(Domicilio::class);
-    }   
 
 }

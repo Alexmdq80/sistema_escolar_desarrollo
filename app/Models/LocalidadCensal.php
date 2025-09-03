@@ -5,22 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Municipio extends Model
+class LocalidadCensal extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = ["id_georef",
-                            "provincia_id",
                             "georef_fuente_id",
                             "georef_categoria_id", 
+                            "georef_funcion_id",
                             "nombre",
-                            "nombre_completo",
                             "centroide_lat",
                             "centroide_lon",
-                            "provincia_interseccion"
     ];
 
     public function georefFuente(): BelongsTo 
@@ -35,23 +33,22 @@ class Municipio extends Model
     {
         return $this->belongsTo(GeorefFuncion::class);
     }
-    public function provincia(): BelongsTo
+    public function localidades(): HasMany
     {
-        return $this->belongsTo(Provincia::class);
+        return $this->hasMany(Localidad::class);
     }
-
-    public function asentamientos() {
-        return $this->hasMany(Asentamiento::class, "id_municipio", "id" );
+    public function georefAsentamientos(): HasMany
+    {
+        return $this->hasMany(GeorefAsentamiento::class);
     }
-    public function localidades() {
-        return $this->hasMany(Localidad::class, "id_municipio", "id" );
+    public function georefLocalidades(): HasMany
+    {
+        return $this->hasMany(GeorefLocalidad::class);
     }
-    public function localidades_asentamientos() {
-        return $this->hasMany(Localidad_Asentamiento::class, "id_municipio", "id" );
-    }
-    public function localidades_censales() {
-        return $this->hasMany(Localidad_Censal::class, "id_municipio", "id" );
-    }
+    public function calles(): HasMany
+    {
+        return $this->hasMany(Calle::class);
+    }     
 
 
 }

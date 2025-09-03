@@ -11,7 +11,6 @@ class Condicion extends Model
 {
     use HasFactory, SoftDeletes;
 
-    //protected $table = "condicion";
     protected $fillable = ["nombre","orden","vigente"];
 
     public function inscripciones(): HasMany
@@ -20,10 +19,10 @@ class Condicion extends Model
     }
     public function inscripcionFinalizados(): HasMany
     {
-        return $this->hasMany(Inscripcion_Finalizado::class);
+        return $this->hasMany(InscripcionFinalizado::class);
     }
     public function historialInscripciones(): HasMany
     {
-        return $this->hasMany(Historial_Inscripcion::class);
+        return $this->hasMany(HistorialInscripcion::class);
     }
 }
