@@ -4,76 +4,109 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Persona extends Model
 {
-    use HasFactory;
-    protected $table = "persona";
-    protected $fillable = ["id_documento_tipo","id_documento_situacion","id_sexo","id_genero",
-                          "nacionalidad_id_pais", "nacimiento_lugar_id_pais","nacimiento_lugar_id_provincia",
-                          "nacimiento_lugar_id_departamento","nacimiento_lugar_localidad_asentamiento",
-                          "documento_numero","apellido","nombre","nombre_alternativo","tramite",
-                          "posee_cpi_si","posee_docExt_si","vive_si","CUIL_prefijo","CUIL_sufijo",
-                          "nacimiento_fecha"];
+    use HasFactory, SoftDeletes;
 
-    public function documento_tipo() {
-      return $this->belongsTo(Documento_Tipo::class, "id_documento_tipo");
+    protected $fillable = ["documento_tipo_id",
+                          "documento_situacion_id",
+                          "sexo_id",
+                          "genero_id",
+                          "nacionalidad_nacion_id", 
+                          "nacion_id",
+                          "provincia_id",
+                          "departamento_id",
+                          "localidad_id",
+                          "documento_numero",
+                          "apellido",
+                          "nombre",
+                          "nombre_alternativo",
+                          "tramite",
+                          "posee_cpi_si",
+                          "posee_docExt_si",
+                          "vive_si",
+                          "CUIL_prefijo",
+                          "CUIL_sufijo",
+                          "nacimiento_fecha"
+                        ];
+
+    protected $casts = [
+       'nacimiento_fecha' => 'datetime'
+    ];
+
+    public function documentoTipo(): BelongsTo
+    {
+      return $this->belongsTo(DocumentoTipo::class);
     }
-    public function documento_situacion() {
-      return $this->belongsTo(Documento_Situacion::class, "id_documento_situacion");
+    public function documentoSituacion(): BelongsTo
+    {
+      return $this->belongsTo(DocumentoSituacion::class);
     }
-    public function sexo() {
-      return $this->belongsTo(Sexo::class, "id_sexo");
+    public function sexo(): BelongsTo
+    {
+      return $this->belongsTo(Sexo::class);
     }
-    public function genero() {
-      return $this->belongsTo(Genero::class, "id_genero");
+    public function genero(): BelongsTo
+    {
+      return $this->belongsTo(Genero::class);
     }
-    public function nacionalidad() {
-      return $this->belongsTo(Pais::class, "nacionalidad_id_pais");
+    public function nacionalidad(): BelongsTo
+    {
+      return $this->belongsTo(Nacion::class, "nacionalidad_nacion_id");
     }
-    public function nacimiento_pais() {
-      return $this->belongsTo(Pais::class, "nacimiento_lugar_id_pais");
+    public function nacimientoPais(): BelongsTo
+    {
+      return $this->belongsTo(Nacion::class);
     }
-    public function nacimiento_provincia() {
-      return $this->belongsTo(Provincia::class, "nacimiento_lugar_id_provincia");
+    public function nacimientoProvincia(): BelongsTo
+    {
+      return $this->belongsTo(Provincia::class);
     }
-    public function nacimiento_departamento() {
-      return $this->belongsTo(Departamento::class, "nacimiento_lugar_id_departamento");
+    public function nacimientoDepartamento(): BelongsTo
+    {
+      return $this->belongsTo(Departamento::class);
     }
-    public function nacimiento_localidad_asentamiento() {
-      return $this->belongsTo(Localidad_Asentamiento::class, "nacimiento_lugar_id_localidad_asentamiento");
+    public function nacimientoLocalidad(): BelongsTo
+    {
+      return $this->belongsTo(Localidad::class);
     }
-    public function domicilio(){
-      return $this->hasOne(Domicilio::class,"id_persona","id");
+    public function domicilio(): HasOne
+    {
+      return $this->hasOne(Domicilio::class);
     }
-    public function contacto(){
-      return $this->hasOne(Contacto::class,"id_persona","id");
+    public function contacto(): HasOne
+    {
+      return $this->hasOne(Contacto::class);
     }
-    public function legajo(){
-      return $this->hasOne(Legajo::class,"id_persona","id");
+    public function inscripcion(): HasOne
+    {
+      return $this->hasOne(Inscripcion::class);
+    }
+    public function legajos(): HasMany
+    {
+      return $this->HasMany(Legajo::class);
+    }
+    public function vinculosComoEstudiante(): BelongsToMany
+    {
+        return $this->belongsToMany(Persona::class, 'persona_vinculo_persona', 'persona_estudiante_id', 'persona_adulto_id')
+                    ->using(PersonaVinculoPersona::class)
+                    ->withPivot('vinculo_id');
+    }
+    /**
+     * Los vínculos de esta persona como adulto.
+     */
+    public function vinculosComoAdulto(): BelongsToMany
+    {
+        return $this->belongsToMany(Persona::class, 'persona_vinculo_persona', 'persona_adulto_id', 'persona_estudiante_id')
+                    ->using(PersonaVinculoPersona::class)
+                    ->withPivot('vinculo_id');
     }
 
-    // public function usuario(){
-    //   return $this->hasMany(Usuario::class,"id_persona","id");
-    // }
-    // public function inscripciones(){
-    //   return $this->hasMany(Inscripcion::class,"id_persona","id");
-    // }
-
-    public function inscripcion(){
-      return $this->hasOne(Inscripcion::class,"id_persona","id");
-    }
-    public function adultos () {
-      return $this->belongsToMany(Persona::class,"estudiante_adulto_vinculo","id_persona_estudiante","id_persona_adulto");
-    }
-    public function estudiantes () {
-      return $this->belongsToMany(Persona::class,"estudiante_adulto_vinculo","id_persona_adulto","id_persona_estudiante");
-    }
-    public function adultos_vinculos(){
-      return $this->belongsToMany(Adulto_Vinculo::class,"estudiante_adulto_vinculo","id_persona_adulto","id_adulto_vinculo");
-    }
-    public function estudiante_vinculos(){
-      return $this->belongsToMany(Adulto_Vinculo::class,"estudiante_adulto_vinculo","id_persona_estudiante","id_adulto_vinculo");
-    }
 
  }

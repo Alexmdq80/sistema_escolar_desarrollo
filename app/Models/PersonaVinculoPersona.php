@@ -4,22 +4,35 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Estudiante_Adulto_Vinculo extends Model
+class PersonaVinculoPersona extends Pivot
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $table = "estudiante_adulto_vinculo";
+    protected $table = "persona_vinculo_persona";
 
-    protected $fillable = ["detalle","vencimiento_fecha"];
+    protected $fillable = ["persona_estudiante_id",
+                          "persona_adulto_id",
+                          "vinculo_id",
+                          "detalle",
+                          "vencimiento_fecha"
+                        ];
 
-    public function adulto_vinculo(){
-        return $this->belongsTo(Adulto_Vinculo::class, "id_adulto_vinculo","id");
+    protected $casts = [
+       'vencimiento_fecha' => 'datetime'
+    ];
+
+    public function vinculo(): BelongsTo
+    {
+        return $this->belongsTo(Vinculo::class);
     }
 
-   /* public function inscripcion_firma(){
-      return $this->hasMany(Inscripcion::class,"id_persona_firma","id");
-    }*/
+    /*public function adulto_vinculo(){
+        return $this->belongsTo(Adulto_Vinculo::class, "id_adulto_vinculo","id");
+    }
 
     public function inscripcion_responsable_1(){
       return $this->belongsTo(Inscripcion::class,"responsable_1","id");
@@ -36,11 +49,11 @@ class Estudiante_Adulto_Vinculo extends Model
     public function estudiante() {
         return $this->belongsTo(Persona::class, "id_persona_estudiante", "id");
     }
-   /* public function adulto() {
+    public function adulto() {
         return $this->hasMany(Persona::class,  "id", "id_persona_adulto");
-    } */
+    } 
     public function adulto() {
         return $this->belongsTo(Persona::class, "id_persona_adulto", "id");
-    }
+    }*/
 
 }

@@ -19,5 +19,8 @@ class Legajo extends Model
     {
         return $this->belongsTo(Persona::class);
     }
-    
+    public function escuela(): BelongsTo
+    {
+        return $this->belongsTo(Escuela::class);
+    }
 }

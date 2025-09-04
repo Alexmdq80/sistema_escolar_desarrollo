@@ -21,7 +21,9 @@ return new class extends Migration
             $table->renameColumn('id_persona_adulto', 'persona_adulto_id');
             $table->renameColumn('id_adulto_vinculo', 'vinculo_id');
 
-
+            $table->unique(
+                ['persona_estudiante_id', 'persona_adulto_id', 'vinculo_id'],
+                'pvp_unique');
 
         });
     }
@@ -33,6 +35,7 @@ return new class extends Migration
     {
         Schema::table('persona_vinculo_persona', function (Blueprint $table) {
             $table->dropSoftDeletes();
+            $table->dropUnique('pvp_unique');
 
         });
 

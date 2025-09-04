@@ -31,27 +31,9 @@ class Municipio extends Model
     {
         return $this->belongsTo(GeorefCategoria::class);
     }
-    public function georefFuncion(): BelongsTo
-    {
-        return $this->belongsTo(GeorefFuncion::class);
-    }
     public function provincia(): BelongsTo
     {
         return $this->belongsTo(Provincia::class);
     }
-
-    public function asentamientos() {
-        return $this->hasMany(Asentamiento::class, "id_municipio", "id" );
-    }
-    public function localidades() {
-        return $this->hasMany(Localidad::class, "id_municipio", "id" );
-    }
-    public function localidades_asentamientos() {
-        return $this->hasMany(Localidad_Asentamiento::class, "id_municipio", "id" );
-    }
-    public function localidades_censales() {
-        return $this->hasMany(Localidad_Censal::class, "id_municipio", "id" );
-    }
-
 
 }

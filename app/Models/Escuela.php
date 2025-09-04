@@ -48,6 +48,10 @@ class Escuela extends Model
     {
         return $this->hasMany(InscripcionPase::class);
     }
+    public function legajos(): HasMany
+    {
+      return $this->HasMany(Legajo::class);
+    }
 
     //********belongsToMany/
     public function propuestas(): BelongsToMany
