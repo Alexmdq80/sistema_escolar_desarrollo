@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Turno extends Model
+class SeccionTipo extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -15,15 +15,7 @@ class Turno extends Model
                             "orden"
                         ];
 
-
-    public function propuestasTurnoInicio(): HasMany
-    {
-        return $this->hasMany(Propuesta::class,"turno_inicio_id","id");
+    public function espacios(){
+        return $this->hasMany(Espacio::class);
     }
-    
-    public function propuestasTurnoFin(): HasMany
-    {
-        return $this->hasMany(Propuesta::class,"turno_fin_id","id");
-    }
-
 }

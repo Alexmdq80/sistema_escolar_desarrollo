@@ -14,11 +14,11 @@ class EscuelaUsuario extends \Illuminate\Database\Eloquent\Relations\Pivot imple
 {
     use SoftDeletes, Auditable, HasUuids;
 
-  //  protected $table = "usuario_escuela";
-
-    protected $fillable = ["escuela_id","usuario_id","verified_at","usuario_tipo_id"];
-
- //   public $timestamps = true;
+    protected $fillable = ["escuela_id",
+                            "usuario_id",
+                            "verified_at",
+                            "usuario_tipo_id"
+                        ];
 
     protected $casts = [
        'verified_at' => 'datetime'

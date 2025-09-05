@@ -12,8 +12,11 @@ class Anio extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ["nombre","nombre_completo","anio_absoluto",
-                           "anio_relativo","orden"];
+    protected $fillable = ["nombre",
+                            "nombre_completo",
+                            "anio_absoluto",
+                            "anio_relativo",
+                            "orden"];
 
     public function planAnios(): HasMany
     {

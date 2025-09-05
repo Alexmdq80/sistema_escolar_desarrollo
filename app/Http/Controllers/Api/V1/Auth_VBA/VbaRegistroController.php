@@ -53,15 +53,7 @@ class VbaRegistroController extends Controller
             'email_correction_attempts' => 0, // Para la lógica de intentos
         ]);
 
-     /*   if ($request->id_escuela) {
-            $ue = Usuario_Escuela::create([
-                'id_escuela' => $request->id_escuela,
-                'id_usuario' => $user->id,
-                'verificado' => false,
-                'id_usuario_tipo' => 5
-            ]);
-        } */
-
+    
       //  dd($user->verification_token);
 
         Mail::to($usuario->email)->send(new EmailVerificationMail($usuario));

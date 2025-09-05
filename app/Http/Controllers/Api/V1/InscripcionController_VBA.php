@@ -448,7 +448,7 @@ class InscripcionController_VBA extends Controller
             $inscripcion->id_espacio_academico = $id_espacio_academico;
             $inscripcion->id_condicion = $id_condicion;
                     // Obtener el ID del usuario desde el token de Sanctum
-            $inscripcion->id_usuario = $request->user()->id;
+            //$inscripcion->id_usuario = $request->user()->id;
             $inscripcion->save();
             /* CORREGIR LA CONDICIÓN Y EL ESPACIO ACADÉMICO EN LA INSCRIPCIÓN ÚLTIMA, SI LA HUBIERA,
                SI NO LA HAY ES PORQUE EGRESÓ O CAMBIÓ DE ESTABLECIMIENTO*/

@@ -33,8 +33,8 @@ class AngularLoginController extends Controller
             ]);
         }
 
-        $ue = UsuarioEscuela::where('id_usuario', $usuario->id)
-                            ->where('id_escuela', $request->id_escuela)
+        $ue = UsuarioEscuela::where('usuario_id', $usuario->id)
+                            ->where('escuela_id', $request->id_escuela)
                             ->with('UsuarioTipo')
                             ->first();
 

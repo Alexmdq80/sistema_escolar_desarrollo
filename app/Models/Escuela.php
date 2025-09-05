@@ -13,12 +13,19 @@ class Escuela extends Model
 {
     use HasFactory, SoftDeletes;
 
-    //protected $table = "escuela";
-
-    protected $fillable = ["localidad_id", "ambito_id", "dependencia_id",
-                            "sector_id", "cue_anexo","clave_provincial",
-                           "nombre","numero","codigo_localidad",
-                           "domicilio","telefono","email","codigo_postal"
+    protected $fillable = ["localidad_id", 
+                            "ambito_id", 
+                            "dependencia_id",
+                            "sector_id", 
+                            "cue_anexo",
+                            "clave_provincial",
+                            "nombre",
+                            "numero",
+                            "codigo_localidad",
+                            "domicilio",
+                            "telefono",
+                            "email",
+                            "codigo_postal"
                         ];
     //public $timestamps = false;
     //*******belongsTo */

@@ -11,7 +11,7 @@ class RefreshToken extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_usuario',
+        'usuario_id',
         'token',
         'expires_at',
         'device_id'
@@ -24,9 +24,9 @@ class RefreshToken extends Model
     /**
      * Get the user that owns the refresh token.
      */
-    public function user(): BelongsTo
+    public function usuario(): BelongsTo
     {
-        return $this->belongsTo(User::class, "id_usuario");
+        return $this->belongsTo(Usuario::class);
     }
 
 }

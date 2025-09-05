@@ -39,11 +39,11 @@ class AngularRegistroController extends Controller
             'clave' => '123456',
         ]);
 
-        $ue = Usuario_Escuela::create([
-            'id_escuela' => $request->id_escuela,
-            'id_usuario' => $user->id,
+        $ue = EscuelaUsuario::create([
+            'escuela_id' => $request->id_escuela,
+            'usuario_id' => $user->id,
             'verificado' => false,
-            'id_usuario_tipo' => 5
+            'usuario_tipo_id' => 5
         ]);
 
         return response()->json([

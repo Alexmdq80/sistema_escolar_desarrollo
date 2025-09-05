@@ -171,7 +171,7 @@ class VbaPerfilController extends Controller
 
             // Eliminar todos los tokens existentes del usuario y los refresh tokens
             $usuario->tokens()->delete();
-            RefreshToken::where('id_usuario', $usuario->id)
+            RefreshToken::where('usuario_id', $usuario->id)
                 ->delete();
             /* enviar email de verificación al nuevo correo */
             try {
@@ -235,7 +235,7 @@ class VbaPerfilController extends Controller
         $message = 'Tu contraseña ha sido actualizada exitosamente. Se ha enviado una notificación a tu correo electrónico.';
         // Eliminar todos los tokens existentes del usuario y los refresh tokens
         $usuario->tokens()->delete();
-        RefreshToken::where('id_usuario', $usuario->id)
+        RefreshToken::where('usuario_id', $usuario->id)
                     ->delete();
         /* enviar email de verificación al nuevo correo */
         try {

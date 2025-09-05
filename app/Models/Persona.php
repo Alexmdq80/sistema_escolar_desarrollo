@@ -96,7 +96,7 @@ class Persona extends Model
     {
         return $this->belongsToMany(Persona::class, 'persona_vinculo_persona', 'persona_estudiante_id', 'persona_adulto_id')
                     ->using(PersonaVinculoPersona::class)
-                    ->withPivot('vinculo_id');
+                    ->withPivot(['vinculo_id','vencimiento_fecha','detalle']);
     }
     /**
      * Los vínculos de esta persona como adulto.
@@ -105,7 +105,7 @@ class Persona extends Model
     {
         return $this->belongsToMany(Persona::class, 'persona_vinculo_persona', 'persona_adulto_id', 'persona_estudiante_id')
                     ->using(PersonaVinculoPersona::class)
-                    ->withPivot('vinculo_id');
+                    ->withPivot(['vinculo_id','vencimiento_fecha','detalle']);
     }
 
 

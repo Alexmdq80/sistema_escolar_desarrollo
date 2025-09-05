@@ -4,15 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class UsuarioTipo extends Model
 {
-    // use HasFactory;
-    protected $table = "usuario_tipo";
-    protected $fillable = ["nombre","orden","vigente"];
+    use HasFactory, SoftDeletes;
 
-    public function usuarioEscuela(){
-        return $this->hasMany(UsuarioEscuela::class,"id_usuario_tipo","id");
+    protected $fillable = ["nombre",
+                            "orden",
+                            "vigente"
+                        ];
+
+    public function escuelaUsuarios(): HasMany
+    {
+        return $this->hasMany(EscuelaUsuario::class);
     }
 
 

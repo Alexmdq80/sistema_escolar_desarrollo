@@ -4,16 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Sector extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $table = 'sector';
-    protected $fillable = ["nombre","orden","vigente"];   
+    protected $fillable = ["nombre",
+                            "orden",
+                            "vigente"
+                        ];   
 
-    public function escuelas() {
-        return $this->hasMany(Escuela::class, "id_sector", "id" );
+    public function escuelas(): HasMany
+    {
+        return $this->hasMany(Escuela::class);
     }
 
 }

@@ -7,23 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Turno extends Model
+class VinculoTipo extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = ["nombre",
-                            "orden"
+                            "orden",
+                            "vigente"
                         ];
 
-
-    public function propuestasTurnoInicio(): HasMany
-    {
-        return $this->hasMany(Propuesta::class,"turno_inicio_id","id");
+    public function vinculos() {
+        return $this->hasMany(Vinculo::class);
     }
-    
-    public function propuestasTurnoFin(): HasMany
-    {
-        return $this->hasMany(Propuesta::class,"turno_fin_id","id");
-    }
-
 }

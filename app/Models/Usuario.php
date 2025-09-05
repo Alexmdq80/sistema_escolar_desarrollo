@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use OwenIt\Auditing\Auditable; // Importa el trait
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract; // Importa el contrato (necesario)
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Usuario extends Authenticatable implements AuditableContract
 //class User extends Authenticatable
@@ -75,30 +76,14 @@ class Usuario extends Authenticatable implements AuditableContract
         ])->save();
     }
 
-    public function inscripiones(){
-        return $this->hasMany(Inscripcion::class,"id_usuario","id");
-    }
-    public function inscripionesHistorial(){
-        return $this->hasMany(Inscripcion_Historial::class,"id_usuario","id");
-    }
-    public function inscripionesHistorialInfo(){
-        return $this->hasMany(Inscripcion_Historial_Info::class,"id_usuario","id");
-    }
-    public function usuarioEscuelas(){
-        return $this->hasMany(UsuarioEscuela::class,"id_usuario","id");
-    }
-    public function refreshTokens() {
-        return $this->hasMany(RefreshToken::class, 'id_usuario', 'id');
-    }
-
-    /*protected static function boot()
+    public function escuelaUsuarios(): HasMany
     {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->{$model->getKeyName()} = (string) Str::uuid();
-        });
-    }*/
+        return $this->hasMany(EscuelaUsuario::class);
+    }
+    public function refreshTokens(): HasMany
+    {
+        return $this->hasMany(RefreshToken::class);
+    }
 
     /**
      * Get the primary key for the model.
@@ -115,6 +100,5 @@ class Usuario extends Authenticatable implements AuditableContract
      *
      * @var bool
      */
-    /*public $incrementing = false;*/
 
 }

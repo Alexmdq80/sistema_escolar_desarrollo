@@ -21,7 +21,7 @@ class VbaLogoutController extends Controller
             $request->user()->currentAccessToken()->delete();
             $deviceId = substr($request->userAgent() ?? '', 0, 255);
             // Eliminar el refresh token asociado al usuario
-            RefreshToken::where('id_usuario', $request->user()->id)
+            RefreshToken::where('usuario_id', $request->user()->id)
                 ->where('device_id', $deviceId)
                 ->delete();
             return response()->json(['message' => 'logout del dispositivo exitoso'], 200);

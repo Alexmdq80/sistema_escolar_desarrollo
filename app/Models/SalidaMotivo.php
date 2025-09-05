@@ -7,20 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Sexo extends Model
+class SalidaMotivo extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = ["nombre",
-                            "letra",
                             "orden",
-                            "vigente"
+                            "vigente",   
                         ];
-
-    public function personas() {
-        return $this->hasMany(Persona::class);
+            
+    public function inscripcionBajas(): HasMany
+    {
+        return $this->HasMany(InscripcionBajas::class);
     }
-
-                                
-
+    public function inscripcionPases(): HasMany
+    {
+        return $this->HasMany(InscripcionPases::class);
+    }        
 }

@@ -22,13 +22,14 @@ class ObtenerEscuela extends Controller
                 'id', // ID de la escuela
                 'nombre', // Nombre de la escuela
                 // Asegúrate de incluir también las claves foráneas necesarias para las relaciones
-                'id_pais', // Si 'pais' se relaciona por 'pais_id'
-                'id_provincia', // Si 'provincia' se relaciona por 'provincia_id'
-                'id_departamento', // Si 'departamento' se relaciona por 'departamento_id'
-                'id_localidad_asentamiento' // Si 'localidad_asentamiento' se relaciona por 'localidad_asentamiento_id'
+                //'id_pais', // Si 'pais' se relaciona por 'pais_id'
+                //'id_provincia', // Si 'provincia' se relaciona por 'provincia_id'
+                //'id_departamento', // Si 'departamento' se relaciona por 'departamento_id'
+                //'id_localidad_asentamiento' // Si 'localidad_asentamiento' se relaciona por 'localidad_asentamiento_id'
+                'localidad_id'
             ])
             ->with([
-            'pais' => function ($query) {
+            /*'pais' => function ($query) {
                 $query->select(['id','nombre']);
             },
             'provincia' => function ($query) {
@@ -38,6 +39,9 @@ class ObtenerEscuela extends Controller
                 $query->select(['id','nombre']);
             },
             'localidad_asentamiento' => function ($query) {
+                $query->select(['id','nombre']);
+            }*/
+            'localidad' => function ($query) {
                 $query->select(['id','nombre']);
             }
         ])

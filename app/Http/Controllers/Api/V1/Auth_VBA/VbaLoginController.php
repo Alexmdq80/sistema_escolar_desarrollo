@@ -53,7 +53,7 @@ class VbaLoginController extends Controller
         $usuario->tokens()->where('name', $device)->delete();
 
         // Eliminar cualquier refresh token existente para este usuario y dispositivo
-        RefreshToken::where('id_usuario', $usuario->id)
+        RefreshToken::where('usuario_id', $usuario->id)
             ->where('device_id', $device)
             ->delete();
 
@@ -61,7 +61,7 @@ class VbaLoginController extends Controller
         $refreshTokenExpiresAt = now()->addMinutes(config('sanctum.refresh_expiration', 20160));
 
         RefreshToken::create([
-            'id_usuario' => $usuario->id,
+            'usuario_id' => $usuario->id,
             'token' => hash('sha256', $refreshToken),
             'expires_at' => $refreshTokenExpiresAt,
             'device_id' => $device,
@@ -106,12 +106,12 @@ class VbaLoginController extends Controller
         //    return response()->json(['message' => 'Refresh token inválido.'], 401);
         //}
         // Verificar si el token existe y está asociado a un usuario
-        if (!$refreshTokenRecord || !$refreshTokenRecord->user) { // Usa id_usuario para verificar la relación
+        if (!$refreshTokenRecord || !$refreshTokenRecord->user) { // Usa usuario_id para verificar la relación
             return response()->json(['message' => 'Refresh token inválido.'], 401);
         }
 
          // Obtener el usuario asociado al token de refresco
-        $usuario = Usuario::find($refreshTokenRecord->id_usuario); // Busca el usuario por id_usuario
+        $usuario = Usuario::find($refreshTokenRecord->usuario_id); // Busca el usuario por usuario_id
 
         if (!$usuario) {
              return response()->json(['message' => 'Usuario no encontrado para el refresh token.'], 401);
@@ -139,7 +139,7 @@ class VbaLoginController extends Controller
 
         // Guardar el nuevo refresh token hasheado en tu tabla personalizada
         RefreshToken::create([
-            'id_usuario' => $usuario->id,
+            'usuario_id' => $usuario->id,
             'token' => $hashedNewRefreshToken,
             'expires_at' => now()->addMinutes($newRefreshTokenExpiration),
             'device_id' => $refreshTokenRecord->device_id ?? 'default_device',

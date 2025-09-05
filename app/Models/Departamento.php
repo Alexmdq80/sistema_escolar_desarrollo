@@ -12,49 +12,34 @@ class Departamento extends Model
 {
     use HasFactory, SoftDeletes;
 
-    //protected $table = "departamento";
-
-    protected $fillable = ["id_georef","provincia_id", "georef_fuente",
-                            "georef_categoria","nombre","nombre_completo",
-                           "centroide_lat","centroide_lon",
-                           "provincia_interseccion", "region_id",
-                           "distrito_numero"
+    protected $fillable = ["id_georef",
+                            "provincia_id",
+                            "georef_fuente",
+                            "georef_categoria",
+                            "nombre",
+                            "nombre_completo",
+                            "centroide_lat",
+                            "centroide_lon",
+                            "provincia_interseccion",
+                            "region_id",
+                            "distrito_numero"
                         ];
 
-    /*public function calles() {
-        return $this->hasMany(Calle::class, "id_departamento", "id" );
-    }
-    public function asentamientos() {
-        return $this->hasMany(Asentamiento::class, "id_departamento", "id" );
-    }
-    public function localidades() {
-        return $this->hasMany(Localidad::class, "id_departamento", "id" );
-    }
-    public function localidades_asentamientos() {
-        return $this->hasMany(Localidad_Asentamiento::class, "id_departamento", "id" );
-    }
-    public function localidades_censales() {
-        return $this->hasMany(Localidad_Censal::class, "id_departamento", "id" );
-    }
-    public function pais(){
-        return $this->belongsTo(Pais::class, "id_pais");
-    }
-    public function continente(){
-        return $this->belongsTo(Continente::class, "id_continente");
-    }
-    public function domicilios() {
-        return $this->hasMany(Domicilio::class, "id_departamento", "id" );
-    }*/
-    public function provincia(){
+    public function provincia(): BelongsTo
+    {
         return $this->belongsTo(Provincia::class);
     }
-    public function georef_categoria(): BelongsTo
+    public function regiones(): HasMany
     {
-        return $this->belongsTo(Georef_Categoria::class);
+        return $this->hasMany(Region::class);
     }
-    public function georef_fuente(): BelongsTo
+    public function georefCategoria(): BelongsTo
     {
-        return $this->belongsTo(Georef_Fuente::class);
+        return $this->belongsTo(GeorefCategoria::class);
+    }
+    public function georefFuente(): BelongsTo
+    {
+        return $this->belongsTo(GeorefFuente::class);
     }
 
     public function localidades(): HasMany
@@ -63,11 +48,11 @@ class Departamento extends Model
     }
     public function georefLocalidades(): HasMany
     {
-        return $this->hasMany(Georef_Localidad::class);
+        return $this->hasMany(GeorefLocalidad::class);
     }
     public function georefAsentamientos(): HasMany
     {
-        return $this->hasMany(Georef_Asentamiento::class);
+        return $this->hasMany(GeorefAsentamiento::class);
     }
     public function personas(): HasMany
     {

@@ -4,26 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Vinculo extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    //protected $table = "adulto_vinculo";
+    protected $fillable = ["vinculo_tipo_id",
+                            "nombre",
+                            "orden",
+                            "vigente"
+                        ];
 
-    protected $fillable = ["nombre","orden","vigente"];
-
-    public function adultos(){
-        return $this->hasMany(Estudiante_Adulto_Vinculo::class,"id_persona_adulto","id");
+    public function pvps(): HasMany
+    {
+        return $this->hasMany(Persona_Vinculo_Persona::class);
     }
-    public function estudiantes(){
-        return $this->hasMany(Estudiante_Adulto_Vinculo::class,"id_persona_estudiante","id");
-    }
-    public function vinculo_tipo(){
-        return $this->belongsTo(Vinculo_Tipo::class, "id_vinculo_tipo");
-    }
-    public function estudiantes_adultos_vinculos() {
-        return $this->hasMany(Estudiante_Adulto_Vinculo::class, "id_adulto_vinculo", "id" );
+    public function vinculoTipo(): BelongsTo
+    {
+        return $this->belongsTo(VinculoTipo::class);
     }
 
 }
