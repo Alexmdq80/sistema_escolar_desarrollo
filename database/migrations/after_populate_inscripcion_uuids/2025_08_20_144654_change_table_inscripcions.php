@@ -12,19 +12,27 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('inscripcions', function (Blueprint $table) {
-            // Eliminar la propiedad AUTO_INCREMENT de la columna 'id'
-            // Esto se debe hacer con una sentencia SQL cruda en este caso
             DB::statement('ALTER TABLE inscripcions MODIFY id SMALLINT');
             $table->dropPrimary('id');
         });
         Schema::table('inscripcions', function (Blueprint $table) {
-            //$table->softDeletes();
+            // Elimina la clave primaria anterior
+            $table->dropColumn('id');
+            // Cambia el nombre de la columna 'uuid' a 'id'
+            $table->dropUnique(['uuid']);
+            // Establece la nueva columna 'id' como clave primaria
+            $table->renameColumn('uuid', 'id');
+        });
+        Schema::table('inscripcions', function (Blueprint $table) {
+            $table->uuid('id')->primary()->change();
+        });
+        Schema::table('inscripcions', function (Blueprint $table) {
             // QUITAR COLUMNAS INNECESARIAS
             $table->dropColumn('id_usuario');
             $table->dropColumn('id_escuela_destino');
             $table->dropColumn('id_ciclo_lectivo');
 // REUBICAR COLUMNAS / MODIFICAR
-            $table->bigIncrements('id')->change();
+            //$table->bigIncrements('id')->change();
             $table->unsignedBigInteger('id_persona')->change();
             $table->unsignedBigInteger('id_persona_firma')->nullable()->change();
             $table->unsignedBigInteger('restringida')->nullable()->after('id_condicion')->change();
@@ -46,9 +54,6 @@ return new class extends Migration
             $table->renameColumn('restringida', 'persona_vinculo_persona_3_id');
 
             $table->unique('persona_id');
-
-
-
         });
     }
 
@@ -57,14 +62,28 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('inscripcions', function (Blueprint $table) {
+        /*Schema::table('inscripcions', function (Blueprint $table) {
             // Eliminar la propiedad AUTO_INCREMENT de la columna 'id'
             // Esto se debe hacer con una sentencia SQL cruda en este caso
             DB::statement('ALTER TABLE inscripcions MODIFY id BIGINT');
             $table->dropPrimary('id');
         });
         Schema::table('inscripcions', function (Blueprint $table) {
-            //$table->dropSoftDeletes();
+            $table->smallIncrements('id')->primary()->change();
+        });*/
+        Schema::table('inscripcions', function (Blueprint $table) {
+            // Elimina la clave primaria original.
+            $table->dropPrimary();
+            $table->renameColumn('id', 'uuid');
+            $table->unique('uuid');
+            // Renombra la columna 'uuid' a 'id'.
+
+        });
+        Schema::table('inscripcions', function (Blueprint $table) {
+            // Establece la nueva columna 'id' (UUID) como clave primaria.
+            $table->smallIncrements('id')->first();
+        });
+        Schema::table('inscripcions', function (Blueprint $table) {
             $table->dropUnique(['persona_id']);
             //$table->dropForeign(['persona_id']);
 
@@ -76,7 +95,7 @@ return new class extends Migration
 
         Schema::table('inscripcions', function (Blueprint $table) {
             // REUBICAR COLUMNAS / MODIFICAR
-            $table->smallIncrements('id')->change();
+            //$table->smallIncrements('id')->change();
             $table->integer('persona_id')->unsigned()->change();
             $table->integer('persona_firma_id')->unsigned()->nullable()->change();
 

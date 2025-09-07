@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+//use Illuminate\Database\Eloquent\SoftDeletes;
 
-class HistorialInscripcion extends Model
+class Inscripcion extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $fillable = ["persona_id", "persona_firma_id","espacio_id",
                             "escuela_id","nivel_id","modalidad_id",

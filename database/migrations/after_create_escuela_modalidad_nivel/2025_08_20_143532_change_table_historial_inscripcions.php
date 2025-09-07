@@ -90,6 +90,9 @@ return new class extends Migration
             $table->unsignedBigInteger('id_persona')->change();
             $table->unsignedBigInteger('id_persona_firma')->nullable()->change();
 
+            // AGREGAR UUIDS
+            $table->uuid('uuid')->nullable()->unique()->after('id');
+
             // RENOMBRAR COLUMNAS
             $table->renameColumn('id_persona', 'persona_id');
             $table->renameColumn('id_persona_firma', 'persona_firma_id');
@@ -170,6 +173,10 @@ return new class extends Migration
             // REUBICAR COLUMNAS / MODIFICAR
             $table->integer('persona_id')->unsigned()->change();
             $table->integer('persona_firma_id')->unsigned()->nullable()->change();
+
+            // ELIMINAR UUIDS
+            $table->dropUnique('historial_inscripcions_uuid_unique');
+            $table->dropColumn('uuid');
 
             $table->renameColumn('persona_id', 'id_persona');
             $table->renameColumn('persona_firma_id', 'id_persona_firma');

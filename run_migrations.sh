@@ -21,10 +21,16 @@ if [[ "$(echo $respuesta | tr '[:upper:]' '[:lower:]')" == "y" ]]; then
         if [ $? -eq 0 ]; then
             echo "Seeder completado. Continuando con las migraciones de la FASE 2..."
             php artisan migrate --path=database/migrations/after_create_escuela_modalidad_nivel
-
-            echo "¡Proceso de migración y seeder terminado!"
             if [ $? -eq 0 ]; then
+                echo "Población de UUIDs....."
+                php artisan populate:inscripcion-uuids
+                echo "Población de UUIDs....."
+                echo "FASE 2 completada. Corriendo migración después de la población de UUIDs..."
+
+                php artisan migrate --path=database/migrations/after_populate_inscripcion_uuids
+                echo "Corriendo el seeder para corregir localidades..."
                 php artisan db:seed --class=CorregirLocalidadsSeeder
+                echo "¡Proceso de migración y seeder terminado!"
                 if [ $? -eq 0 ]; then
                     echo "Seeder de localidades completado."
                 else
