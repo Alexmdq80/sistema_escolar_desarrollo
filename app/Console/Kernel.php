@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
         \app\Console\Commands\ActualizarInscripcionUuids::class,
         \app\Console\Commands\GenerarHistorialUuid::class,
         \app\Console\Commands\GenerarHistorialUuidCierreBaja::class,
-        \app\Console\Commands\UuidHistorialCausaPase::class,
+        \app\Console\Commands\UuidHistorialCierrePase::class,
     ];
     /**
      * Define the application's command schedule.

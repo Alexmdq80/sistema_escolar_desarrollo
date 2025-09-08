@@ -7,14 +7,14 @@ use App\Models\HistorialInfoInscripcion;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
-class UuidHistorialCausaPase extends Command
+class UuidHistorialCierrePase extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'actualizar:historial-uuid-causa-pase';
+    protected $signature = 'actualizar:historial-uuid-cierre-pase';
 
     /**
      * The console command description.
@@ -41,7 +41,7 @@ class UuidHistorialCausaPase extends Command
         }
 
         $this->info(count($registrosInfo) . ' registros encontrados. Procesando...');
-        
+
         $registrosActualizados = 0;
         $registrosNoActualizados = 0;
 
@@ -49,7 +49,7 @@ class UuidHistorialCausaPase extends Command
             DB::beginTransaction();
             try {
                 $historialInscripcion = $info->historialInscripcion;
-                
+
                 if (!$historialInscripcion) {
                     $this->warn("HistorialInscripcion no encontrado para HistorialInfoInscripcion ID: {$info->id}.");
                     $registrosNoActualizados++;
@@ -68,7 +68,7 @@ class UuidHistorialCausaPase extends Command
                     })
                     ->orderBy('created_at', 'desc')
                     ->first();
-                
+
                 if ($registroPrevio) {
                     // Cargar la relación para obtener el HistorialInscripcion
                     $historialPrevio = $registroPrevio->historialInscripcion()->first();
@@ -88,7 +88,7 @@ class UuidHistorialCausaPase extends Command
                 // 4. Actualizar el campo 'uuid' del registro actual de HistorialInscripcion.
                 $historialInscripcion->uuid = $previousUuid;
                 $historialInscripcion->save();
-                
+
                 $registrosActualizados++;
                 $this->info("UUID del registro '{$historialInscripcion->id}' actualizado a '{$previousUuid}'.");
 

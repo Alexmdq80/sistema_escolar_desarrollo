@@ -55,12 +55,20 @@ return new class extends Migration
 
             $table->unique('persona_id');
         });
+        // HAY UN PROBLEMA CON LA PERSONA 1175 (CENTURION, SANTIAGO)
+        // Y LUEGO CON ALGUNOS CONDICIÓN 5 CICLO LECTIVO 2 QUE POR
+        // ALGUNA RAZÓN NO SE GENERA EL UUID
+        // 'Actualiza el UUID de HistorialInscripcion basado en condiciones específicas.';
+        // primero, los que tienen cierre_causa_id = 5 y lectivo_id = 2
         Artisan::call('actualizar:historial-inscripcion-uuids');
-        Artisan::call('generar:historial-uuid');
-
+        // 'Genera un UUID para los registros de HistorialInscripcion con cierre_causa_id = 3.';
         Artisan::call('generar:historial-uuid-cierre-baja');
-        Artisan::call('actualizar:historial-uuid-causa-pase');
+        // 'Genera un UUID para los registros de HistorialInscripcion con cierre_causa_id = 1.';
+        Artisan::call('generar:historial-uuid');
+        // 'Actualiza el UUID de HistorialInscripcion basado en la causa de cierre 3, copiando de la causa 1 previa o generando uno nuevo.';
+        Artisan::call('actualizar:historial-uuid-cierre-pase');
     }
+
 
     /**
      * Reverse the migrations.
