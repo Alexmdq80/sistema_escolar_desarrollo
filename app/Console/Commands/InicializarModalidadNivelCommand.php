@@ -1,18 +1,33 @@
 <?php
 
-namespace Database\Seeders;
+namespace App\Console\Commands;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class ModalidadNivelSeeder extends Seeder
+class InicializarModalidadNivelCommand extends Command
 {
     /**
-     * Run the database seeds.
+     * The name and signature of the console command.
+     *
+     * @var string
      */
-    public function run(): void
+    protected $signature = 'data:inicializar-modalidad-nivel';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Inserta los datos iniciales de la tabla modalidad_nivel.';
+
+    /**
+     * Execute the console command.
+     */
+    public function handle(): void
     {
+        $this->info('Iniciando la inserción de datos en la tabla modalidad_nivel...');
+
         $dataToInsert = [
             ['modalidad_id' => 1, 'nivel_id' => 1, 'escuela_tipo_id' => null],
             ['modalidad_id' => 1, 'nivel_id' => 2, 'escuela_tipo_id' => null],
@@ -30,7 +45,7 @@ class ModalidadNivelSeeder extends Seeder
             ['modalidad_id' => 9, 'nivel_id' => 3, 'escuela_tipo_id' => null],
         ];
 
-        // Incluye timestamps si es necesario
+        // Añade timestamps si es necesario
         $now = now();
         $dataToInsert = array_map(function($item) use ($now) {
             $item['created_at'] = $now;
@@ -39,5 +54,7 @@ class ModalidadNivelSeeder extends Seeder
         }, $dataToInsert);
 
         DB::table('modalidad_nivel')->insert($dataToInsert);
+
+        $this->info('Datos insertados exitosamente en la tabla modalidad_nivel. ✅');
     }
 }

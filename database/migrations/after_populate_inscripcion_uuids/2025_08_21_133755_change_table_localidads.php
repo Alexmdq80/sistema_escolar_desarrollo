@@ -34,6 +34,7 @@ return new class extends Migration
 
 
         });
+        Artisan::call('data:corregir-localidades');
     }
 
     /**

@@ -12,6 +12,10 @@ class Kernel extends ConsoleKernel
         \app\Console\Commands\GenerateUsuarioUuids::class,
         \app\Console\Commands\ClearSanctumTokens::class,
         \app\Console\Commands\PopulateInscripcionUuids::class,
+        \app\Console\Commands\ActualizarInscripcionUuids::class,
+        \app\Console\Commands\GenerarHistorialUuid::class,
+        \app\Console\Commands\GenerarHistorialUuidCierreBaja::class,
+        \app\Console\Commands\UuidHistorialCausaPase::class,
     ];
     /**
      * Define the application's command schedule.

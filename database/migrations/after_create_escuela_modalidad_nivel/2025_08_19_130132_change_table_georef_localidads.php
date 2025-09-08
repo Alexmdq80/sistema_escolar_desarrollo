@@ -32,6 +32,7 @@ return new class extends Migration
             $table->renameColumn('id_categoria_georef', 'georef_categoria_id');
 
         });
+
     }
 
     /**

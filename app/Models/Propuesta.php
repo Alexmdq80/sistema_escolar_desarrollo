@@ -12,6 +12,13 @@ class Propuesta extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ["plan_anio_id",
+                            "turno_inicio_id",
+                            "turno_fin_id",
+                            "jornada_id",
+                            "lectivo_id"
+                    ];
+                    
     public function planAnio() {
         return $this->belongsTo(PlanAnio::class);
     }

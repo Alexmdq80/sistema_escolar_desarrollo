@@ -55,6 +55,11 @@ return new class extends Migration
 
             $table->unique('persona_id');
         });
+        Artisan::call('actualizar:historial-inscripcion-uuids');
+        Artisan::call('generar:historial-uuid');
+
+        Artisan::call('generar:historial-uuid-cierre-baja');
+        Artisan::call('actualizar:historial-uuid-causa-pase');
     }
 
     /**

@@ -15,6 +15,7 @@ return new class extends Migration
             //$table->softDeletes();
             $table->uuid('uuid')->nullable()->unique()->after('id');
         });
+        Artisan::call('populate:inscripcion-uuids');
     }
 
     /**

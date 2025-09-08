@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 class Inscripcion extends Model
 {
     use HasFactory, HasUuids;
+    //, SoftDeletes
 
     protected $fillable = ["persona_id", "persona_firma_id","espacio_id",
                             "escuela_id","nivel_id","modalidad_id",

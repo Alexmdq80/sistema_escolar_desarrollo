@@ -12,13 +12,19 @@ class HistorialInscripcion extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ["persona_id", "persona_firma_id","espacio_id",
-                            "escuela_id","nivel_id","modalidad_id",
+    protected $fillable = ["uuid",
+                            "persona_id", 
+                            "persona_firma_id",
+                            "espacio_id",
+                            "escuela_id",
+                            "nivel_id",
+                            "modalidad_id",
                             "condicion_id",
                             "persona_vinculo_persona_1_id",
                             "persona_vinculo_persona_2_id",
                             "persona_vinculo_persona_3_id",
-                            "codigo_abc","proyecto_inclusion_si",
+                            "codigo_abc",
+                            "proyecto_inclusion_si",
                             "concurre_especial_si",
                             "asistente_externo_si",
                             "fecha"

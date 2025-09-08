@@ -12,8 +12,10 @@ class HistorialInfoInscripcion extends Model
 
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [ "historial_inscripcion_id","cierre_causa_id",
-                            "fecha","observaciones"
+    protected $fillable = [ "historial_inscripcion_id",
+                            "cierre_causa_id",
+                            "fecha",
+                            "observaciones"
                         ];
 
     protected $casts = [
@@ -22,7 +24,7 @@ class HistorialInfoInscripcion extends Model
 
     public function historialInscripcion(): BelongsTo
     {
-        return $this->belongsTo(Historial_Inscripcion::class);
+        return $this->belongsTo(HistorialInscripcion::class);
     }
     public function cierreCausa(): BelongsTo
     {

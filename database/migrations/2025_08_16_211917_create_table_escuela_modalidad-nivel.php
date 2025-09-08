@@ -38,6 +38,7 @@ return new class extends Migration
                 $table->softDeletes();
             });
         };
+        Artisan::call('data:inicializar-modalidad-nivel');
     }
 
     /**

@@ -14,38 +14,26 @@ if [[ "$(echo $respuesta | tr '[:upper:]' '[:lower:]')" == "y" ]]; then
 
     # Verifica si la migración de la fase 1 fue exitosa
     if [ $? -eq 0 ]; then
-        echo "FASE 1 completada. Corriendo el seeder..."
-        php artisan db:seed --class=ModalidadNivelSeeder
-
-        # Verifica si el seeder fue exitoso
+        echo "FASE 1 completada..."
+    
+        echo "Iniciando las migraciones de la FASE 2..."
+        php artisan migrate --path=database/migrations/after_create_escuela_modalidad_nivel
         if [ $? -eq 0 ]; then
-            echo "Seeder completado. Continuando con las migraciones de la FASE 2..."
-            php artisan migrate --path=database/migrations/after_create_escuela_modalidad_nivel
-            if [ $? -eq 0 ]; then
-                echo "Población de UUIDs....."
-                php artisan populate:inscripcion-uuids
-                echo "Población de UUIDs....."
-                echo "FASE 2 completada. Corriendo migración después de la población de UUIDs..."
+            echo "FASE 2 completada..."
 
-                php artisan migrate --path=database/migrations/after_populate_inscripcion_uuids
-                echo "Corriendo el seeder para corregir localidades..."
-                php artisan db:seed --class=CorregirLocalidadsSeeder
-                echo "¡Proceso de migración y seeder terminado!"
-                if [ $? -eq 0 ]; then
-                    echo "Seeder de localidades completado."
-                else
-                    echo "¡Error al correr el seeder de localidades! Deteniendo el proceso."
-                fi
+            echo "Iniciando las migraciones de la FASE 3..."
+            php artisan migrate --path=database/migrations/after_populate_inscripcion_uuids
+            if [ $? -eq 0 ]; then
+                echo "¡Proceso de migración terminado!"
             else
-                echo "¡Error en las migraciones de la FASE 2! Deteniendo el proceso."
+                echo "¡Error al correr la fase 3! Deteniendo el proceso."
             fi
         else
-            echo "¡Error al correr el seeder! Deteniendo el proceso."
+            echo "¡Error en las migraciones de la FASE 2! Deteniendo el proceso."
         fi
     else
         echo "¡Error en las migraciones de la FASE 1! Deteniendo el proceso."
     fi
-
 else
     echo "Proceso cancelado por el usuario."
 fi
