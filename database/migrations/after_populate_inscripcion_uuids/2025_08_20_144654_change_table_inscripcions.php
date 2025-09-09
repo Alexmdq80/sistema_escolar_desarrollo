@@ -19,9 +19,9 @@ return new class extends Migration
             // Elimina la clave primaria anterior
             $table->dropColumn('id');
             // Cambia el nombre de la columna 'uuid' a 'id'
-            $table->dropUnique(['uuid']);
+            $table->dropUnique(['inscripcion_id']);
             // Establece la nueva columna 'id' como clave primaria
-            $table->renameColumn('uuid', 'id');
+            $table->renameColumn('inscripcion_id', 'id');
         });
         Schema::table('inscripcions', function (Blueprint $table) {
             $table->uuid('id')->primary()->change();
@@ -53,20 +53,9 @@ return new class extends Migration
             $table->renameColumn('responsable_2', 'persona_vinculo_persona_2_id');
             $table->renameColumn('restringida', 'persona_vinculo_persona_3_id');
 
-            $table->unique('persona_id');
+            //$table->unique('persona_id');
         });
-        // HAY UN PROBLEMA CON LA PERSONA 1175 (CENTURION, SANTIAGO)
-        // Y LUEGO CON ALGUNOS CONDICIÓN 5 CICLO LECTIVO 2 QUE POR
-        // ALGUNA RAZÓN NO SE GENERA EL UUID
-        // 'Actualiza el UUID de HistorialInscripcion basado en condiciones específicas.';
-        // primero, los que tienen cierre_causa_id = 5 y lectivo_id = 2
-        Artisan::call('actualizar:historial-inscripcion-uuids');
-        // 'Genera un UUID para los registros de HistorialInscripcion con cierre_causa_id = 3.';
-        Artisan::call('generar:historial-uuid-cierre-baja');
-        // 'Genera un UUID para los registros de HistorialInscripcion con cierre_causa_id = 1.';
-        Artisan::call('generar:historial-uuid');
-        // 'Actualiza el UUID de HistorialInscripcion basado en la causa de cierre 3, copiando de la causa 1 previa o generando uno nuevo.';
-        Artisan::call('actualizar:historial-uuid-cierre-pase');
+
     }
 
 
@@ -87,8 +76,8 @@ return new class extends Migration
         Schema::table('inscripcions', function (Blueprint $table) {
             // Elimina la clave primaria original.
             $table->dropPrimary();
-            $table->renameColumn('id', 'uuid');
-            $table->unique('uuid');
+            $table->renameColumn('id', 'inscripcion_id');
+            $table->unique('inscripcion_id');
             // Renombra la columna 'uuid' a 'id'.
 
         });
@@ -97,7 +86,7 @@ return new class extends Migration
             $table->smallIncrements('id')->first();
         });
         Schema::table('inscripcions', function (Blueprint $table) {
-            $table->dropUnique(['persona_id']);
+            //$table->dropUnique(['persona_id']);
             //$table->dropForeign(['persona_id']);
 
 
@@ -109,6 +98,7 @@ return new class extends Migration
         Schema::table('inscripcions', function (Blueprint $table) {
             // REUBICAR COLUMNAS / MODIFICAR
             //$table->smallIncrements('id')->change();
+            
             $table->integer('persona_id')->unsigned()->change();
             $table->integer('persona_firma_id')->unsigned()->nullable()->change();
 

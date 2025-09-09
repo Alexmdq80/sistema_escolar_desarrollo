@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('inscripcions', function (Blueprint $table) {
-            //$table->softDeletes();
-            $table->uuid('uuid')->nullable()->unique()->after('id');
+            $table->softDeletes();
+            $table->uuid('inscripcion_id')->nullable()->unique()->after('id');
         });
 
         // call artisan command to populate existing records with uuids
@@ -26,9 +26,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('inscripcions', function (Blueprint $table) {
-            //$table->dropSoftDeletes();
-            $table->dropUnique('inscripcions_uuid_unique');
-            $table->dropColumn('uuid');
+            $table->dropSoftDeletes();
+            $table->dropUnique('inscripcions_inscripcion_id_unique');
+            $table->dropColumn('inscripcion_id');
         });
     }
 };

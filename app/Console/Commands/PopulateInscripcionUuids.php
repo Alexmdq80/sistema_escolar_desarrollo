@@ -22,8 +22,8 @@ class PopulateInscripcionUuids extends Command
 
         Inscripcion::chunk(1000, function ($inscripciones) {
             foreach ($inscripciones as $inscripcion) {
-                if (is_null($inscripcion->uuid)) {
-                    $inscripcion->uuid = Str::uuid();
+                if (is_null($inscripcion->inscripcion_id)) {
+                    $inscripcion->inscripcion_id = Str::uuid();
                     $inscripcion->save();
                 }
             }

@@ -43,6 +43,7 @@ class ActualizarInscripcionUuids extends Command
         $this->info(count($registrosInfo) . ' registros encontrados. Procesando...');
         
         $registrosActualizados = 0;
+        $registrosActualizadosEnHistorial = 0;
         $registrosNoActualizados = 0;
 
         // 2. Iterar sobre cada registro encontrado.
@@ -59,7 +60,7 @@ class ActualizarInscripcionUuids extends Command
                     DB::commit();
                     continue;
                 }
-
+                 $this->info("historialInscripcion '{$historialInscripcion->id}'");
                 // 2. Acceder al valor de lectivo_id a través de las relaciones.
                 //    Se verifica que todas las relaciones existan para evitar errores.
                 if ($historialInscripcion->espacio && $historialInscripcion->espacio->propuesta && $historialInscripcion->espacio->propuesta->lectivo_id == 2) {
@@ -70,15 +71,36 @@ class ActualizarInscripcionUuids extends Command
                         $uuidPrincipal = $inscripcionPrincipal->id;
 
                         // 4. Actualizar la columna 'uuid' en el registro de HistorialInscripcion.
-                        $historialInscripcion->uuid = $uuidPrincipal;
+                        $historialInscripcion->inscripcion_id = $uuidPrincipal;
                         $historialInscripcion->save();
                         
                         $registrosActualizados++;
                         $this->info("Registro de HistorialInscripcion '{$historialInscripcion->id}' actualizado con el UUID principal '{$uuidPrincipal}'.");
-                    } else {
-                        $this->warn("Inscripcion principal no encontrada para persona_id: {$historialInscripcion->persona_id}");
+                    } else { 
+                        $this->warn("Inscripcion principal no encontrada tampoco en historial para persona_id: {$historialInscripcion->persona_id}");
                         $registrosNoActualizados++;
                     }
+                    
+                } else if ($historialInscripcion->espacio && $historialInscripcion->espacio->propuesta && $historialInscripcion->espacio->propuesta->lectivo_id == 1) {
+                    $this->warn("Inscripcion principal no encontrada para persona_id: {$historialInscripcion->persona_id}");
+               //     $inscripcionPrincipalHistorial = HistorialInscripcion::where('persona_id', $historialInscripcion->persona_id)->first();
+                    $inscripcionPrincipalHistorial = HistorialInscripcion::where('created_at', '<=', $historialInscripcion->created_at)
+                        ->where('persona_id', $historialInscripcion->persona_id)
+                        ->orderBy('created_at', 'desc')
+                        ->first();
+
+                    if ($inscripcionPrincipalHistorial) {
+                            
+                        $uuidPrincipalHistorial = $inscripcionPrincipalHistorial->inscripcion_id;
+                        $historialInscripcion->uuid = $uuidPrincipalHistorial;
+                        $historialInscripcion->save();
+
+                        $registrosActualizadosEnHistorial++;
+                    } else { 
+                        $this->warn("Inscripcion principal no encontrada tampoco en historial para persona_id: {$historialInscripcion->persona_id}");
+                        $registrosNoActualizados++;
+                    }
+
                 } else {
                     $this->info("Registro '{$historialInscripcion->id}' no cumple la condición de lectivo_id. Saltando...");
                     $registrosNoActualizados++;
@@ -95,6 +117,7 @@ class ActualizarInscripcionUuids extends Command
 
         $this->info('Proceso finalizado.');
         $this->info("Registros actualizados: {$registrosActualizados}");
+        $this->info("Registros actualizados en Historial: {$registrosActualizadosEnHistorial}");
         $this->info("Registros no actualizados: {$registrosNoActualizados}");
 
         return Command::SUCCESS;

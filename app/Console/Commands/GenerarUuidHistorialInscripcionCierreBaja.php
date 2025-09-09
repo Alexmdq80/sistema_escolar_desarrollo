@@ -62,7 +62,7 @@ class GenerarHistorialUuidCierreBaja extends Command
                 $newUuid = Str::uuid()->toString();
 
                 // 4. Actualizar el campo 'uuid' del HistorialInscripcion.
-                $historialInscripcion->uuid = $newUuid;
+                $historialInscripcion->inscripcion_id = $newUuid;
                 $historialInscripcion->save();
                 
                 $registrosActualizados++;

@@ -21,7 +21,7 @@ class UuidHistorialCierrePase extends Command
      *
      * @var string
      */
-    protected $description = 'Actualiza el UUID de HistorialInscripcion basado en la causa de cierre 3, copiando de la causa 1 previa o generando uno nuevo.';
+    protected $description = 'Actualiza el UUID de HistorialInscripcion basado en la causa de cierre 2, copiando de la causa 1 previa o generando uno nuevo.';
 
     /**
      * Execute the console command.
@@ -62,7 +62,7 @@ class UuidHistorialCierrePase extends Command
                 // 2. Buscar el registro de HistorialInfoInscripcion previo con causa de cierre 1.
                 //    Ahora con la condición de que debe ser del mismo persona_id.
                 $registroPrevio = HistorialInfoInscripcion::where('cierre_causa_id', 1)
-                    ->where('created_at', '<', $info->created_at)
+                    ->where('created_at', '<=', $info->created_at)
                     ->whereHas('historialInscripcion', function ($query) use ($historialInscripcion) {
                         $query->where('persona_id', $historialInscripcion->persona_id);
                     })
@@ -74,7 +74,7 @@ class UuidHistorialCierrePase extends Command
                     $historialPrevio = $registroPrevio->historialInscripcion()->first();
 
                     if ($historialPrevio) {
-                        $previousUuid = $historialPrevio->uuid;
+                        $previousUuid = $historialPrevio->inscripcion_id;
                         $this->info("Registro '{$info->id}' tiene un registro previo. Copiando UUID '{$previousUuid}'.");
                     }
                 }
@@ -86,7 +86,7 @@ class UuidHistorialCierrePase extends Command
                 }
 
                 // 4. Actualizar el campo 'uuid' del registro actual de HistorialInscripcion.
-                $historialInscripcion->uuid = $previousUuid;
+                $historialInscripcion->inscripcion_id = $previousUuid;
                 $historialInscripcion->save();
 
                 $registrosActualizados++;

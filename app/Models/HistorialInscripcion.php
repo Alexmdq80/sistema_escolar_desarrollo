@@ -12,7 +12,7 @@ class HistorialInscripcion extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ["uuid",
+    protected $fillable = ["inscripcion_id",
                             "persona_id", 
                             "persona_firma_id",
                             "espacio_id",
@@ -34,6 +34,9 @@ class HistorialInscripcion extends Model
        'fecha' => 'datetime'
     ];
 
+    public function inscripcion(): BelongsTo {
+        return $this->belongsTo(Inscripcion::class);
+    }   
     public function persona(): BelongsTo {
         return $this->belongsTo(Persona::class);
     }

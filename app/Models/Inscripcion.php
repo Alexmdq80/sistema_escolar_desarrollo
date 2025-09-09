@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-//use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Inscripcion extends Model
 {
-    use HasFactory, HasUuids;
-    //, SoftDeletes
+    use HasFactory, HasUuids, SoftDeletes;
 
     protected $fillable = ["persona_id", "persona_firma_id","espacio_id",
                             "escuela_id","nivel_id","modalidad_id",
@@ -59,5 +59,7 @@ class Inscripcion extends Model
     public function vinculoPersona_3(): BelongsTo {
         return $this->belongsTo(PersonaVinculoPersona::class,"persona_vinculo_persona_3_id","id");
     }
-
+    public function historial(): HasMany {
+        return $this->hasMany(HistorialInscripcion::class);
+    }
 }
