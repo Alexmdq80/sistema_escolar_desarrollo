@@ -34,11 +34,18 @@ class InscripcionController extends Controller
 
     public function obtenerInscripcion(int $id): JsonResponse
     {
-        $inscripcion = Inscripcion::with(['persona','persona_firma','persona_responsable_1',
-        'persona_responsable_2','persona_restringida','usuario','ciclo_lectivo','espacio_academico',
-        'espacio_academico.plan_estudio','espacio_academico.anio',
-        'escuela_procedencia','escuela_destino','nivel_procedencia','modalidad_procedencia',
-        'condicion'])->find($id);
+        $inscripcion = Inscripcion::with([
+            'persona',
+            'personaFirma',
+            'vinculoPersona_1',
+            'vinculoPersona_2',
+            'vinculoPersona_3',
+            'espacio',
+            'escuelaProcedencia',
+            'nivelProcedencia',
+            'modalidadProcedencia',
+            'condicion'
+            ])->find($id);
 
         if ($inscripcion) {
             return response()->json($inscripcion);

@@ -146,7 +146,7 @@ class VbaPerfilController extends Controller
     public function changeEmail(Request $request)
     {
         $validatedData = $request->validate([
-            'email' => ['required', 'email', Rule::unique('usuario')->ignore(auth()->user()->id, 'id')],
+            'email' => ['required', 'email', Rule::unique('usuarios')->ignore(auth()->user()->id, 'id')],
             'email_confirmation' => ['required', 'string', 'email', 'same:email'],
             'current_password' => ['required', 'current_password'],
         ]);
@@ -268,8 +268,8 @@ class VbaPerfilController extends Controller
 
         // Cargar las relaciones directamente sobre el objeto de usuario.
         $usuario->load([
-            'usuarioEscuelas.escuela',
-            'usuarioEscuelas.usuarioTipo'
+            'escuelaUsuarios.escuela',
+            'escuelaUsuarios.usuarioTipo'
         ]);
 
         // Retornar la respuesta JSON.

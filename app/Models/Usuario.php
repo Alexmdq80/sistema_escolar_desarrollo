@@ -27,7 +27,7 @@ class Usuario extends Authenticatable implements AuditableContract
      */
    // protected $auditDriver = 'authentication';
 
-    protected $table = "usuario";
+   // protected $table = "usuario";
 
     protected $fillable = [
         'nombre',

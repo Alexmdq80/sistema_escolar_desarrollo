@@ -35,7 +35,7 @@ class VbaRegistroController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:usuario'],
             'email_confirmation' => ['required', 'string', 'email', 'same:email'],
             'password' => ['required', 'confirmed', Password::defaults()],
-            'id_escuela' => ['integer']
+            //'escuela_id' => ['integer']
         ]);
 
         if (Usuario::where('email', $request->email)->exists()) {

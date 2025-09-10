@@ -14,7 +14,7 @@ class SolicitarColegio extends Controller
     public function solicitarColegio(Request $request): JsonResponse {
 
         $request->validate([
-            'id_escuela' => ['required', 'exists:escuela,id'] // Se agregó 'exists' para mayor seguridad
+            'escuela_id' => ['required', 'exists:escuelas,id'] // Se agregó 'exists' para mayor seguridad
         ]);
 
         $usuario = $request->user();
@@ -22,11 +22,11 @@ class SolicitarColegio extends Controller
         $ue = EscuelaUsuario::firstOrCreate(
             [
                 'usuario_id' => $usuario->id,
-                'escuela_id' => $request->id_escuela
+                'escuela_id' => $request->escuela_id
             ],
             [
                 'verified_at' => null,
-                'usario_tipo_id' => 5
+                'usuario_tipo_id' => 5
             ]
         );
 
