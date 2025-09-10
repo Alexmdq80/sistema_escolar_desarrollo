@@ -9,40 +9,41 @@ use App\Models\HistorialInscripcion;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class ReplicarInscripcionesFinalizadas extends Command
+class ReplicarInscripcionesBajadas extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'inscripciones:replicar-finalizadas';
+    protected $signature = 'inscripciones:replicar-bajadas';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Replica las inscripciones finalizadas a la misma tabla, pero con SoftDeletes activo.';
+    protected $description = 'Replica las inscripciones bajadas a la tabla inscripcions, pero con SoftDeletes activo.';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $this->info('Iniciando la replicación de inscripciones finalizadas...');
+        $this->info('Iniciando la replicación de inscripciones bajadas...');
 
-        $registrosInfo = HistorialInfoInscripcion::where('cierre_causa_id', 1)->get();
+        $registrosInfo = HistorialInfoInscripcion::whereIn('cierre_causa_id', [2, 3])->get();
 
         if ($registrosInfo->isEmpty()) {
-            $this->info('No se encontraron inscripciones finalizadas para replicar. Finalizando.');
+            $this->info('No se encontraron inscripciones bajadas para replicar. Finalizando.');
             return Command::SUCCESS;
         }
 
-        $this->info(count($registrosInfo) . ' inscripciones finalizadas encontradas. Procesando...');
+        $this->info(count($registrosInfo) . ' inscripciones bajadas encontradas. Procesando...');
         
         $registrosReplicados = 0;
         $registrosNoReplicados = 0;
+        $registrosExistentes = 0;
 
         foreach ($registrosInfo as $info) {
             DB::beginTransaction();
@@ -55,14 +56,28 @@ class ReplicarInscripcionesFinalizadas extends Command
                     DB::commit();
                     continue;
                 }
+
+                //$this->info("HistorialInscripcion inscripcion_id: {$historialInscripcion->inscripcion_id}");
+
+                // **Validación crucial:** Chequear si un registro con el mismo UUID ya existe
+                // en la tabla de inscripciones para evitar un error de clave primaria.
+                //$inscripcionExistente = Inscripcion::find($historialInscripcion->inscripcion_id);
+                $inscripcionExistente = Inscripcion::withTrashed()->find($historialInscripcion->inscripcion_id);
+                if ($inscripcionExistente) {
+                    $this->warn("La inscripción con UUID {$historialInscripcion->inscripcion_id} ya existe. Saltando...");
+                    $registrosExistentes++;
+                    DB::commit();
+                    continue;
+                }
+
                 // Se crea un array con los atributos del historial que se copiarán.
                 $datosACopiar = $historialInscripcion->toArray();
                 
                 // Se eliminan las claves que no deben copiarse, como el ID del historial
                 // y los timestamps, para que Laravel los genere automáticamente.
                 unset($datosACopiar['id']);
-                unset($datosACopiar['created_at']);
-                unset($datosACopiar['updated_at']);
+                //unset($datosACopiar['created_at']);
+                //unset($datosACopiar['updated_at']);
                 unset($datosACopiar['deleted_at']);
 
                 // Se crea una nueva instancia de Inscripcion y se rellenan los datos.
@@ -87,7 +102,7 @@ class ReplicarInscripcionesFinalizadas extends Command
             }
         }
 
-        $this->info('Proceso de replicación finalizado.');
+        $this->info('Proceso de replicación bajadas.');
         $this->info("Inscripciones replicadas: {$registrosReplicados}");
         $this->info("Inscripciones no replicadas: {$registrosNoReplicados}");
 
