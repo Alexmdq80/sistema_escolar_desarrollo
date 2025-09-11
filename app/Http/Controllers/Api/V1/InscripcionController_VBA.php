@@ -4,13 +4,19 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Inscripcion;
-use App\Models\Inscripcion_Finalizado;
-use App\Models\Inscripcion_Historial_Info;
+use App\Models\InscripcionFinalizado;
+use App\Models\HistorialInfoInscripcions;
 use App\Models\Condicion;
 use App\Models\Anio;
 use App\Models\Legajo;
-use App\Models\Espacio_Academico;
+use App\Models\Espacio;
+use App\Models\Inscripcion;
+use App\Models\Persona;
+use App\Models\Propuesta;
+use App\Models\PlanAnio;
+use App\Models\Plan;
+use App\Models\Turno;
+use App\Models\Lectivo;
 use App\Http\Resources\InscripcionResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
@@ -25,20 +31,19 @@ class InscripcionController_VBA extends Controller
 
     public function index()
     {
-        // '/////CORREGIR CUANDO SE TERMINE DE PROBAR////'
-        // return Persona::latest()
-        //             ->take(5)
-        //             ->get();
-        // return Persona::get()
-        //                 ->paginate();
 
-        // $valor = $request->input('id_espacio_academico');
+        $inscripciones = Inscripcion::with([
+            'persona', // Relación directa con el estudiante
+            'espacio.propuesta.cicloLectivo', // A través de espacio y propuesta para el ciclo lectivo
+            'espacio.propuesta.planAnio.anio', // A través de espacio, propuesta y planAnio para el año
+            'espacio.propuesta.planAnio.plan', // A través de espacio, propuesta y planAnio para el plan de estudio
+            'espacio.propuesta.turnoInicio' // A través de espacio y propuesta para el turno
+        ])->get();
 
-        // $valor = $request->route('index');
-        $inscripcion = Inscripcion::paginate();
-        // $inscripcion = Inscripcion::where('id_espacio_academico', $valor)->get();
+        return response()->json($inscripciones);
+        // $inscripcion = Inscripcion::paginate();
+        //return InscripcionResource::collection($inscripcion);
 
-        return InscripcionResource::collection($inscripcion);
     }
 
     public function obtenerInscripcion(int $id): JsonResponse

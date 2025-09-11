@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Usuario;
+use App\Models\UsuarioOld as Usuario;
 use Illuminate\Support\Str;
 
 class GenerateUsuarioUuids extends Command
@@ -41,8 +41,17 @@ class GenerateUsuarioUuids extends Command
     {
         $this->info('Generating UUIDs for existing Usuarios...');
 
-        Usuario::all()->each(function ($usuario) {
+        $modelo = new Usuario();
+        $modelo->setTable('usuario');
+
+       /* $modelo::all()->each(function ($usuario) {
             if (empty($usuario->uuid)) { // Verifica si el UUID ya existe antes de generarlo
+                $usuario->uuid = (string) Str::uuid();
+                $usuario->save();
+            }
+        });*/
+        $modelo->all()->each(function ($usuario) {
+            if (empty($usuario->uuid)) {
                 $usuario->uuid = (string) Str::uuid();
                 $usuario->save();
             }
