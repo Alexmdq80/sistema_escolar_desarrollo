@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Propuesta extends Model
 {
@@ -18,25 +19,28 @@ class Propuesta extends Model
                             "jornada_id",
                             "lectivo_id"
                     ];
-                    
-    public function planAnio() {
+
+    public function planAnio(): BelongsTo {
         return $this->belongsTo(PlanAnio::class);
     }
-
-    public function turnoInicio() {
-        return $this->belongsTo(Turno::class);
+    public function turnoInicio(): BelongsTo {
+        return $this->belongsTo(Turno::class, "turno_inicio_id","id");
     }
-
-    public function turnoFin() {
-        return $this->belongsTo(Turno::class);
+    public function turnoFin(): BelongsTo    {
+        return $this->belongsTo(Turno::class, "turno_fin_id","id");
     }
-
-    public function jornada() {
+    public function jornada(): BelongsTo {
         return $this->belongsTo(Jornada::class);
     }
-    
-    public function cicloLectivo() {
-        return $this->belongsTo(Lectivo::class);
+    public function cicloLectivo(): BelongsTo {
+        return $this->belongsTo(Lectivo::class, 'lectivo_id');
     }
-
+    public function espacios(): HasMany {
+        return $this->hasMany(Espacio::class);
+    }
+    public function escuelas(): BelongsToMany
+    {
+        return $this->belongsToMany(Escuela::class, 'escuela_propuesta', 'propuesta_id', 'escuela_id')
+                    ->using(EscuelaPropuesta::class);
+    }
 }

@@ -17,6 +17,7 @@ use App\Models\PlanAnio;
 use App\Models\Plan;
 use App\Models\Turno;
 use App\Models\Lectivo;
+use App\Models\DocumentoTipo;
 use App\Http\Resources\InscripcionResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
@@ -28,23 +29,49 @@ class InscripcionController_VBA extends Controller
     /**
      * Display a listing of the resource.
      */
+    /*public function index()
+    {
+        $inscripciones = Inscripcion::with([
+            // Otras relaciones...
+            'espacio.propuesta.turnoInicio' // ¡Revisa que esté aquí y sin errores!
+        ])->paginate(5);
 
+        // DUMP THE RAW DATA
+        dd($inscripciones->toArray());
+    }*/
     public function index()
     {
 
         $inscripciones = Inscripcion::with([
             'persona', // Relación directa con el estudiante
+            'persona.documentoTipo', // A través de persona para el tipo de documento
             'espacio.propuesta.cicloLectivo', // A través de espacio y propuesta para el ciclo lectivo
             'espacio.propuesta.planAnio.anio', // A través de espacio, propuesta y planAnio para el año
             'espacio.propuesta.planAnio.plan', // A través de espacio, propuesta y planAnio para el plan de estudio
             'espacio.propuesta.turnoInicio' // A través de espacio y propuesta para el turno
-        ])->get();
+        ])->paginate(5);
 
-        return response()->json($inscripciones);
+        //->get();
+
+        //return response()->json($inscripciones);
         // $inscripcion = Inscripcion::paginate();
-        //return InscripcionResource::collection($inscripcion);
+        return InscripcionResource::collection($inscripciones);
 
     }
+    /*public function index()
+    {
+        $inscripciones = Inscripcion::with([
+            'persona.documentoTipo',
+            'espacio.propuesta.cicloLectivo',
+            'espacio.propuesta.planAnio.anio',
+            'espacio.propuesta.planAnio.plan',
+            'espacio.propuesta.turnoInicio'
+        ])->paginate(5);
+        //->get();
+
+        // Devuelve los datos crudos para inspeccionarlos
+        return response()->json($inscripciones);
+    }*/
 
     public function obtenerInscripcion(int $id): JsonResponse
     {
