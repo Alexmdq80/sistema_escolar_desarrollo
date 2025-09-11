@@ -23,6 +23,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+//use Illuminate\Support\Facades\DB;
 
 class InscripcionController_VBA extends Controller
 {
@@ -44,12 +45,30 @@ class InscripcionController_VBA extends Controller
 
         $inscripciones = Inscripcion::with([
             'persona', // Relación directa con el estudiante
+            'persona.sexo',
+            'persona.genero',
             'persona.documentoTipo', // A través de persona para el tipo de documento
             'espacio.propuesta.cicloLectivo', // A través de espacio y propuesta para el ciclo lectivo
             'espacio.propuesta.planAnio.anio', // A través de espacio, propuesta y planAnio para el año
             'espacio.propuesta.planAnio.plan', // A través de espacio, propuesta y planAnio para el plan de estudio
             'espacio.propuesta.turnoInicio' // A través de espacio y propuesta para el turno
-        ])->paginate(5);
+        ])
+        ->join('espacios', 'inscripcions.espacio_id', '=', 'espacios.id')
+        ->join('propuestas', 'espacios.propuesta_id', '=', 'propuestas.id')
+        ->join('lectivos', 'propuestas.lectivo_id', '=', 'lectivos.id')
+        ->join('turnos', 'propuestas.turno_inicio_id', '=', 'turnos.id')
+        ->join('plan_anios', 'propuestas.plan_anio_id', '=', 'plan_anios.id')
+        ->join('anios', 'plan_anios.anio_id', '=', 'anios.id')
+        ->join('personas', 'inscripcions.persona_id', '=', 'personas.id')
+        ->orderBy('lectivos.orden', 'asc')
+        ->orderBy('turnos.orden', 'asc')
+   //     ->orderBy(DB::raw('CAST(anios.nombre AS UNSIGNED)'), 'asc')
+        ->orderBy('anios.orden', 'asc')
+        ->orderBy('espacios.division', 'asc')
+        ->orderBy('personas.apellido', 'asc')
+        ->orderBy('personas.nombre', 'asc')
+        ->select('inscripcions.*') // This is crucial to avoid column conflicts
+        ->get();
 
         //->get();
 
