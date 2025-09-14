@@ -18,37 +18,36 @@ class ObtenerEscuela extends Controller
 
         // Busca la escuela y, si no la encuentra, lanza un 404
         //$escuela = Escuela::where('cue_anexo', $cueAnexo)->firstOrFail();
-        $escuela = Escuela::select([
+        /*$escuela = Escuela::select([
                 'id', // ID de la escuela
                 'nombre', // Nombre de la escuela
-                // Asegúrate de incluir también las claves foráneas necesarias para las relaciones
-                //'id_pais', // Si 'pais' se relaciona por 'pais_id'
-                //'id_provincia', // Si 'provincia' se relaciona por 'provincia_id'
-                //'id_departamento', // Si 'departamento' se relaciona por 'departamento_id'
-                //'id_localidad_asentamiento' // Si 'localidad_asentamiento' se relaciona por 'localidad_asentamiento_id'
-                'localidad_id'
+                'localidad_id',
+                'departamento_id',
+                'provincia_id',
+                'nacion_id',
+                'localidad.departamento.nombre',
+                'localidad.departamento.provincia.nombre',
+                'localidad.departamento.provincia.nacion.nombre',
             ])
             ->with([
-            /*'pais' => function ($query) {
-                $query->select(['id','nombre']);
-            },
-            'provincia' => function ($query) {
-                $query->select(['id','iso_nombre']);
-            },
-            'departamento' => function ($query) {
-                $query->select(['id','nombre']);
-            },
-            'localidad_asentamiento' => function ($query) {
-                $query->select(['id','nombre']);
-            }*/
-            'localidad' => function ($query) {
-                $query->select(['id','nombre']);
-            }
+                'localidad',
+                'localidad.departamento',
+                'localidad.departamento.provincia',
+                'localidad.departamento.provincia.nacion',
         ])
         ->where('cue_anexo', $cueAnexo)
-        ->firstOrFail();
+        ->firstOrFail();*/
+        $escuela = Escuela::where('cue_anexo', $cueAnexo)
+            ->select(['id', 'nombre', 'localidad_id']) // Solo las columnas que están en la tabla `escuelas`
+            ->with('localidad.departamento.provincia.nacion')
+            ->firstOrFail();
 
-        
+        logger()->info('Objeto Escuela encontrado:', ['escuela' => $escuela->toArray()]);
+
         return response()->json($escuela, 200);
+
+        // Devuelve el objeto completo con las relaciones cargadas.
+
+        //return response()->json($escuela, 200);
     }
 }

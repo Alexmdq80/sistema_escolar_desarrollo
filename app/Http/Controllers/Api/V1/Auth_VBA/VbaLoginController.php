@@ -69,11 +69,39 @@ class VbaLoginController extends Controller
 
         event(new Login('sanctum', $usuario, false));
 
-        return response()->json([
+        /*return response()->json([
            'access_token' => $usuario->createToken($device, expiresAt: $expiresAt)->plainTextToken,
            'refresh_token' => $refreshToken,
            'usuario' => $usuario
-        ], Response::HTTP_CREATED);
+        ], Response::HTTP_CREATED);*/
+       /* Log::info('Datos del usuario a serializar', $usuario->toArray());
+        return response()->json([
+            'access_token' => $usuario->createToken($device, expiresAt: $expiresAt)->plainTextToken,
+            'refresh_token' => $refreshToken,
+            'usuario' => $usuario
+        ], Response::HTTP_CREATED, [], JSON_UNESCAPED_UNICODE);*/
+// ...
+
+    $usuarioData = $usuario->toArray();
+
+    // Registra la información en el log (para verificación)
+    Log::info('Datos del usuario a serializar', $usuarioData);
+
+    // Serializa manualmente el array a JSON con el flag
+    $jsonResponse = json_encode([
+        'access_token' => $usuario->createToken($device, expiresAt: $expiresAt)->plainTextToken,
+        'refresh_token' => $refreshToken,
+        'usuario' => $usuarioData
+    ], JSON_UNESCAPED_UNICODE);
+
+    // Si hubo un error en la serialización, loguéalo
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        Log::error('Error de serialización JSON: ' . json_last_error_msg());
+    }
+
+    // Devuelve la respuesta con el JSON ya serializado y el encabezado correcto
+    return response($jsonResponse, Response::HTTP_CREATED)
+        ->header('Content-Type', 'application/json; charset=utf-8');
 
     }
 

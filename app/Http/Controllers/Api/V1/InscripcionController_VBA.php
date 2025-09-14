@@ -40,7 +40,7 @@ class InscripcionController_VBA extends Controller
         // DUMP THE RAW DATA
         dd($inscripciones->toArray());
     }*/
-    public function index()
+    public function index(Request $request)
     {
 
         $inscripciones = Inscripcion::with([
@@ -74,8 +74,11 @@ class InscripcionController_VBA extends Controller
 
         //return response()->json($inscripciones);
         // $inscripcion = Inscripcion::paginate();
-        return InscripcionResource::collection($inscripciones);
-
+        $inscripcionesColeccion = InscripcionResource::collection($inscripciones);
+       // Convierte la colección a un array y luego a JSON con el flag
+        return response()->json([
+            'data' => $inscripcionesColeccion->toArray($request)
+        ], 200, [], JSON_UNESCAPED_UNICODE);
     }
     /*public function index()
     {
