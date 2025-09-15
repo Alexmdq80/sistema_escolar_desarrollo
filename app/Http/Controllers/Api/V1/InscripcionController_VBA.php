@@ -70,16 +70,16 @@ class InscripcionController_VBA extends Controller
         ->select('inscripcions.*') // This is crucial to avoid column conflicts
         ->get();
 
-        //->get();
-
-        //return response()->json($inscripciones);
-        // $inscripcion = Inscripcion::paginate();
-        //$inscripcionesArray = $inscripciones->toArray();
         $inscripcionesColeccion = InscripcionResource::collection($inscripciones);
-       // Convierte la colección a un array y luego a JSON con el flag
-        return response()->json([
+
+        // Serializa manualmente la colección de recursos con el flag JSON_UNESCAPED_UNICODE
+        $jsonResponse = json_encode([
             'data' => $inscripcionesColeccion->toArray($request)
-        ], 200, [], JSON_UNESCAPED_UNICODE);
+        ], JSON_UNESCAPED_UNICODE);
+
+        // Retorna la respuesta ya serializada con el encabezado correcto
+        return response($jsonResponse, 200)
+            ->header('Content-Type', 'application/json; charset=utf-8');
     }
     /*public function index()
     {
