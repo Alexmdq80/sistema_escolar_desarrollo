@@ -74,6 +74,7 @@ class InscripcionController_VBA extends Controller
 
         //return response()->json($inscripciones);
         // $inscripcion = Inscripcion::paginate();
+        //$inscripcionesArray = $inscripciones->toArray();
         $inscripcionesColeccion = InscripcionResource::collection($inscripciones);
        // Convierte la colección a un array y luego a JSON con el flag
         return response()->json([

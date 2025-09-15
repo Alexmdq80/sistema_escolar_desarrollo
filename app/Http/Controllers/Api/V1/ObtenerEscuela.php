@@ -42,7 +42,7 @@ class ObtenerEscuela extends Controller
             ->with('localidad.departamento.provincia.nacion')
             ->firstOrFail();
 
-        logger()->info('Objeto Escuela encontrado:', ['escuela' => $escuela->toArray()]);
+        // logger()->info('Objeto Escuela encontrado:', ['escuela' => $escuela->toArray()]);
 
         return response()->json($escuela, 200);
 

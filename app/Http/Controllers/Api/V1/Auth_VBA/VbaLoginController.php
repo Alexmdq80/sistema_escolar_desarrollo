@@ -85,7 +85,7 @@ class VbaLoginController extends Controller
     $usuarioData = $usuario->toArray();
 
     // Registra la información en el log (para verificación)
-    Log::info('Datos del usuario a serializar', $usuarioData);
+   // Log::info('Datos del usuario a serializar', $usuarioData);
 
     // Serializa manualmente el array a JSON con el flag
     $jsonResponse = json_encode([
