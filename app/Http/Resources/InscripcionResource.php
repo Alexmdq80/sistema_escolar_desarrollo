@@ -49,38 +49,38 @@ class InscripcionResource extends JsonResource
         ];*/
         return [
                 // Datos del ciclo lectivo
-                'ciclo_lectivo_nombre' => $this->whenLoaded('espacio', function() {
+                'Ciclo Lectivo' => $this->whenLoaded('espacio', function() {
                     return $this->espacio?->propuesta?->cicloLectivo?->nombre ?? '';
                 }),
                 // Datos del turno
-                'turno_inicio' => $this->whenLoaded('espacio', function() {
+                'Turno' => $this->whenLoaded('espacio', function() {
                     return $this->espacio?->propuesta?->turnoInicio?->nombre ?? '';
                 }),
                 // Datos del plan de estudio
-                'plan_nombre' => $this->whenLoaded('espacio', fn() => $this->espacio?->propuesta?->planAnio?->plan?->nombre ?? ''),
+                'Plan de Estudio' => $this->whenLoaded('espacio', fn() => $this->espacio?->propuesta?->planAnio?->plan?->nombre ?? ''),
                 // Datos del año
                 //'anio_nombre' => $this->whenLoaded('espacio', fn() => $this->espacio?->propuesta?->planAnio?->anio?->nombre ?? ''),
                 //'anio_nombre_completo' => $this->whenLoaded('espacio', fn() => $this->espacio?->propuesta?->planAnio?->anio?->nombre_completo ?? ''),
                 // Datos del espacio (división)
                 // 'division_nombre' => $this->whenLoaded('espacio', fn() => $this->espacio?->division_nombre ?? ''),
                 //'division_numero' => $this->whenLoaded('espacio', fn() => $this->espacio?->division ?? ''),
-                'curso_division' => $this->whenLoaded('espacio', function() {
+                'Curso' => $this->whenLoaded('espacio', function() {
                     $anio = $this->espacio?->propuesta?->planAnio?->anio?->nombre ?? '';
                     $division = $this->espacio?->division ?? '';
                     return trim($anio . ' ' . $division);
                 }),
                 // Datos del estudiante y su documento
-                'estudiante_nombre' => $this->whenLoaded('persona', fn() => $this->persona->nombre ?? ''),
-                'estudiante_apellido' => $this->whenLoaded('persona', fn() => $this->persona?->apellido ?? ''),
-                'persona_sexo' => $this->whenLoaded('persona', fn() => $this->persona?->sexo?->nombre ?? ''),
-                'persona_genero' => $this->whenLoaded('persona', fn() => $this->persona?->genero?->nombre ?? ''),
-                'documento_numero' => $this->whenLoaded('persona', fn() => $this->persona?->documento_numero ?? ''),
-                'documento_tipo' => $this->whenLoaded('persona', function () {
+                'Nombres' => $this->whenLoaded('persona', fn() => $this->persona->nombre ?? ''),
+                'Apellidos' => $this->whenLoaded('persona', fn() => $this->persona?->apellido ?? ''),
+                'Sexo' => $this->whenLoaded('persona', fn() => $this->persona?->sexo?->nombre ?? ''),
+                'Género' => $this->whenLoaded('persona', fn() => $this->persona?->genero?->nombre ?? ''),
+                'Número de Documento' => $this->whenLoaded('persona', fn() => $this->persona?->documento_numero ?? ''),
+                'Tipo de Documento' => $this->whenLoaded('persona', function () {
                     return $this->persona?->documentoTipo?->nombre ?? '';
                 }),
                 // Datos de la inscripción
-                'inscripcion_id' => $this->id,
-                'fecha_inscripcion' => $this->fecha?->format('Y-m-d') ?? '',
+                'ID Inscripción' => $this->id,
+                'Fecha de Inscripción' => $this->fecha?->format('Y-m-d') ?? '',
 
             ];
 
