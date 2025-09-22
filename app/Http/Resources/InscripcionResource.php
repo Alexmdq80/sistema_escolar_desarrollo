@@ -47,6 +47,9 @@ class InscripcionResource extends JsonResource
             'inscripcion_id' => $this->id,
             'fecha_inscripcion' => (string) $this->fecha?->format('Y-m-d H:i:s') ?? '',
         ];*/
+        $legajo = $this->whenLoaded('persona', fn() => $this->persona->legajos->first());
+
+
         return [
                 // Datos del ciclo lectivo
                 'Ciclo Lectivo' => $this->whenLoaded('espacio', function() {
@@ -78,6 +81,10 @@ class InscripcionResource extends JsonResource
                 'Tipo de Documento' => $this->whenLoaded('persona', function () {
                     return $this->persona?->documentoTipo?->nombre ?? '';
                 }),
+                // Datos del legajo
+                'Libro' => optional($legajo)->libro ?? '',
+                'Folio' => optional($legajo)->folio ?? '',
+                'Legajo' => optional($legajo)->legajo ?? '',
                 // Datos de la inscripción
                 'ID Inscripción' => $this->id,
                 'Fecha de Inscripción' => $this->fecha?->format('Y-m-d') ?? '',

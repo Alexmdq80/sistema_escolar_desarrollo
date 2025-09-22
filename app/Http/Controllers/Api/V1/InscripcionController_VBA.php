@@ -43,10 +43,19 @@ class InscripcionController_VBA extends Controller
     public function index(Request $request)
     {
 
+        $request->validate([
+            'escuela_id' => ['required', 'exists:escuelas,id'],
+        ]);
+
+        $escuelaId = $request->input('escuela_id');
+
         $inscripciones = Inscripcion::with([
             'persona', // Relación directa con el estudiante
             'persona.sexo',
             'persona.genero',
+            'persona.legajos' => function ($query) use ($escuelaId) { // Restringe la carga de legajos
+                $query->where('escuela_id', $escuelaId);
+            },
             'persona.documentoTipo', // A través de persona para el tipo de documento
             'espacio.propuesta.cicloLectivo', // A través de espacio y propuesta para el ciclo lectivo
             'espacio.propuesta.planAnio.anio', // A través de espacio, propuesta y planAnio para el año
