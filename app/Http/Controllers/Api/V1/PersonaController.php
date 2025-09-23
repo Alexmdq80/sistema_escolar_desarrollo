@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Persona;
 use App\Http\Resources\PersonaResource;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PersonaController extends Controller
 {
@@ -14,16 +18,22 @@ class PersonaController extends Controller
      */
     public function index()
     {
-        // '/////CORREGIR CUANDO SE TERMINE DE PROBAR////'
-        // return Persona::latest()
-        //             ->take(5)
-        //             ->get();
-        // return Persona::get()
-        //                 ->paginate();
-        // $personas = Persona::all()->take(500)->paginate();
-        $personas = Persona::paginate();
+        $personas = Persona::with(['documentoTipo', 'legajos'])
+                    ->withExists(['inscripciones as tiene_inscripcion_activa'])
+                    ->get();
 
-        return PersonaResource::collection($personas);
+        $personasColeccion = PersonaResource::collection($personas);
+
+        // Serializa manualmente la colección de recursos con el flag JSON_UNESCAPED_UNICODE
+        $jsonResponse = json_encode([
+            'data' => $personasColeccion->toArray($request)
+        ], JSON_UNESCAPED_UNICODE);
+
+        // Retorna la respuesta ya serializada con el encabezado correcto
+        return response($jsonResponse, 200)
+            ->header('Content-Type', 'application/json; charset=utf-8');
+
+
     }
 
     /**

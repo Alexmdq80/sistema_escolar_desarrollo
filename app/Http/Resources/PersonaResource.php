@@ -16,15 +16,12 @@ class PersonaResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            "Nombres" => $this->nombre,
+            "Apellidos" => $this->apellido,
+            "Número de Documento" => $this->documento_numero, 
+            "Tipo de Documento" => $this->documento_tipo->nombre, 
+            'Inscripción' => $this->tiene_inscripcion_activa ? 'Activa' : '',
             "id" => $this->id,
-            "nombre" => $this->nombre,
-            "apellido" => $this->apellido,
-            "documento_numero" => $this->documento_numero, 
-            "documento_tipo" => [
-                "documento_tipo_id" => $this->documento_tipo->id,
-                "documento_tipo_nombre" => $this->documento_tipo->nombre 
-            ]                
-        ]
-        ;
+        ];
     }
 }

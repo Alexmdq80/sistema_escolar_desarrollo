@@ -72,11 +72,13 @@ use Illuminate\Support\Facades\URL; // Para la firma de URL
             ->name('password.reset');
     });
 
-    // Listado de inscripciones, luego pasar al middleware auth:sanctum
-    Route::get('/inscripciones', [InscripcionController_VBA::class, 'index']);
+
 
     Route::middleware('auth:sanctum')->group(function () {
-
+        // Listado de inscripciones, luego pasar al middleware auth:sanctum
+        Route::get('/inscripciones', [InscripcionController_VBA::class, 'index']);
+        Route::get('/personas', [PersonaController::class, 'index']);
+        
         Route::post('/user/resend-verification', [EmailVerificationController::class, 'resendAuthenticated'])
             ->name('verification.resend.authenticated')
             ->middleware('throttle:resend-verification'); // Limita el reenvío de verificación
