@@ -30,7 +30,7 @@ class Inscripcion extends Model
     ];
 
     public function persona(): BelongsTo {
-        return $this->belongsTo(Persona::class);
+        return $this->BelongsTo(Persona::class,"persona_id","id");
     }
     public function personaFirma(): BelongsTo {
         return $this->belongsTo(Persona::class, "persona_firma_id","id");

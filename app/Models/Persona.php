@@ -86,7 +86,7 @@ class Persona extends Model
     }
     public function inscripcion(): HasOne
     {
-      return $this->hasOne(Inscripcion::class);
+      return $this->hasOne(Inscripcion::class, "persona_id","id");
     }
     public function legajos(): HasMany
     {

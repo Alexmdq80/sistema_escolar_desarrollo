@@ -87,6 +87,7 @@ class InscripcionResource extends JsonResource
                 'Legajo' => optional($legajo)->legajo ?? '',
                 // Datos de la inscripción
                 'ID Inscripción' => $this->id,
+                'ID Estudiante' => $this->whenLoaded('persona', fn() => $this->persona?->id ?? ''),
                 'Fecha de Inscripción' => $this->fecha?->format('Y-m-d') ?? '',
 
             ];

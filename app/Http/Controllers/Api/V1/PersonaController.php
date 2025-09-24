@@ -16,12 +16,12 @@ class PersonaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $personas = Persona::with(['documentoTipo', 'legajos'])
-                    ->withExists(['inscripciones as tiene_inscripcion_activa'])
+                    ->withExists(['inscripcion as tiene_inscripcion_activa'])
                     ->get();
-
+                    
         $personasColeccion = PersonaResource::collection($personas);
 
         // Serializa manualmente la colección de recursos con el flag JSON_UNESCAPED_UNICODE
