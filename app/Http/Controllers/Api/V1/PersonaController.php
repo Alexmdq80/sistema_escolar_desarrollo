@@ -18,10 +18,51 @@ class PersonaController extends Controller
      */
     public function index(Request $request)
     {
-        $personas = Persona::with(['documentoTipo', 'legajos'])
+        $request->validate([
+            'escuela_id' => ['required', 'exists:escuelas,id'],
+        ]);
+
+        $escuelaId = $request->input('escuela_id');
+
+     /*   $personas = Persona::with([
+            'documentoTipo',
+            'sexo',
+            'genero',
+            'inscripcion',
+            'legajos' => function ($query) use ($escuelaId) { // Restringe la carga de legajos
+                $query->where('escuela_id', $escuelaId);
+            }
+        ])
+        ->withExists(['inscripcion as tiene_inscripcion_activa'])
+        ->orderBy('personas.apellido', 'asc')
+        ->orderBy('personas.nombre', 'asc')
+        ->select('personas.*') // This is crucial to avoid column conflicts
+        ->get();*/
+
+        /*$personas = Persona::with(['documentoTipo', 'legajos'])
                     ->withExists(['inscripcion as tiene_inscripcion_activa'])
-                    ->get();
-                    
+                    ->get();  */     
+        $personas = Persona::with([
+            'documentoTipo',
+            'sexo', // Añadir si se necesita en el Resource
+            'genero', // Añadir si se necesita en el Resource
+            
+            // Carga restringida de legajos:
+            'legajos' => function ($query) use ($escuelaId) { 
+                $query->where('escuela_id', $escuelaId);
+            }
+        ])
+        // withExists (Demostrado que funciona en tu prueba):
+        ->withExists(['inscripcion as tiene_inscripcion_activa']) 
+            
+        // Ordenamiento (Demostrado que funciona):
+        ->orderBy('personas.apellido', 'asc')
+        ->orderBy('personas.nombre', 'asc')
+            
+        // Select (Buena práctica):
+        ->select('personas.*') 
+        ->get();
+
         $personasColeccion = PersonaResource::collection($personas);
 
         // Serializa manualmente la colección de recursos con el flag JSON_UNESCAPED_UNICODE
@@ -32,8 +73,6 @@ class PersonaController extends Controller
         // Retorna la respuesta ya serializada con el encabezado correcto
         return response($jsonResponse, 200)
             ->header('Content-Type', 'application/json; charset=utf-8');
-
-
     }
 
     /**

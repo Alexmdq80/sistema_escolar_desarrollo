@@ -15,6 +15,9 @@ class PersonaResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        
+        $legajo = $this->legajos->first();
+
         return [
             'Nombres' => $this->nombre ?? '',
             'Apellidos' => $this->apellido ?? '',
@@ -22,7 +25,13 @@ class PersonaResource extends JsonResource
             'Tipo de Documento' => $this->whenLoaded('documentoTipo', function () {
                 return $this->documentoTipo?->nombre ?? '';
             }),
-            'Inscripción' => $this->tiene_inscripcion_activa ? 'Activa' : '',
+            'Sexo' => $this->sexo?->nombre ?? '',
+            'Género' => $this->genero?->nombre ?? '',
+            // Datos del legajo
+            'Libro' => optional($legajo)->libro ?? '',
+            'Folio' => optional($legajo)->folio ?? '',
+            'Legajo' => optional($legajo)->legajo ?? '',
+            'Inscripción' => $this->tiene_inscripcion_activa ? 'Activa' : 'Inactiva', 
             'id' => $this->id ?? '',
         ];
     }

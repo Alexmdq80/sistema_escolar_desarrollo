@@ -43,20 +43,20 @@ class InscripcionController_VBA extends Controller
     public function index(Request $request)
     {
 
-        $request->validate([
+    /*    $request->validate([
             'escuela_id' => ['required', 'exists:escuelas,id'],
         ]);
 
-        $escuelaId = $request->input('escuela_id');
+        $escuelaId = $request->input('escuela_id');*/
 
         $inscripciones = Inscripcion::with([
             'persona', // Relación directa con el estudiante
-            'persona.sexo',
-            'persona.genero',
-            'persona.legajos' => function ($query) use ($escuelaId) { // Restringe la carga de legajos
-                $query->where('escuela_id', $escuelaId);
-            },
-            'persona.documentoTipo', // A través de persona para el tipo de documento
+    //        'persona.sexo',
+    //        'persona.genero',
+    //        'persona.legajos' => function ($query) use ($escuelaId) { // Restringe la carga de legajos
+    //            $query->where('escuela_id', $escuelaId);
+    //        },
+    //        'persona.documentoTipo', // A través de persona para el tipo de documento
             'espacio.propuesta.cicloLectivo', // A través de espacio y propuesta para el ciclo lectivo
             'espacio.propuesta.planAnio.anio', // A través de espacio, propuesta y planAnio para el año
             'espacio.propuesta.planAnio.plan', // A través de espacio, propuesta y planAnio para el plan de estudio
@@ -71,7 +71,7 @@ class InscripcionController_VBA extends Controller
         ->join('personas', 'inscripcions.persona_id', '=', 'personas.id')
         ->orderBy('lectivos.orden', 'asc')
         ->orderBy('turnos.orden', 'asc')
-   //     ->orderBy(DB::raw('CAST(anios.nombre AS UNSIGNED)'), 'asc')
+    //     ->orderBy(DB::raw('CAST(anios.nombre AS UNSIGNED)'), 'asc')
         ->orderBy('anios.orden', 'asc')
         ->orderBy('espacios.division', 'asc')
         ->orderBy('personas.apellido', 'asc')
