@@ -107,23 +107,43 @@ class VbaLoginController extends Controller
 
     public function refreshToken(Request $request)
     {
-        // El token de refresco debería venir en el encabezado Authorization como un Bearer token.
-        $refreshTokenString = str_replace('Bearer ', '', $request->header('Authorization'));
 
-        if (!$refreshTokenString) {
+        // El cliente debe enviar el refresh token en el cuerpo de la petición.
+        $request->validate([
+            'refresh_token' => ['required', 'string'],
+        ]);
+
+        $refreshTokenString = $request->input('refresh_token');
+
+        // HASHEA el token recibido para poder buscarlo en la base de datos
+        $hashedReceivedToken = hash('sha256', $refreshTokenString);
+
+        // El token de refresco debería venir en el encabezado Authorization como un Bearer token.
+        //$refreshTokenString = str_replace('Bearer ', '', $request->header('Authorization'));
+
+        /*if (!$refreshTokenString) {
             return response()->json(['message' => 'Refresh token no proporcionado.'], 401);
         }
 
         // HASHEA el token recibido para poder buscarlo en la base de datos
         // donde está guardado como un hash.
-        $hashedReceivedToken = hash('sha256', $refreshTokenString);
+        $hashedReceivedToken = hash('sha256', $refreshTokenString);*/
 
         // Ahora busca en tu tabla personalizada 'RefreshTokens'
         // NOTA: Asegúrate de que 'expires_at' se almacene como un tipo de fecha y hora
         // para que `isPast()` funcione correctamente.
-        $refreshTokenRecord = RefreshToken::where('token', $hashedReceivedToken)
+        /*$refreshTokenRecord = RefreshToken::where('token', $hashedReceivedToken)
                                           ->where('expires_at', '>', now()) // Asegura que no esté expirado
-                                          ->first();
+                                          ->first();*/
+
+        // Busca el refresh token en tu tabla personalizada 'RefreshTokens'
+        $refreshTokenRecord = RefreshToken::where('token', $hashedReceivedToken)
+            ->where('expires_at', '>', now())
+            ->first();
+
+        if (!$refreshTokenRecord) {
+            return response()->json(['message' => 'Refresh token inválido o expirado.'], 401);
+        }                                        
 
         // Buscar el PersonalAccessToken asociado al refresh token
         // Sanctum almacena todos los tokens en la tabla personal_access_tokens
@@ -134,8 +154,12 @@ class VbaLoginController extends Controller
         //    return response()->json(['message' => 'Refresh token inválido.'], 401);
         //}
         // Verificar si el token existe y está asociado a un usuario
-        if (!$refreshTokenRecord || !$refreshTokenRecord->user) { // Usa usuario_id para verificar la relación
+        /*if (!$refreshTokenRecord || !$refreshTokenRecord->user) { // Usa usuario_id para verificar la relación
             return response()->json(['message' => 'Refresh token inválido.'], 401);
+        }*/
+
+        if (!$refreshTokenRecord) {
+            return response()->json(['message' => 'Refresh token inválido o expirado.'], 401);
         }
 
          // Obtener el usuario asociado al token de refresco
@@ -145,13 +169,17 @@ class VbaLoginController extends Controller
              return response()->json(['message' => 'Usuario no encontrado para el refresh token.'], 401);
         }
 
-
         // Revocar el refresh token actual (esto es importante para el "one-time use")
         $refreshTokenRecord->delete(); // Elimina el registro de la DB
 
+        
+        // Eliminar el access token expirado del usuario en este dispositivo.
+        // Esto lo puedes hacer buscando el token por el nombre del dispositivo.
+        $usuario->tokens()->where('name', $refreshTokenRecord->device_id)->delete();
+
         // Obtener la duración del nuevo token de acceso y de refresco
         $newAccessTokenExpiration = config('sanctum.expiration');
-        $newRefreshTokenExpiration = config('sanctum.refresh_expiration');
+        $newRefreshTokenExpiration = config('sanctum.refresh_expiration', 20160);
 
         // Generar un **nuevo Access Token** usando Sanctum
         // El 'name' aquí podría ser el device_id o cualquier identificador único que tengas
