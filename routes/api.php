@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\V1\HealthCheckController;
 use App\Http\Controllers\Api\V1\ObtenerEscuela;
 
 // MODELOS RELACIONADOS CON PERSONA
+use App\Http\Controllers\Api\V1\ReferenceDataController;
 use App\Http\Controllers\Api\V1\DocumentoSituacionController;
 //*********************************************************
 
@@ -76,15 +77,13 @@ use Illuminate\Support\Facades\URL; // Para la firma de URL
             ->name('password.reset');
     });
 
-
-
     Route::middleware('auth:sanctum')->group(function () {
         // Listado de inscripciones, luego pasar al middleware auth:sanctum
         Route::get('/inscripciones', [InscripcionController_VBA::class, 'index']);
         Route::get('/personas', [PersonaController::class, 'index']);
         // Route::apiResource('/personas/documento-situaciones', DocumentoSituacionController::class);
-        
-        Route::get('/personas/referencias', [ReferenceDataController::class, 'index']);
+        Route::get('/personas/referencias', [ReferenceDataController::class, 'index']);        
+
         
         
         Route::post('/user/resend-verification', [EmailVerificationController::class, 'resendAuthenticated'])

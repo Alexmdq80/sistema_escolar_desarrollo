@@ -83,7 +83,7 @@ class InscripcionController_VBA extends Controller
 
         // Serializa manualmente la colección de recursos con el flag JSON_UNESCAPED_UNICODE
         $jsonResponse = json_encode([
-            'data' => $inscripcionesColeccion->toArray($request)
+            'data' => [ 'inscripciones' => $inscripcionesColeccion->toArray($request) ] 
         ], JSON_UNESCAPED_UNICODE);
 
         // Retorna la respuesta ya serializada con el encabezado correcto

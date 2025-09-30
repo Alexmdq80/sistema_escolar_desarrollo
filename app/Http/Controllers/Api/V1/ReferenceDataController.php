@@ -33,7 +33,7 @@ class ReferenceDataController extends Controller
         $sexoColeccion = SexoResource::collection($sexo);
        
         $referenciasArray = [
-            'documentos_situacion' => DocumentoSituacionResource::collection($documentosSituacion)->toArray($request),
+            'documento_situacion' => DocumentoSituacionResource::collection($documentosSituacion)->toArray($request),
             'sexo' => SexoResource::collection($sexoColeccion)->toArray($request),
  
             // 'otra_lista' => OtroModeloResource::collection($otraLista)->toArray($request),
@@ -41,7 +41,7 @@ class ReferenceDataController extends Controller
 
         
         $jsonResponse = json_encode([
-            'data' => $referenciasArray->toArray($request)
+            'data' => $referenciasArray
         ], JSON_UNESCAPED_UNICODE);
 
         // Retorna la respuesta ya serializada con el encabezado correcto

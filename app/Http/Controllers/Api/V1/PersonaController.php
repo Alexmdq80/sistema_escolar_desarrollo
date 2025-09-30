@@ -84,7 +84,7 @@ class PersonaController extends Controller
 
         // Serializa manualmente la colección de recursos con el flag JSON_UNESCAPED_UNICODE
         $jsonResponse = json_encode([
-            'data' => $personasColeccion->toArray($request)
+            'data' => [ 'personas' => $personasColeccion->toArray($request) ]
         ], JSON_UNESCAPED_UNICODE);
 
         // Retorna la respuesta ya serializada con el encabezado correcto
