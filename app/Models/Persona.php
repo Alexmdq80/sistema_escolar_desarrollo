@@ -18,7 +18,7 @@ class Persona extends Model
                           "documento_situacion_id",
                           "sexo_id",
                           "genero_id",
-                          "nacionalidad_nacion_id", 
+                          "nacionalidad_nacion_id",
                           "nacion_id",
                           "provincia_id",
                           "departamento_id",
@@ -88,9 +88,13 @@ class Persona extends Model
     {
       return $this->hasOne(Inscripcion::class, "persona_id","id");
     }
+    public function historialInscripciones(): HasMany
+    {
+      return $this->hasMany(HistorialInscripcion::class, "persona_id","id");
+    }
     public function legajos(): HasMany
     {
-      return $this->HasMany(Legajo::class);
+      return $this->hasMany(Legajo::class);
     }
     public function vinculosComoEstudiante(): BelongsToMany
     {

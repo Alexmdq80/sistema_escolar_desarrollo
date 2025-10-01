@@ -26,58 +26,56 @@ class PersonaController extends Controller
 
         /*$personas = Persona::with(['documentoTipo', 'legajos'])
                     ->withExists(['inscripcion as tiene_inscripcion_activa'])
-                    ->get();  */     
+                    ->get();  */
         $personas = Persona::with([
             'documentoTipo',
             'sexo', // Añadir si se necesita en el Resource
             'genero', // Añadir si se necesita en el Resource
             'nacionalidad',
             // Carga restringida de legajos:
-            'legajos' => function ($query) use ($escuelaId) { 
+            'legajos' => function ($query) use ($escuelaId) {
                 $query->where('escuela_id', $escuelaId);
             }
         ])
-        //->withExists(['inscripcion as tiene_inscripcion_activa']) 
+        //->withExists(['inscripcion as tiene_inscripcion_activa'])
         ->withExists(['inscripcion as tiene_inscripcion_activa_en_escuela' => function ($query) use ($escuelaId) {
-            
+
             // De Inscripcion a Espacio
             $query->whereHas('espacio', function ($q) use ($escuelaId) {
-                
+
                 // De Espacio a Propuesta
                 $q->whereHas('propuesta', function ($qq) use ($escuelaId) {
-                    
+
                     // De Propuesta a la tabla pivot de Escuelas
                     $qq->whereHas('escuelas', function ($qqq) use ($escuelaId) {
-                        
+
                         // Aplica el filtro final
                         $qqq->where('escuela_id', $escuelaId);
                     });
                 });
             });
         }])
-        ->withExists(['inscripcion as tuvo_inscripcion_en_escuela' => function ($query) use ($escuelaId) {
-            
-            // 🛑 CLAVE: Ignorar SoftDeletes en la tabla 'inscripciones'
-            $query->onlyTrashed(); 
-            
+        ->withExists(['historialInscripciones as tuvo_inscripcion_en_escuela' => function ($query) use ($escuelaId) {
+
+            // De HistorialInscripcion a Espacio
             // El resto de la cadena de filtros sigue siendo necesaria para asegurar que fue en la escuela correcta
             $query->whereHas('espacio', function ($q) use ($escuelaId) {
                 $q->whereHas('propuesta', function ($qq) use ($escuelaId) {
                     $qq->whereHas('escuelas', function ($qqq) use ($escuelaId) {
-                        // Aquí, SoftDeletes de Propuesta/Pivot SÍ se mantienen, 
+                        // Aquí, SoftDeletes de Propuesta/Pivot SÍ se mantienen,
                         // asegurando que el vínculo Propuesta-Escuela sigue siendo válido.
-                        $qqq->where('escuela_id', $escuelaId); 
+                        $qqq->where('escuela_id', $escuelaId);
                     });
                 });
             });
         }])
-            
+
         // Ordenamiento (Demostrado que funciona):
         ->orderBy('personas.apellido', 'asc')
         ->orderBy('personas.nombre', 'asc')
-            
+
         // Select (Buena práctica):
-        //->select('personas.*') 
+        //->select('personas.*')
         ->get();
 
         $personasColeccion = PersonaResource::collection($personas);
