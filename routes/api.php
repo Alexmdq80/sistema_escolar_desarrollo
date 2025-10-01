@@ -13,6 +13,13 @@ use App\Http\Controllers\Api\V1\InscripcionController_VBA;
 use App\Http\Controllers\Api\V1\HealthCheckController;
 use App\Http\Controllers\Api\V1\ObtenerEscuela;
 
+// MODELOS RELACIONADOS CON PERSONA
+use App\Http\Controllers\Api\V1\ReferenceDataController;
+use App\Http\Controllers\Api\V1\DocumentoSituacionController;
+//*********************************************************
+//LISTADOS INICIALES********
+use App\Http\Controllers\Api\V1\ListadosInicialesController;
+
 use App\Http\Controllers\Api\V1\Auth_VBA\VbaLoginController;
 use App\Http\Controllers\Api\V1\Auth_VBA\VbaLogoutController;
 use App\Http\Controllers\Api\V1\Auth_VBA\VbaRegistroController;
@@ -72,12 +79,15 @@ use Illuminate\Support\Facades\URL; // Para la firma de URL
             ->name('password.reset');
     });
 
-
-
     Route::middleware('auth:sanctum')->group(function () {
         // Listado de inscripciones, luego pasar al middleware auth:sanctum
+        Route::get('/listados-iniciales', [ListadosInicialesController::class, 'index']);
         Route::get('/inscripciones', [InscripcionController_VBA::class, 'index']);
         Route::get('/personas', [PersonaController::class, 'index']);
+        // Route::apiResource('/personas/documento-situaciones', DocumentoSituacionController::class);
+        Route::get('/personas/referencias', [ReferenceDataController::class, 'index']);  
+
+        
         
         Route::post('/user/resend-verification', [EmailVerificationController::class, 'resendAuthenticated'])
             ->name('verification.resend.authenticated')
