@@ -17,6 +17,8 @@ use App\Http\Controllers\Api\V1\ObtenerEscuela;
 use App\Http\Controllers\Api\V1\ReferenceDataController;
 use App\Http\Controllers\Api\V1\DocumentoSituacionController;
 //*********************************************************
+//LISTADOS INICIALES********
+use App\Http\Controllers\Api\V1\ListadosInicialesController;
 
 use App\Http\Controllers\Api\V1\Auth_VBA\VbaLoginController;
 use App\Http\Controllers\Api\V1\Auth_VBA\VbaLogoutController;
@@ -79,10 +81,11 @@ use Illuminate\Support\Facades\URL; // Para la firma de URL
 
     Route::middleware('auth:sanctum')->group(function () {
         // Listado de inscripciones, luego pasar al middleware auth:sanctum
+        Route::get('/listados-iniciales', [ListadosInicialesController::class, 'index']);
         Route::get('/inscripciones', [InscripcionController_VBA::class, 'index']);
         Route::get('/personas', [PersonaController::class, 'index']);
         // Route::apiResource('/personas/documento-situaciones', DocumentoSituacionController::class);
-        Route::get('/personas/referencias', [ReferenceDataController::class, 'index']);        
+        Route::get('/personas/referencias', [ReferenceDataController::class, 'index']);  
 
         
         
