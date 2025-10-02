@@ -19,18 +19,18 @@ class SexoResource extends JsonResource
             // Los campos que solicitaste llenar en el modelo
             'nombre' => $this->nombre,
             // El ID siempre es crucial, especialmente para el frontend (VBA)
-            'id' => $this->id, 
-            'letra' => $this->letra,           
-            'orden' => $this->orden,
-            'vigente' => (bool) $this->vigente, // Se asegura de que sea booleano
-            
+            'id' => $this->id,
+            'letra' => $this->letra,
+            //'orden' => $this->orden,
+            //'vigente' => (bool) $this->vigente, // Se asegura de que sea booleano
+
             // Opcional: información de auditoría
             //'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             //'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
 
             // Opcional: Incluir el número de personas asociadas para tener un resumen rápido
             //'personas_count' => $this->whenCounted('personas'),
-            
+
             // Opcional: Incluir la colección de personas cuando se solicite (si hiciste un ->load('personas'))
             /*
             'personas' => PersonaResource::collection($this->whenLoaded('personas')),
