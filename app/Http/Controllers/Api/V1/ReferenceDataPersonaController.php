@@ -19,10 +19,10 @@ use App\Models\Calle;
 use App\Http\Resources\DocumentoSituacionResource;
 use App\Http\Resources\DocumentoTipoResource;
 use App\Http\Resources\SexoResource;
-use App\Http\Resources\CalleResource;
+//use App\Http\Resources\CalleResource;
 // use App\Http\Resources\OtroModeloResource; 
 
-class ReferenceDataController extends Controller
+class ReferenceDataPersonaController extends Controller
 {
     /**
      * Consolida todas las listas de referencia pequeñas en una sola respuesta.
@@ -30,6 +30,10 @@ class ReferenceDataController extends Controller
     public function index(Request $request)
     //: JsonResponse
     {
+        // 1. Obtener la bandera de la BD
+        // Asumiendo que obtienes el valor 'last_ref_update' de tu tabla de configuración
+        $serverPersonaLastUpdate = \DB::table('cache_control')->where('key', 'last_persona_ref_update')->value('value');
+
         $documentosSituacion = DocumentoSituacion::where('vigente', true)->get();
         $documentosSituacionColeccion = DocumentoSituacionResource::collection($documentosSituacion);
  
@@ -39,19 +43,22 @@ class ReferenceDataController extends Controller
         $sexo = Sexo::where('vigente', true)->get();
         $sexoColeccion = SexoResource::collection($sexo);
 
-        $calle = Calle::all();
-        $calleColeccion = CalleResource::collection($calle);
+        //$calle = Calle::all();
+        //$calleColeccion = CalleResource::collection($calle);
        
         $referenciasArray = [
             'documento_situacion' => DocumentoSituacionResource::collection($documentosSituacion)->toArray($request),
             'sexo' => SexoResource::collection($sexoColeccion)->toArray($request),
             'documento_tipo' => DocumentoTipoResource::collection($documentosTipoColeccion)->toArray($request),
-            'calle' => CalleResource::collection($calleColeccion)->toArray($request),
+            //'calle' => CalleResource::collection($calleColeccion)->toArray($request),
             // 'otra_lista' => OtroModeloResource::collection($otraLista)->toArray($request),
         ];
 
         
         $jsonResponse = json_encode([
+            'metadata' => [
+                'server_persona_last_update' => $serverPersonaLastUpdate
+            ],
             'data' => $referenciasArray
         ], JSON_UNESCAPED_UNICODE);
 

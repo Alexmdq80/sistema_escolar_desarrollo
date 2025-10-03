@@ -14,7 +14,7 @@ use App\Http\Controllers\Api\V1\HealthCheckController;
 use App\Http\Controllers\Api\V1\ObtenerEscuela;
 
 // MODELOS RELACIONADOS CON PERSONA
-use App\Http\Controllers\Api\V1\ReferenceDataController;
+use App\Http\Controllers\Api\V1\ReferenceDataPersonaController;
 use App\Http\Controllers\Api\V1\DocumentoSituacionController;
 //*********************************************************
 //LISTADOS INICIALES********
@@ -79,7 +79,7 @@ use Illuminate\Support\Facades\URL; // Para la firma de URL
             ->name('password.reset');
     });
 
-    Route::get('/referencias', [ReferenceDataController::class, 'index']);
+    Route::get('/referencias-persona', [ReferenceDataPersonaController::class, 'index']);
 
     Route::middleware('auth:sanctum')->group(function () {
         // Listado de inscripciones, luego pasar al middleware auth:sanctum
