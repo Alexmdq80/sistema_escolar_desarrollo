@@ -13,10 +13,10 @@ class Escuela extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ["localidad_id", 
-                            "ambito_id", 
+    protected $fillable = ["localidad_id",
+                            "ambito_id",
                             "dependencia_id",
-                            "sector_id", 
+                            "sector_id",
                             "cue_anexo",
                             "clave_provincial",
                             "nombre",
@@ -57,14 +57,18 @@ class Escuela extends Model
     }
     public function legajos(): HasMany
     {
-      return $this->HasMany(Legajo::class);
+      return $this->hasMany(Legajo::class);
+    }
+    public function propuestas(): HasMany
+    {
+      return $this->hasMany(Propuesta::class);
     }
 
     //********belongsToMany/
-    public function propuestas(): BelongsToMany
-    {
-        return $this->belongsToMany(Propuesta::class);
-    }
+    //public function propuestas(): BelongsToMany
+    //{
+    //    return $this->belongsToMany(Propuesta::class);
+    //}
 //        return $this->belongsToMany(Usuario::class, "usuario_escuela", "escuela_id", "usuario_id")
     public function usuarios(): BelongsToMany
     {

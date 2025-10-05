@@ -13,13 +13,17 @@ class Propuesta extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ["plan_anio_id",
+    protected $fillable = ["escuela_id",
+                            "plan_anio_id",
                             "turno_inicio_id",
                             "turno_fin_id",
                             "jornada_id",
                             "lectivo_id"
                     ];
 
+    public function escuela(): BelongsTo {
+        return $this->belongsTo(Escuela::class);
+    }
     public function planAnio(): BelongsTo {
         return $this->belongsTo(PlanAnio::class);
     }

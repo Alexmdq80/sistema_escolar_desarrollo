@@ -24,6 +24,7 @@ return new class extends Migration
             $table->renameColumn('id_jornada', 'jornada_id');
             $table->renameColumn('id_ciclo_lectivo', 'lectivo_id');
 
+            $table->mediumInteger('escuela_id')->unsigned()->after('id')->default('10109');
 
         });
     }

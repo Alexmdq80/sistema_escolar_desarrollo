@@ -120,6 +120,12 @@ class CacheControlSeeder extends Seeder
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de georef_localidads',
             'created_at' => now(),
             'updated_at' => now(),
+        ], [
+            'key' => 'last_regions_ref_update',
+            'value' => now(), // Se inicializa con la fecha y hora actuales
+            'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de regions',
+            'created_at' => now(),
+            'updated_at' => now(),
         ],
         //*************************************************************************** */
         //ESCUELAS
@@ -196,34 +202,14 @@ class CacheControlSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_regions_ref_update',
-            'value' => now(), // Se inicializa con la fecha y hora actuales
-            'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de regions',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ], [
             'key' => 'last_sectors_ref_update',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de sectores',
             'created_at' => now(),
             'updated_at' => now(),
         ],
-
-        //*************************************************************************** */
-        //PROPUESTAS - ESPACIOS ACADÉMICOS - INSCRIPCIONES
+        // INSCRIPCIONES
         [
-            'key' => 'last_escuela_propuesta_ref_update',
-            'value' => now(), // Se inicializa con la fecha y hora actuales
-            'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de propuestas por escuelas',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ], [
-            'key' => 'last_anios_ref_update',
-            'value' => now(), // Se inicializa con la fecha y hora actuales
-            'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de años',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ], [
             'key' => 'last_cierre_causas_ref_update',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de cierre de causas',
@@ -236,12 +222,6 @@ class CacheControlSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_espacios_ref_update',
-            'value' => now(), // Se inicializa con la fecha y hora actuales
-            'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de espacios académicos',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ], [
             'key' => 'last_jornadas_ref_update',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de jornadas',
@@ -251,6 +231,33 @@ class CacheControlSeeder extends Seeder
             'key' => 'last_lectivos_ref_update',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de lectivos',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ], [
+            'key' => 'last_salida_motivos_ref_update',
+            'value' => now(), // Se inicializa con la fecha y hora actuales
+            'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de motivos de salida',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ], [
+            'key' => 'last_seccion_tipos_ref_update',
+            'value' => now(), // Se inicializa con la fecha y hora actuales
+            'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de tipos de sección',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ], [
+            'key' => 'last_turnos_ref_update',
+            'value' => now(), // Se inicializa con la fecha y hora actuales
+            'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de turnos de sección',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+        //******************************************************* */
+        // PLANES Y ANIOS
+        [
+            'key' => 'last_anios_ref_update',
+            'value' => now(), // Se inicializa con la fecha y hora actuales
+            'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de años',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
@@ -271,28 +278,33 @@ class CacheControlSeeder extends Seeder
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de ciclos de plan',
             'created_at' => now(),
             'updated_at' => now(),
+        ],
+        //*************************************************************************** */
+        // ESTE NO SERÍA NECESARIO, YA QUE LAS PROPUESTAS SE CORRESPONDE
+        // AL COLEGIO, O SEA QUE EN LA CONSULTA FILTRO POR COLEGIO,
+        // Y EL LISTADO NO SERÍA TAN GRANDE, Y SI EL SISTEMA ESTUVIERA
+        // FUNCIONANDO EN VARIAS ESCUELAS A LA VEZ, SERÍAN TABLAS QUE CAMBIARÍAN
+        // A MENUDO, AUNQUE NO SE MODIFICARÍAN QUIZÁS LAS RELACIONADAS AL COLEGIO
+        // PERO, TENIENDO EN CUENTA DE QUE ES MUY PROBABLE QUE SE USE EN UNA SOLA ESCUELA,
+        // ENTONCES PUEDO IMPLEMENTAR ESTAS LÍNEAS PARA EL CACHE_CONTROL
+        //PROPUESTAS - ESPACIOS ACADÉMICOS
+        /*[
+            'key' => 'last_escuela_propuesta_ref_update',
+            'value' => now(), // Se inicializa con la fecha y hora actuales
+            'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de propuestas por escuelas',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],*/
+        [
+            'key' => 'last_espacios_ref_update',
+            'value' => now(), // Se inicializa con la fecha y hora actuales
+            'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de espacios académicos',
+            'created_at' => now(),
+            'updated_at' => now(),
         ], [
             'key' => 'last_propuestas_ref_update',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de propuestas de plan de estudio',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ], [
-            'key' => 'last_salida_motivos_ref_update',
-            'value' => now(), // Se inicializa con la fecha y hora actuales
-            'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de motivos de salida',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ], [
-            'key' => 'last_seccion_tipos_ref_update',
-            'value' => now(), // Se inicializa con la fecha y hora actuales
-            'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de tipos de sección',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ], [
-            'key' => 'last_turnos_ref_update',
-            'value' => now(), // Se inicializa con la fecha y hora actuales
-            'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de turnos de sección',
             'created_at' => now(),
             'updated_at' => now(),
         ]

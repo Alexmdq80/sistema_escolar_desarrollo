@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('escuela_propuesta', function (Blueprint $table) {
-            $table->timestamps();
+            //CÓDIGO QUE NO VOY A USAR
+            /*$table->timestamps();
             $table->softDeletes();
 
             $table->renameColumn('id_escuela', 'escuela_id');
@@ -27,7 +28,14 @@ return new class extends Migration
                   ->references('id')
                   ->on('propuestas')
                   ->onDelete('restrict');
-
+            //*********************************************** */
+            //
+            /// ESTA TABLA NO VA A SER MÁS NECESARIA
+            // PORQUE LA RELACIÓN DE ESCUELA - PROPUESTA
+            // SE VA A HACER DIRECTAMENTE DESDE LA TABLA PROPUESTA
+            // HACIENDO QUE LA TABLA PROPUESTA TENGA UNA  COLUMNA escuela_id
+            // Y ASÍ SE ELIMINA LA TABLA INTERMEDIA escuela_propuesta
+            Schema::dropIfExists('escuela_propuesta');
         });
     }
 
@@ -36,8 +44,20 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('escuela_propuesta', function (Blueprint $table) {
-            $table->dropTimestamps();
+        Schema::create('escuela_propuesta', function (Blueprint $table) {
+            // VUELVO A CREAR LA TABLA SIN LA CLAVES FORÁNEAS
+            $table->id();
+            $table->mediumInteger('id_escuela')->unsigned();
+            //$table->foreign('id_escuela')->references('id')->on('escuela');
+            $table->Integer('id_propuesta_institucional')->unsigned();
+            //$table->foreign('id_propuesta_institucional')->references('id')->on('propuesta_institucional');
+            // $table->timestamps();
+        });
+
+        /*Schema::table('escuela_propuesta', function (Blueprint $table) {
+            // CÓDIGO QUE NO VOY A USAR
+            // $table->timestamps();
+            /$table->dropTimestamps();
             $table->dropSoftDeletes();
 
             $table->dropForeign(['escuela_id']);
@@ -48,7 +68,6 @@ return new class extends Migration
 
             $table->renameColumn('escuela_id', 'id_escuela');
             $table->renameColumn('propuesta_id', 'id_propuesta_institucional');
-
-        });
+        });*/
     }
 };

@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::table('propuestas', function (Blueprint $table) {
 
+            $table->foreign('escuela_id')
+                  ->references('id')
+                  ->on('escuelas')
+                  ->onDelete('restrict');
+
             $table->foreign('plan_anio_id')
                   ->references('id')
                   ->on('plan_anios')
@@ -48,19 +53,20 @@ return new class extends Migration
     {
         Schema::table('propuestas', function (Blueprint $table) {
 
-
+            $table->dropForeign(['escuela_id']);
             $table->dropForeign(['plan_anio_id']);
             $table->dropForeign(['turno_inicio_id']);
             $table->dropForeign(['turno_fin_id']);
             $table->dropForeign(['jornada_id']);
             $table->dropForeign(['lectivo_id']);
 
+            $table->dropIndex('propuestas_escuela_id_foreign');
             $table->dropIndex('propuestas_plan_anio_id_foreign');
             $table->dropIndex('propuestas_turno_inicio_id_foreign');
             $table->dropIndex('propuestas_turno_fin_id_foreign');
             $table->dropIndex('propuestas_jornada_id_foreign');
             $table->dropIndex('propuestas_lectivo_id_foreign');
-    
+
         });
 
     }
