@@ -45,33 +45,33 @@ class ListadosInicialesController extends Controller
         ->withExists(['inscripcion as tiene_inscripcion_activa_en_escuela' => function ($query) use ($escuelaId) {
             
             // De Inscripcion a Espacio
-            $query->whereHas('espacio', function ($q) use ($escuelaId) {
-                
+            $query->whereHas('espacio', function ($q) use ($escuelaId) {                
                 // De Espacio a Propuesta
                 $q->whereHas('propuesta', function ($qq) use ($escuelaId) {
-                    
+                    $qq->where('escuela_id', $escuelaId);
                     // De Propuesta a la tabla pivot de Escuelas
-                    $qq->whereHas('escuelas', function ($qqq) use ($escuelaId) {
+                    //$qq->whereHas('escuelas', function ($qqq) use ($escuelaId) {
                         
                         // Aplica el filtro final
-                        $qqq->where('escuela_id', $escuelaId);
-                    });
+                    //    $qqq->where('escuela_id', $escuelaId);
+                    //});
                 });
             });
         }])
-        ->withExists(['inscripcion as tuvo_inscripcion_en_escuela' => function ($query) use ($escuelaId) {
+        ->withExists(['historialInscripciones as tuvo_inscripcion_en_escuela' => function ($query) use ($escuelaId) {
             
             // 🛑 CLAVE: Ignorar SoftDeletes en la tabla 'inscripciones'
-            $query->onlyTrashed(); 
+            //$query->onlyTrashed(); 
             
             // El resto de la cadena de filtros sigue siendo necesaria para asegurar que fue en la escuela correcta
             $query->whereHas('espacio', function ($q) use ($escuelaId) {
                 $q->whereHas('propuesta', function ($qq) use ($escuelaId) {
-                    $qq->whereHas('escuelas', function ($qqq) use ($escuelaId) {
+                    $qq->where('escuela_id', $escuelaId); 
+                    //$qq->whereHas('escuela', function ($qqq) use ($escuelaId) {
                         // Aquí, SoftDeletes de Propuesta/Pivot SÍ se mantienen, 
                         // asegurando que el vínculo Propuesta-Escuela sigue siendo válido.
-                        $qqq->where('escuela_id', $escuelaId); 
-                    });
+                    //    $qqq->where('escuela_id', $escuelaId); 
+                    //});
                 });
             });
         }])
@@ -104,9 +104,10 @@ class ListadosInicialesController extends Controller
     // Joins para acceder a las tablas necesarias para el filtro y ordenamiento
         ->join('espacios', 'inscripcions.espacio_id', '=', 'espacios.id')
         ->join('propuestas', 'espacios.propuesta_id', '=', 'propuestas.id')
-        ->join('escuela_propuesta', 'propuestas.id', '=', 'escuela_propuesta.propuesta_id') 
+        //->join('escuela_propuesta', 'propuestas.id', '=', 'escuela_propuesta.propuesta_id') 
         // 2. Aplicar el filtro Where sobre la clave de la tabla pivote
-        ->where('escuela_propuesta.escuela_id', $escuelaId)
+       // ->where('escuela_propuesta.escuela_id', $escuelaId)
+        ->where('propuestas.escuela_id', $escuelaId)
         ->join('lectivos', 'propuestas.lectivo_id', '=', 'lectivos.id')
         ->join('turnos', 'propuestas.turno_inicio_id', '=', 'turnos.id')
         ->join('plan_anios', 'propuestas.plan_anio_id', '=', 'plan_anios.id')

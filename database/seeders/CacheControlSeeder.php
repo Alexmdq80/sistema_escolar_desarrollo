@@ -15,26 +15,30 @@ class CacheControlSeeder extends Seeder
     {
         DB::table('cache_control')->insert([
         // Persona Reference Data
-            [
-            'key' => 'last_documento_situacions_ref_update',
+        [
+        //    'key' => 'last_documento_situacions_ref_update',
+            'key' => 'T_DocumentoSituacion',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en la tabla de referencia documento_situacions',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_documento_tipos_ref_update',
+        //    'key' => 'last_documento_tipos_ref_update',
+            'key' => 'T_DocumentoTipo',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en la tabla de referencia documento_tipos',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_sexos_ref_update',
+        //    'key' => 'last_sexos_ref_update',
+            'key' => 'T_Sexo',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en la tabla de referencia sexos',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_generos_ref_update',
+        //    'key' => 'last_generos_ref_update',
+            'key' => 'T_Genero',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de generos',
             'created_at' => now(),
