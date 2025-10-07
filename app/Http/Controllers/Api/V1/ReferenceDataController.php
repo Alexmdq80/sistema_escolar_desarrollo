@@ -34,10 +34,10 @@ class ReferenceDataController extends Controller
      */
     // DEFINICIÓN DE TODAS LAS TABLAS DE REFERENCIA PARA VALIDACIÓN
     const ALL_REFERENCE_TABLES = [
-        'T_DocumentoSituacion' => \App\Models\DocumentoSituacion::class, 
-        'T_DocumentoTipo'     => \App\Models\DocumentoTipo::class,
-        'T_Sexo'     => \App\Models\Sexo::class,
-        'T_Genero'     => \App\Models\Genero::class,
+        'documento_situacions' => \App\Models\DocumentoSituacion::class, 
+        'documento_tipos'     => \App\Models\DocumentoTipo::class,
+        'sexos'     => \App\Models\Sexo::class,
+        'generos'     => \App\Models\Genero::class,
     ];
     public function index(Request $request)
     //: JsonResponse
