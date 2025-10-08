@@ -75,7 +75,7 @@ class ReferenceDataController extends Controller
                 $responseData[$claveVBA] = $resourceClass::collection($data)->toArray($request);
 
                 // Incluir el timestamp de la tabla para que VBA actualice el caché
-                $responseMetaData[$claveVBA . '_ts'] = $fechaServidor; 
+                $responseMetaData[$claveVBA] = $fechaServidor; 
 
                 //$documentosSituacion = DocumentoSituacion::where('vigente', true)->get();
                 //$documentosSituacionColeccion = DocumentoSituacionResource::collection($documentosSituacion);
