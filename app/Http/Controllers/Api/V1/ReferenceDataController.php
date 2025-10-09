@@ -12,7 +12,11 @@ use App\Models\DocumentoSituacion;
 use App\Models\DocumentoTipo;
 use App\Models\Sexo;
 use App\Models\Genero;
+// GEOREF
+use App\Models\Nacion;
 use App\Models\Calle;
+
+
 // use App\Models\OtroModeloReferencia;
 // use App\Models\TercerModeloReferencia;
 
@@ -38,6 +42,9 @@ class ReferenceDataController extends Controller
         'documento_tipos'     => \App\Models\DocumentoTipo::class,
         'sexos'     => \App\Models\Sexo::class,
         'generos'     => \App\Models\Genero::class,
+    // GEOREF
+        'continentes' => \App\Models\Continente::class,
+        'nacions' => \App\Models\Nacion::class,
     ];
     public function index(Request $request)
     //: JsonResponse

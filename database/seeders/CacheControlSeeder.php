@@ -47,85 +47,85 @@ class CacheControlSeeder extends Seeder
         // *****************************************************************
         // Georef Reference Data
             [
-            'key' => 'last_continentes_ref_update',
+            'key' => 'continentes',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de continentes',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_nacions_ref_update',
+            'key' => 'nacions',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de nacions',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_provincias_ref_update',
+            'key' => 'provincias',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de provincias',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_departamentos_ref_update',
+            'key' => 'departamentos',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de departamentos',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_localidads_ref_update',
+            'key' => 'localidads',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de localidads',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_localidad_censals_ref_update',
+            'key' => 'localidad_censals',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de localidad_censals',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_municipios_ref_update',
+            'key' => 'municipios',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de municipios',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_calles_ref_update',
+            'key' => 'calles',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de calles',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_georef_asentamientos_ref_update',
+            'key' => 'georef_asentamientos',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de georef_asentamientos',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_georef_categorias_ref_update',
+            'key' => 'georef_categorias',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de categorías',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_georef_fuentes_ref_update',
+            'key' => 'georef_fuentes',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de fuentes',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_georef_funcions_ref_update',
+            'key' => 'georef_funcions',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de funcions',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_georef_localidads_ref_update',
+            'key' => 'georef_localidads',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de georef_localidads',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'key' => 'last_regions_ref_update',
+            'key' => 'regions',
             'value' => now(), // Se inicializa con la fecha y hora actuales
             'descripcion' => 'Timestamp de la última modificación en las tablas de referencia de regions',
             'created_at' => now(),
