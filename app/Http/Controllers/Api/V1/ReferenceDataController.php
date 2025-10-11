@@ -14,18 +14,19 @@ use App\Models\Sexo;
 use App\Models\Genero;
 // GEOREF
 use App\Models\Nacion;
+use App\Models\Provincia;
+use App\Models\Departamento;
 use App\Models\Calle;
-
 
 // use App\Models\OtroModeloReferencia;
 // use App\Models\TercerModeloReferencia;
 
 // Importá tus Resources si los usás (¡Recomendado!)
-use App\Http\Resources\DocumentoSituacionResource;
+/*use App\Http\Resources\DocumentoSituacionResource;
 use App\Http\Resources\DocumentoTipoResource;
 use App\Http\Resources\SexoResource;
-use App\Http\Resources\GeneroResource;
-use App\Http\Resources\CalleResource;
+use App\Http\Resources\GeneroResource;*/
+
 //use App\Http\Resources\CalleResource;
 // use App\Http\Resources\OtroModeloResource;
 use Illuminate\Support\Facades\DB;
@@ -38,13 +39,16 @@ class ReferenceDataController extends Controller
      */
     // DEFINICIÓN DE TODAS LAS TABLAS DE REFERENCIA PARA VALIDACIÓN
     const ALL_REFERENCE_TABLES = [
-        'documento_situacions' => \App\Models\DocumentoSituacion::class, 
+        'documento_situacions' => \App\Models\DocumentoSituacion::class,
         'documento_tipos'     => \App\Models\DocumentoTipo::class,
         'sexos'     => \App\Models\Sexo::class,
         'generos'     => \App\Models\Genero::class,
     // GEOREF
         'continentes' => \App\Models\Continente::class,
         'nacions' => \App\Models\Nacion::class,
+        'provincias' => \App\Models\Provincia::class,
+        'departamentos' => \App\Models\Departamento::class,
+        'localidads' => \App\Models\Localidad::class,
     ];
     public function index(Request $request)
     //: JsonResponse
@@ -67,22 +71,33 @@ class ReferenceDataController extends Controller
  // Si la bandera no existe en el servidor, forzamos la carga por si acaso
             $debeCargar = false;
             if (!$fechaServidor) {
-                $debeCargar = true; 
+                $debeCargar = true;
             } elseif (!$fechaCliente || Carbon::parse($fechaCliente)->lt(Carbon::parse($fechaServidor))) {
                 // Si el cliente no envió fecha, o su fecha es anterior
                 $debeCargar = true;
             }
             if ($debeCargar) {
                 // 2. Si debe cargar: Obtener datos, usar Resource y empaquetar
-                $data = $modelo::all(); 
+                //$data = $modelo::all();
+                $query = $modelo::query();
 
+                if ($modelo === \App\Models\Provincia::class) {
+                    $query->with('nacion.continente');
+                }
+                if ($modelo === \App\Models\Departamento::class) {
+                    $query->with('provincia.nacion.continente');
+                }
+                if ($modelo === \App\Models\Localidad::class) {
+                    $query->with('departamento.provincia.nacion.continente');
+                }
+                $data = $query->get();
                 // Determinar la clase Resource dinámicamente
                 //$resourceClass = str_replace('Models', 'Resources', $modelo) . 'Resource';
-                $resourceClass = str_replace('Models', 'Http\Resources', $modelo) . 'Resource'; 
+                $resourceClass = str_replace('Models', 'Http\Resources', $modelo) . 'Resource';
                 $responseData[$claveVBA] = $resourceClass::collection($data)->toArray($request);
 
                 // Incluir el timestamp de la tabla para que VBA actualice el caché
-                $responseMetaData[$claveVBA] = $fechaServidor; 
+                $responseMetaData[$claveVBA] = $fechaServidor;
 
                 //$documentosSituacion = DocumentoSituacion::where('vigente', true)->get();
                 //$documentosSituacionColeccion = DocumentoSituacionResource::collection($documentosSituacion);
