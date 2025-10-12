@@ -19,17 +19,24 @@ class LocalidadResource extends JsonResource
             $continenteId = $this->departamento?->provincia?->nacion?->continente_id;
             $nacionId = $this->departamento?->provincia?->nacion?->id;
             $provinciaId = $this->departamento?->provincia?->id;
-
+            $localidadCensalNombre = $this->localidadCensal?->nombre ?? null;
             return [
                 'continenteId' => $continenteId,
                 'nacionId' => $nacionId,
-                'provinciaId' => $provinciaId
+                'provinciaId' => $provinciaId,
+                'localidadCensalNombre' => $localidadCensalNombre
             ];
+        });
+
+        $localidadCensalNombre = $this->whenLoaded('localidadCensal', function () {
+            $localidadCensalNombre = $this->localidadCensal?->nombre ?? null;
+            return $localidadCensalNombre;
         });
 
         return [
             'nombre' => $this->nombre,
             'id' => $this->id,
+            'nombre_censal' => $localidadCensalNombre ?? null,
             'localidad_censal_id' => $this->localidad_censal_id,
             'departamento_id' => $this->departamento_id,
             'municipio_id' => $this->municipio_id,

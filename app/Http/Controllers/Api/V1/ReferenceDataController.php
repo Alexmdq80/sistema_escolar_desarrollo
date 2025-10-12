@@ -8,15 +8,15 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 // Importá todos tus modelos de referencia
-use App\Models\DocumentoSituacion;
-use App\Models\DocumentoTipo;
-use App\Models\Sexo;
-use App\Models\Genero;
+//use App\Models\DocumentoSituacion;
+//use App\Models\DocumentoTipo;
+//use App\Models\Sexo;
+//use App\Models\Genero;
 // GEOREF
-use App\Models\Nacion;
-use App\Models\Provincia;
-use App\Models\Departamento;
-use App\Models\Calle;
+//use App\Models\Nacion;
+//use App\Models\Provincia;
+//use App\Models\Departamento;
+//use App\Models\Calle;
 
 // use App\Models\OtroModeloReferencia;
 // use App\Models\TercerModeloReferencia;
@@ -49,6 +49,8 @@ class ReferenceDataController extends Controller
         'provincias' => \App\Models\Provincia::class,
         'departamentos' => \App\Models\Departamento::class,
         'localidads' => \App\Models\Localidad::class,
+        'localidad_censals' => \App\Models\LocalidadCensal::class,
+    //
     ];
     public function index(Request $request)
     //: JsonResponse
@@ -90,6 +92,9 @@ class ReferenceDataController extends Controller
                 if ($modelo === \App\Models\Localidad::class) {
                     $query->with('departamento.provincia.nacion.continente');
                 }
+                /*if ($modelo === \App\Models\LocalidadCensal::class) {
+                    $query->with('localidades.departamento.provincia.nacion');
+                }*/
                 $data = $query->get();
                 // Determinar la clase Resource dinámicamente
                 //$resourceClass = str_replace('Models', 'Resources', $modelo) . 'Resource';
