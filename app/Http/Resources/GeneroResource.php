@@ -19,9 +19,8 @@ class GeneroResource extends JsonResource
             'nombre' => $this->nombre,
             // El ID siempre es crucial, especialmente para el frontend (VBA)
             'id' => $this->id,
-            //'letra' => $this->letra,
-            //'orden' => $this->orden,
-            //'vigente' => (bool) $this->vigente, // Se asegura de que sea booleano
+            'orden' => $this->orden,
+            'vigente' => (bool) $this->vigente, // Se asegura de que sea booleano
 
             // Opcional: información de auditoría
             //'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
