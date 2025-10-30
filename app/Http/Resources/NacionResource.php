@@ -18,7 +18,7 @@ class NacionResource extends JsonResource
         return [
             // Los campos que solicitaste llenar en el modelo
             'nombre' => $this->nombre,
-            'nacionalidad' => $this->nacionalidad,
+            'nacionalidad' => $this->nacionalidad ?? $this->nombre,
             // El ID siempre es crucial, especialmente para el frontend (VBA)
             'id' => $this->id,
             'continente_id' => $this->continente_id,
