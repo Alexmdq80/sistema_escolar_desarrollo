@@ -81,14 +81,21 @@ use Illuminate\Support\Facades\URL; // Para la firma de URL
 
     Route::get('/referencias', [ReferenceDataController::class, 'index']);
 
+    Route::group(['prefix' => 'personas'], function () {
+        Route::post('verificar-duplicados', [PersonaController::class, 'verificarDuplicados']);
+    }); // Ruta para verificar duplicados de personas para pasar dentro del middleware auth:sanctum
+
     Route::middleware('auth:sanctum')->group(function () {
         // Listado de inscripciones, luego pasar al middleware auth:sanctum
         Route::get('/listados-iniciales', [ListadosInicialesController::class, 'index']);
         Route::get('/inscripciones', [InscripcionController_VBA::class, 'index']);
         Route::get('/personas', [PersonaController::class, 'index']);
+
+        /*Route::group(['prefix' => 'personas'], function () {
+            Route::post('verificar-duplicados', [PersonaController::class, 'verificarDuplicados']);
+        });*/
+
         // Route::apiResource('/personas/documento-situaciones', DocumentoSituacionController::class);
-
-
 
         Route::post('/user/resend-verification', [EmailVerificationController::class, 'resendAuthenticated'])
             ->name('verification.resend.authenticated')
