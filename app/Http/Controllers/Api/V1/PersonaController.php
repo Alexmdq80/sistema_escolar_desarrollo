@@ -124,6 +124,89 @@ class PersonaController extends Controller
 
     public function verificarDuplicados(Request $request)
     {
+        $nom = trim($request->json('nombre', ''));
+        $ape = trim($request->json('apellido', ''));
+        $tip = $request->json('documento_tipo_id');
+        $num = $request->json('documento_numero');
+        $tra = trim($request->json('tramite', ''));
+        $idAct = $request->json('id');
+
+        // Inicializamos contenedores de resultados
+        $resNombres = collect();
+        $resDocumento = collect();
+        $resTramite = collect();
+        $resCompleto = collect();
+
+        // 1. Coincidencia por Nombres y Apellidos
+        if (!empty($nom) && !empty($ape)) {
+            $resNombres = Persona::where('nombre', $nom)->where('apellido', $ape)
+                ->when($idAct, fn($q) => $q->where('id', '!=', $idAct))->get();
+        }
+        // 2. Coincidencia por Tipo y Número de Documento
+        if (!empty($tip) && !empty($num)) {
+            $resDocumento = Persona::where('documento_tipo_id', $tip)->where('documento_numero', $num)
+                ->when($idAct, fn($q) => $q->where('id', '!=', $idAct))->get();
+        }
+
+        // 3. Coincidencia por Número de Trámite (Caso 4)
+        if (!empty($tra)) {
+            $resTramite = Persona::where('tramite', $tra)
+                ->when($idAct, fn($q) => $q->where('id', '!=', $idAct))->get();
+        }
+
+        // 4. Coincidencia Completa (Caso 3: Nombre + Documento)
+        if (!empty($nom) && !empty($ape) && !empty($tip) && !empty($num)) {
+            $resCompleto = $resDocumento->filter(function($p) use ($nom, $ape) {
+                return strcasecmp($p->nombre, $nom) == 0 && strcasecmp($p->apellido, $ape) == 0;
+            });
+        }
+        // 5. Definición de Estados Individuales
+        $detalles = [
+            'nombres' => [
+                'estado' => $resNombres->isNotEmpty() ? 'WARN' : 'OK',
+                'mensaje' => $resNombres->isNotEmpty() ? 'Existen personas con el mismo nombre.' : 'Sin coincidencias.',
+                'data' => $resNombres
+            ],
+            'documento' => [
+                'estado' => $resDocumento->isNotEmpty() ? 'WARN' : 'OK',
+                'mensaje' => $resDocumento->isNotEmpty() ? 'El número de documento ya existe.' : 'Documento disponible.',
+                'data' => $resDocumento
+            ],
+            'tramite' => [
+                'estado' => $resTramite->isNotEmpty() ? 'ERROR' : 'OK',
+                'mensaje' => $resTramite->isNotEmpty() ? 'El número de trámite ya está registrado.' : 'Trámite válido.',
+                'data' => $resTramite
+            ],
+            'identidad_total' => [
+                'estado' => $resCompleto->isNotEmpty() ? 'ERROR' : 'OK',
+                'mensaje' => $resCompleto->isNotEmpty() ? 'Esta persona ya está en la base de datos.' : 'Nueva identidad.',
+                'data' => $resCompleto
+            ]
+        ];
+
+        // 6. Estado Global para facilitar el bloqueo en VBA
+        $permitirCarga = ($detalles['tramite']['estado'] !== 'ERROR' && $detalles['identidad_total']['estado'] !== 'ERROR');
+        $tipoAlertaGlobal = "NONE";
+        if (!$permitirCarga) {
+            $tipoAlertaGlobal = "ERROR";
+        } elseif (
+                    $detalles['nombres']['estado'] === 'WARN' ||
+                    $detalles['documento']['estado'] === 'WARN'
+            ) {
+            $tipoAlertaGlobal = "WARN";
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'query_data' => $request->only(['nombre', 'apellido', 'documento_tipo_id', 'documento_numero', 'tramite','id']),
+            'permitir_carga' => $permitirCarga,
+            'alerta_global' => $tipoAlertaGlobal,
+            'detalles' => $detalles
+        ], 200);
+    }
+
+   /* public function verificarDuplicados(Request $request)
+    {
         // Datos de entrada
         $nom = trim($request->json('nombre', ''));
         $ape = trim($request->json('apellido', ''));
@@ -182,12 +265,13 @@ class PersonaController extends Controller
 
         return response()->json([
             'permitir_carga' => $permitirCarga,
+            'query_data'     => $queryData,
             'tipo_alerta'    => $tipoAlerta,
             'mensaje'        => $mensaje,
             'count'          => $resultados->count(),
             'results'        => $resultados
         ], 200);
-    }
+    }*/
 
     /*public function verificarDuplicados(Request $request)
     {
